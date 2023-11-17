@@ -36,4 +36,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-/backend/volumes/
+/backend/matura/volumes/
