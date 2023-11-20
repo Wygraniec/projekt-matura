@@ -65,7 +65,7 @@ public class SecurityConfig {
         corsConfiguration.setAllowedMethods(allowedMethods);
         corsConfiguration.setAllowedHeaders(allowedHeaders);
         corsConfiguration.setExposedHeaders(exposedHeaders);
-        corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000/" );
+        corsConfiguration.addAllowedOrigin("http://127.0.0.1:3000/");
 
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;

@@ -17,7 +17,7 @@ class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException ex) {
-        return buildResponse(ex,  HttpStatus.NOT_FOUND);
+        return buildResponse(ex, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)

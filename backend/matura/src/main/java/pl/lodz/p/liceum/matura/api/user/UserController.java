@@ -20,7 +20,7 @@ class UserController {
     private final PageUserDtoMapper pageUserDtoMapper;
     private final Security security;
 
-    @GetMapping( path = "/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable Integer id) {
         User user = userService.findById(id);
         return ResponseEntity
@@ -53,7 +53,7 @@ class UserController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> removeUser(@PathVariable Integer id){
+    public ResponseEntity<Void> removeUser(@PathVariable Integer id) {
         userService.removeById(id);
         return ResponseEntity.noContent().build();
     }

@@ -9,4 +9,5 @@ public record UserDto(
         String password,
         String role,
         ZonedDateTime createdAt
-) {}
+) {
+}
