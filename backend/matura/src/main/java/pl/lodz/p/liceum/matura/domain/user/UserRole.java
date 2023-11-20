@@ -1,10 +1,13 @@
 package pl.lodz.p.liceum.matura.domain.user;
 
+import lombok.Getter;
+
+@Getter
 public enum UserRole {
 
     ADMIN ("ADMIN"),
-    TECHNOLOGIST ("TECHNOLOGIST"),
-    MEDICAL_DOCTOR ("MEDICAL_DOCTOR");
+    STUDENT("STUDENT"),
+    INSTRUCTOR("INSTRUCTOR");
 
 
     private final String value;
@@ -13,7 +16,4 @@ public enum UserRole {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
 }

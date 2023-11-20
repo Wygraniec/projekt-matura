@@ -28,21 +28,21 @@ public class DefaultUsers implements CommandLineRunner {
             ZonedDateTime.now()
     );
 
-    private final User technologistUser = new User(
+    private final User studentUser = new User(
             null,
             "james@gmail.com",
             "James",
             "password",
-            UserRole.TECHNOLOGIST,
+            UserRole.STUDENT,
             ZonedDateTime.now()
     );
 
-    private final User medicalDoctorUser = new User(
+    private final User instructorUser = new User(
             null,
             "mary@gmail.com",
             "Mary",
             "password",
-            UserRole.MEDICAL_DOCTOR,
+            UserRole.INSTRUCTOR,
             ZonedDateTime.now()
     );
 
@@ -50,8 +50,8 @@ public class DefaultUsers implements CommandLineRunner {
     public void run(String... args) {
         try {
             addUser(adminUser);
-            addUser(technologistUser);
-            addUser(medicalDoctorUser);
+            addUser(studentUser);
+            addUser(instructorUser);
         } catch (Exception ex) {
             log.warning(ex.getMessage());
         }

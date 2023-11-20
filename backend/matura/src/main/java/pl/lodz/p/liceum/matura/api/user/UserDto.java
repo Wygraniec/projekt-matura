@@ -5,7 +5,7 @@ import java.time.ZonedDateTime;
 public record UserDto(
         Integer id,
         String email,
-        String name,
+        String nickname,
         String password,
         String role,
         ZonedDateTime createdAt
