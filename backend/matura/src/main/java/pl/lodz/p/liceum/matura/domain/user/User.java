@@ -14,7 +14,7 @@ public class User {
 
     Integer id;
     String email;
-    String name;
+    String nickname;
     String password;
     UserRole role;
     ZonedDateTime createdAt;
@@ -24,7 +24,7 @@ public class User {
         return new User(
                 id,
                 email,
-                name,
+                nickname,
                 newPassword,
                 role,
                 createdAt);
@@ -39,7 +39,7 @@ public class User {
 
         if (!Objects.equals(id, user.id)) return false;
         if (!Objects.equals(email, user.email)) return false;
-        if (!Objects.equals(name, user.name)) return false;
+        if (!Objects.equals(nickname, user.nickname)) return false;
         if (!Objects.equals(password, user.password)) return false;
         if (!Objects.equals(role, user.role)) return false;
         if (!isItTheSameDate(createdAt, user.createdAt)) return false;
@@ -57,7 +57,7 @@ public class User {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);

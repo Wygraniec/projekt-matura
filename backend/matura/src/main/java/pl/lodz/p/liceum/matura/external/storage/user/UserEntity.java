@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(
-//        name = "USERS",
+//        nickname = "USERS",
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "user_email_unique",
@@ -42,7 +42,7 @@ public class UserEntity {
     @Column(
             nullable = false
     )
-    private String name;
+    private String nickname;
     @Column(
             nullable = false
     )
@@ -56,9 +56,9 @@ public class UserEntity {
     )
     ZonedDateTime createdAt;
 
-    public UserEntity(String email, String name, String password, Set<String> roles) {
+    public UserEntity(String email, String nickname, String password, Set<String> roles) {
         this.email = email;
-        this.name = name;
+        this.nickname = nickname;
         this.password = password;
         this.role = role;
     }
