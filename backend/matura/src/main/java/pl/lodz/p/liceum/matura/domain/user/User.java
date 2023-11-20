@@ -47,9 +47,9 @@ public class User {
     }
 
     private boolean isItTheSameDate(final ZonedDateTime date1, final ZonedDateTime date2) {
-        if(date1 == null && date2 == null) return true;
-        if(date1 != null && date2 == null) return false;
-        if(date1 == null && date2 != null) return false;
+        if (date1 == null && date2 == null) return true;
+        if (date1 != null && date2 == null) return false;
+        if (date1 == null && date2 != null) return false;
         return Objects.equals(date1.toInstant(), date2.toInstant());
     }
 

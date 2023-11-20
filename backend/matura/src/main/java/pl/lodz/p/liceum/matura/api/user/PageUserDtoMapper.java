@@ -20,6 +20,6 @@ public interface PageUserDtoMapper {
     List<UserDto> toListDto(List<User> users);
 
     @Named("userToUserDto")
-    @Mapping(target="password", constant = "######")
+    @Mapping(target = "password", constant = "######")
     UserDto toDto(User domain);
 }
