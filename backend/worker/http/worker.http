@@ -1,0 +1,8 @@
+### execute task
+POST http://localhost:8085/api/v1/tasks
+Accept: application/json
+Content-Type: application/json
+
+{
+  "workspaceUrl": "/Users/rafalnowak/Dev/training/task1"
+}
