@@ -34,7 +34,11 @@ public class DockerTaskExecutor implements TaskExecutor {
     }
 
     private String[] prepareCommand(String workspaceUrl) {
-        return new String[] { "bash", "-c", "cd " + workspaceUrl + ";docker-compose up" };
+        boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
+        if (isWindows)
+            return new String[] { "cmd.exe", "/c", "docker-compose --file " + workspaceUrl + "\\docker-compose.yml up" };
+        else
+            return new String[] { "bash", "-c", "cd " + workspaceUrl + ";docker-compose up" };
     }
 
 }
