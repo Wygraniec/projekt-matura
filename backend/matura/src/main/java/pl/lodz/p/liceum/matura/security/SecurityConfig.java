@@ -19,16 +19,22 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    @Value("#{'${cors.allowed-origins}'.split(',')}")
-    private List<String> allowedOrigins;
+    private final List<String> allowedOrigins;
+    private final List<String> allowedMethods;
+    private final List<String> allowedHeaders;
+    private final List<String> exposedHeaders;
 
-    @Value("#{'${cors.allowed-methods}'.split(',')}")
-    private List<String> allowedMethods;
-    @Value("#{'${cors.allowed-headers}'.split(',')}")
-    private List<String> allowedHeaders;
-
-    @Value("#{'${cors.exposed-headers}'.split(',')}")
-    private List<String> exposedHeaders;
+    public SecurityConfig(
+            @Value("#{'${cors.allowed-origins}'.split(',')}") List<String> allowedOrigins,
+            @Value("#{'${cors.allowed-methods}'.split(',')}") List<String> allowedMethods,
+            @Value("#{'${cors.allowed-headers}'.split(',')}") List<String> allowedHeaders,
+            @Value("#{'${cors.exposed-headers}'.split(',')}") List<String> exposedHeaders
+    ) {
+        this.allowedOrigins = allowedOrigins;
+        this.allowedMethods = allowedMethods;
+        this.allowedHeaders = allowedHeaders;
+        this.exposedHeaders = exposedHeaders;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
