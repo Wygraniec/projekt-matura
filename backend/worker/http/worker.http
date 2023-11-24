@@ -1,8 +1,17 @@
-### execute task
+### execute task by Rafał Nowak
 POST http://localhost:8085/api/v1/tasks
 Accept: application/json
 Content-Type: application/json
 
 {
   "workspaceUrl": "/Users/rafalnowak/Dev/training/task1"
+}
+
+### execute task by Hubert
+POST http://localhost:8085/api/v1/tasks
+Accept: application/json
+Content-Type: application/json
+
+{
+  "workspaceUrl": "C:\\Users\\Hubert\\Documents\\Programs\\Java\\task1"
 }
