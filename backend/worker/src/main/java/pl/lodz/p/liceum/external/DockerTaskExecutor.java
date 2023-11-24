@@ -26,7 +26,7 @@ public class DockerTaskExecutor implements TaskExecutor {
             var command = prepareCommand(task.getWorkspaceUrl());
             var process = getRuntime().exec(command);
             log.info("Task finished");
-            return SUCCESS ==  process.waitFor() ? COMPLETED : FAILED;
+            return SUCCESS == process.waitFor() ? COMPLETED : FAILED;
         } catch (InterruptedException | IOException exception) {
             log.info(exception.toString());
             return FAILED;
