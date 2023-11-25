@@ -78,7 +78,7 @@ public class BaseIT {
 
     private User instructorUser = new User(
             null,
-            "technologist@gmail.com",
+            "instructor@gmail.com",
             "John",
             "password",
             UserRole.INSTRUCTOR,
@@ -95,7 +95,7 @@ public class BaseIT {
 
     private User studentUser = new User(
             null,
-            "md@gmail.com",
+            "student@gmail.com",
             "John",
             "password",
             UserRole.STUDENT,
@@ -131,12 +131,12 @@ public class BaseIT {
         return "Bearer " + token;
     }
 
-    protected String getAccessTokenForTechnologist() {
+    protected String getAccessTokenForInstructor() {
         String token = jwtUtil.issueToken(instructorUser.getEmail(), "ROLE_" + instructorUser.getRole());
         return "Bearer " + token;
     }
 
-    protected String getAccessTokenForMD() {
+    protected String getAccessTokenForStudent() {
         String token = jwtUtil.issueToken(studentUser.getEmail(), "ROLE_" + studentUser.getRole());
         return "Bearer " + token;
     }

@@ -38,7 +38,7 @@ class UserControllerIT extends BaseIT {
         assertEquals(user.getEmail(), body.email());
         assertEquals(user.getNickname(), body.nickname());
         assertEquals("######", body.password());
-        assertEquals(user.getRole().toString(), body.role().toString());
+        assertEquals(user.getRole().toString(), body.role());
     }
 
     @Test
@@ -80,7 +80,7 @@ class UserControllerIT extends BaseIT {
 //    @Test
 //    void admin_should_get_response_code_conflict_when_user_is_in_db() {
 //        //given
-//        User user = TestUserFactory.createTechnologist();
+//        User user = TestUserFactory.createInstructor();
 //        service.save(user);
 //        String adminToken = getAccessTokenForAdmin();
 //
@@ -117,7 +117,7 @@ class UserControllerIT extends BaseIT {
         assertEquals(body.email(), user.getEmail());
         assertEquals(body.nickname(), user.getNickname());
         assertEquals(body.password(), "######");
-        assertEquals(body.role().toString(), user.getRole().toString());
+        assertEquals(body.role(), user.getRole().toString());
     }
 
     @Test
@@ -142,7 +142,7 @@ class UserControllerIT extends BaseIT {
         assertEquals(body.email(), user.getEmail());
         assertEquals(body.nickname(), user.getNickname());
         assertEquals(body.password(), "######");
-        assertEquals(body.role().toString(), user.getRole().toString());
+        assertEquals(body.role(), user.getRole().toString());
     }
 
     @Test
@@ -172,7 +172,7 @@ class UserControllerIT extends BaseIT {
     }
 
     @Test
-    void admin_should_be_get_response_code_200_when_update_user_not_exits() {
+    void admin_should_get_response_code_200_when_update_user_not_exits() {
         //given
         String token = getAccessTokenForAdmin();
         User fakeUser = TestUserFactory.createInstructor();
@@ -189,7 +189,7 @@ class UserControllerIT extends BaseIT {
     }
 
     @Test
-    void user_should_be_not_able_to_update_user() {
+    void user_should_not_be_able_to_update_user() {
         //given
         User user = TestUserFactory.createInstructor();
         userService.save(user);
@@ -252,9 +252,29 @@ class UserControllerIT extends BaseIT {
     }
     //
     @Test
-    void device_owner_should_not_be_able_to_delete_user() {
+    void instructor_should_not_be_able_to_delete_user() {
         //given
         User firstUser = TestUserFactory.createInstructor();
+        User secondUser = TestUserFactory.createStudent();
+        userService.save(firstUser);
+        userService.save(secondUser);
+        String token = getAccessTokenForUser(firstUser);
+
+        //when
+        var response = callHttpMethod(
+                HttpMethod.DELETE,
+                "/api/v1/users/" + secondUser.getId(),
+                token,
+                null,
+                ErrorResponse.class);
+
+        //then
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+    }
+    @Test
+    void student_should_not_be_able_to_delete_user() {
+        //given
+        User firstUser = TestUserFactory.createStudent();
         User secondUser = TestUserFactory.createStudent();
         userService.save(firstUser);
         userService.save(secondUser);

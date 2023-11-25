@@ -50,7 +50,7 @@ class AuthenticationControllerIT extends BaseIT {
     }
 
     @Test
-    void user_should_get_response_code_success_when_user_has_access_and_is_a_technologist() {
+    void user_should_get_response_code_success_when_user_has_access_and_is_an_instructor() {
         //given
 
         User user1 = TestUserFactory.createInstructor();
@@ -70,7 +70,7 @@ class AuthenticationControllerIT extends BaseIT {
     }
 
     @Test
-    void user_should_get_response_code_success_when_user_has_access_and_is_a_medical_doctor() {
+    void user_should_get_response_code_success_when_user_has_access_and_is_a_student() {
         //given
 
         User user1 = TestUserFactory.createStudent();
