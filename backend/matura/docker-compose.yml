@@ -29,3 +29,26 @@ services:
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@amigoscode.com
       - PGADMIN_DEFAULT_PASSWORD=admin
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: matura-zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    container_name: matuta-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_CREATE_TOPICS: "Kafka_Task_json:3:1,Kafka_Task_Report_json:3:1"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+volumes:
+  data: {}
+
+networks:
+  default:

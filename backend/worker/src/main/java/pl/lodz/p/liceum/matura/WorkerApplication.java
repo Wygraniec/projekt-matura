@@ -1,4 +1,4 @@
-package pl.lodz.p.liceum;
+package pl.lodz.p.liceum.matura;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
