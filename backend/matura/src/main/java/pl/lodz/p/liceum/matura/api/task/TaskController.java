@@ -1,4 +1,4 @@
-package pl.lodz.p.liceum.api;
+package pl.lodz.p.liceum.matura.api.task;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.lodz.p.liceum.domain.Task;
-import pl.lodz.p.liceum.domain.TaskExecutor;
+import pl.lodz.p.liceum.matura.domain.task.Task;
+import pl.lodz.p.liceum.matura.domain.task.TaskExecutor;
 
 @RequiredArgsConstructor
 @RestController

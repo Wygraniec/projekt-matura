@@ -1,17 +1,17 @@
-package pl.lodz.p.liceum.external;
+package pl.lodz.p.liceum.matura.external;
 
 import lombok.extern.java.Log;
 
 import org.springframework.stereotype.Service;
-import pl.lodz.p.liceum.domain.ExecutionStatus;
-import pl.lodz.p.liceum.domain.Task;
-import pl.lodz.p.liceum.domain.TaskExecutor;
+import pl.lodz.p.liceum.matura.domain.ExecutionStatus;
+import pl.lodz.p.liceum.matura.domain.Task;
+import pl.lodz.p.liceum.matura.domain.TaskExecutor;
 
 import java.io.IOException;
 
 import static java.lang.Runtime.getRuntime;
-import static pl.lodz.p.liceum.domain.ExecutionStatus.COMPLETED;
-import static pl.lodz.p.liceum.domain.ExecutionStatus.FAILED;
+import static pl.lodz.p.liceum.matura.domain.ExecutionStatus.COMPLETED;
+import static pl.lodz.p.liceum.matura.domain.ExecutionStatus.FAILED;
 
 @Log
 @Service

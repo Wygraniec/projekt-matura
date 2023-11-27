@@ -1,4 +1,4 @@
-package pl.lodz.p.liceum.domain;
+package pl.lodz.p.liceum.matura.domain;
 
 public interface TaskExecutor {
 
