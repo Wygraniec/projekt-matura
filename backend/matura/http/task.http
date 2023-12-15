@@ -27,7 +27,7 @@ Content-Type: application/json
 %}
 
 ### execute task by Rafał Nowak
-POST http://localhost:8080/api/v1/tasks
+POST http://localhost:8080/api/v1/tasks/123/process
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
@@ -37,7 +37,7 @@ Authorization: {{auth_token}}
 }
 
 ### execute task by Hubert
-POST http://localhost:8080/api/v1/tasks
+POST http://localhost:8080/api/v1/tasks/123/process
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
