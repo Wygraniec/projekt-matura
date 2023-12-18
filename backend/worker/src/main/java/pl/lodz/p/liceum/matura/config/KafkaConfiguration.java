@@ -15,7 +15,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import pl.lodz.p.liceum.matura.external.worker.task.TaskEvent;
+import pl.lodz.p.liceum.matura.external.worker.task.events.TaskEvent;
 
 import java.util.HashMap;
 import java.util.Map;
