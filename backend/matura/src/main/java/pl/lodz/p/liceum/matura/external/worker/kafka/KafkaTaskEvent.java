@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import pl.lodz.p.liceum.matura.config.KafkaConfiguration;
 import pl.lodz.p.liceum.matura.external.worker.task.TaskEvent;
+import pl.lodz.p.liceum.matura.external.worker.task.TaskSentForProcessingEvent;
 
 
 @AllArgsConstructor
@@ -15,5 +16,11 @@ public class KafkaTaskEvent {
         kafkaTemplate.send(KafkaConfiguration.TASKS_OUTBOUND_TOPIC, taskEvent);
 
         return "TaskEvent Send Successfully";
+    }
+
+    public String send(TaskSentForProcessingEvent event) {
+        kafkaTemplate.send(KafkaConfiguration.TASKS_OUTBOUND_TOPIC, event);
+
+        return "TaskSentForProcessingEvent Send Successfully";
     }
 }
