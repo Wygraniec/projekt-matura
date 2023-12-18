@@ -43,5 +43,7 @@ Content-Type: application/json
 Authorization: {{auth_token}}
 
 {
-  "workspaceUrl": "C:\\Users\\Hubert\\Documents\\Programs\\Java\\task1"
+  "workspaceUrl": "C:\\Users\\Hubert\\Documents\\Programs\\Python\\MaturaBinaryNumbers",
+  "name": "task_2",
+  "type": "FAST"
 }

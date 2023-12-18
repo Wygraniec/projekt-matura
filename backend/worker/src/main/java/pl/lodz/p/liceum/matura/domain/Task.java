@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 public class Task {
 
     String workspaceUrl;
+    String name;
+    TestType type;
 
 }

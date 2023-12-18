@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.lodz.p.liceum.matura.domain.task.Task;
 import pl.lodz.p.liceum.matura.domain.task.TaskExecutor;
+import pl.lodz.p.liceum.matura.domain.task.TestType;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,7 +19,7 @@ class TaskController {
 
     @PostMapping
     public ResponseEntity<Void> executeTask(@RequestBody ExecuteCommand command) {
-        taskExecutor.execute(new Task(command.workspaceUrl()));
+        taskExecutor.execute(new Task(command.workspaceUrl(), command.name(), TestType.valueOf(command.type())));
         return ResponseEntity.ok().build();
     }
 

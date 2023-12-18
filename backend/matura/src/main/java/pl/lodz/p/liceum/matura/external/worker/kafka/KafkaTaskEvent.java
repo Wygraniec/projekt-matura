@@ -7,7 +7,7 @@ import pl.lodz.p.liceum.matura.external.worker.task.TaskEvent;
 
 
 @AllArgsConstructor
- public class KafkaTaskEvent {
+public class KafkaTaskEvent {
 
     private KafkaTemplate<String, TaskEvent> kafkaTemplate;
 
