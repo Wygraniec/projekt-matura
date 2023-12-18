@@ -7,12 +7,14 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.liceum.matura.config.KafkaConfiguration;
+import pl.lodz.p.liceum.matura.domain.Task;
 import pl.lodz.p.liceum.matura.domain.TaskExecutor;
-import pl.lodz.p.liceum.matura.external.worker.task.SubtaskSentForFastProcessingEvent;
-import pl.lodz.p.liceum.matura.external.worker.task.SubtaskSentForFullProcessingEvent;
-import pl.lodz.p.liceum.matura.external.worker.task.TaskEvent;
-import pl.lodz.p.liceum.matura.external.worker.task.TaskEventMapper;
-import pl.lodz.p.liceum.matura.external.worker.task.TaskSentForProcessingEvent;
+import pl.lodz.p.liceum.matura.domain.TestType;
+import pl.lodz.p.liceum.matura.external.worker.task.events.SubtaskSentForFastProcessingEvent;
+import pl.lodz.p.liceum.matura.external.worker.task.events.SubtaskSentForFullProcessingEvent;
+import pl.lodz.p.liceum.matura.external.worker.task.events.TaskEvent;
+import pl.lodz.p.liceum.matura.external.worker.task.events.TaskEventMapper;
+import pl.lodz.p.liceum.matura.external.worker.task.events.TaskSentForProcessingEvent;
 
 @Log
 @Service
@@ -42,10 +44,14 @@ public class KafkaTaskProcessor {
 
         if (taskEvent instanceof TaskSentForProcessingEvent) {
             log.info("Received TaskSentForProcessingEvent: " + taskEvent);
-        } else if (taskEvent instanceof SubtaskSentForFastProcessingEvent){
+        } else if (taskEvent instanceof SubtaskSentForFastProcessingEvent subtaskSentForFastProcessingEvent) {
             log.info("Received SubtaskSentForFastProcessingEvent: " + taskEvent);
-        } else if (taskEvent instanceof SubtaskSentForFullProcessingEvent){
+            Task task = new Task(taskEvent.getWorkspaceUrl(), subtaskSentForFastProcessingEvent.getName(), TestType.FAST);
+            taskExecutor.execute(task);
+        } else if (taskEvent instanceof SubtaskSentForFullProcessingEvent subtaskSentForFullProcessingEvent) {
             log.info("Received SubtaskSentForFullProcessingEvent: " + taskEvent);
+            Task task = new Task(taskEvent.getWorkspaceUrl(), subtaskSentForFullProcessingEvent.getName(), TestType.FULL);
+            taskExecutor.execute(task);
         } else {
             log.info("Received TaskEvent: " + taskEvent);
         }

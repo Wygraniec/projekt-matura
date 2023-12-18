@@ -9,7 +9,9 @@ import pl.lodz.p.liceum.matura.domain.Task;
 import pl.lodz.p.liceum.matura.domain.TaskExecutor;
 import pl.lodz.p.liceum.matura.external.worker.task.DockerComposeGenerator;
 import pl.lodz.p.liceum.matura.external.worker.task.TaskDefinitionParser;
+import pl.lodz.p.liceum.matura.external.worker.task.definition.CheckData;
 import pl.lodz.p.liceum.matura.external.worker.task.definition.TaskDefinition;
+import pl.lodz.p.liceum.matura.external.worker.task.definition.TaskEnvironment;
 
 import java.io.*;
 
@@ -29,10 +31,15 @@ public class DockerTaskExecutor implements TaskExecutor {
     @Override
     public ExecutionStatus execute(Task task) {
         log.info("Task started");
+
         TaskDefinition taskDefinition = taskDefinitionParser.parse(task.getWorkspaceUrl() + "/task_definition.yml");
 
-        dockerComposeGenerator.generate(task.getWorkspaceUrl() + "/docker-compose.yml", taskDefinition.getEnvironment(),
-                taskDefinition.getTasks().get(task.getName()).getCheckTypes().get(task.getType().toString()));
+        String dockerComposePath = task.getWorkspaceUrl() + "/docker-compose.yml";
+        TaskEnvironment environment = taskDefinition.getEnvironment();
+        CheckData checkData = taskDefinition.getTasks().get(task.getName()).getCheckTypes().get(task.getType().toString());
+
+        dockerComposeGenerator.generate(dockerComposePath, environment, checkData);
+
         try {
             var command = prepareCommand(task.getWorkspaceUrl());
             var process = getRuntime().exec(command);
@@ -47,9 +54,9 @@ public class DockerTaskExecutor implements TaskExecutor {
     private String[] prepareCommand(String workspaceUrl) {
         boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
         if (isWindows)
-            return new String[] { "cmd.exe", "/c", "docker-compose --file " + workspaceUrl + "\\docker-compose.yml up" };
+            return new String[]{"cmd.exe", "/c", "docker-compose --file " + workspaceUrl + "\\docker-compose.yml up"};
         else
-            return new String[] { "bash", "-c", "cd " + workspaceUrl + ";docker-compose up" };
+            return new String[]{"bash", "-c", "cd " + workspaceUrl + ";docker-compose up"};
     }
 
 }

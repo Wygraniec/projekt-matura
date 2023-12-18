@@ -37,13 +37,11 @@ Authorization: {{auth_token}}
 }
 
 ### execute task by Hubert
-POST http://localhost:8080/api/v1/tasks/123/process
+POST http://localhost:8080/api/v1/tasks/123/subtasks/task_1/fastprocess
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
 
 {
-  "workspaceUrl": "C:\\Users\\Hubert\\Documents\\Programs\\Python\\MaturaBinaryNumbers",
-  "name": "task_2",
-  "type": "FAST"
+  "workspaceUrl": "C:\\Users\\Hubert\\Documents\\Programs\\Python\\MaturaBinaryNumbers"
 }

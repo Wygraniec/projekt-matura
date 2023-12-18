@@ -9,7 +9,7 @@ import pl.lodz.p.liceum.matura.domain.user.UserRepository;
 import pl.lodz.p.liceum.matura.domain.user.UserService;
 import pl.lodz.p.liceum.matura.external.worker.TaskWorkerAdapter;
 import pl.lodz.p.liceum.matura.external.worker.kafka.KafkaTaskEvent;
-import pl.lodz.p.liceum.matura.external.worker.task.TaskEventMapper;
+import pl.lodz.p.liceum.matura.external.worker.task.events.TaskEventMapper;
 import pl.lodz.p.liceum.matura.external.storage.user.JpaUserRepository;
 import pl.lodz.p.liceum.matura.external.storage.user.UserEntityMapper;
 import pl.lodz.p.liceum.matura.external.storage.user.UserStorageAdapter;

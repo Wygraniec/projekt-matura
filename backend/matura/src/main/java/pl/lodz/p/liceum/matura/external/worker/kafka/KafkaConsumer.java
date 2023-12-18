@@ -6,8 +6,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.liceum.matura.config.KafkaConfiguration;
 import pl.lodz.p.liceum.matura.domain.task.Task;
-import pl.lodz.p.liceum.matura.external.worker.task.TaskEvent;
-import pl.lodz.p.liceum.matura.external.worker.task.TaskEventMapper;
+import pl.lodz.p.liceum.matura.external.worker.task.events.TaskEvent;
+import pl.lodz.p.liceum.matura.external.worker.task.events.TaskEventMapper;
 
 
 @Log

@@ -3,8 +3,8 @@ package pl.lodz.p.liceum.matura.external.worker.kafka;
 import lombok.AllArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import pl.lodz.p.liceum.matura.config.KafkaConfiguration;
-import pl.lodz.p.liceum.matura.external.worker.task.TaskEvent;
-import pl.lodz.p.liceum.matura.external.worker.task.TaskSentForProcessingEvent;
+import pl.lodz.p.liceum.matura.external.worker.task.events.TaskEvent;
+import pl.lodz.p.liceum.matura.external.worker.task.events.TaskSentForProcessingEvent;
 
 
 @AllArgsConstructor

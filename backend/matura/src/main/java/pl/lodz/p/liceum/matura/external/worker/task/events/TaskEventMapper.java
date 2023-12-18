@@ -1,4 +1,4 @@
-package pl.lodz.p.liceum.matura.external.worker.task;
+package pl.lodz.p.liceum.matura.external.worker.task.events;
 
 import org.mapstruct.Mapper;
 import pl.lodz.p.liceum.matura.domain.task.Task;
