@@ -8,7 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Task {
-
     String workspaceUrl;
-
 }

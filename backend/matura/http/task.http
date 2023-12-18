@@ -26,8 +26,8 @@ Content-Type: application/json
     client.global.set("auth_token", "Bearer " + response.body.token);
 %}
 
-### execute task by Rafał Nowak
-POST http://localhost:8080/api/v1/tasks
+### execute subtask by Rafał Nowak
+POST http://localhost:8080/api/v1/tasks/123/process
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
@@ -36,12 +36,33 @@ Authorization: {{auth_token}}
   "workspaceUrl": "/Users/rafalnowak/Dev/training/task1"
 }
 
-### execute task by Hubert
-POST http://localhost:8080/api/v1/tasks
+### execute subtask by Hubert
+POST http://localhost:8080/api/v1/tasks/123/subtasks/task_1/fastprocess
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
 
 {
-  "workspaceUrl": "C:\\Users\\Hubert\\Documents\\Programs\\Java\\task1"
+  "workspaceUrl": "C:\\Users\\Hubert\\Documents\\Programs\\Python\\MaturaBinaryNumbers"
 }
+
+### execute subtask by Wojtek
+POST http://localhost:8080/api/v1/tasks/123/subtasks/task_1/fastprocess
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "workspaceUrl": "G:\\progProjects\\Java\\MaturaBinaryNumbersPython"
+}
+
+### execute task by Wojtek
+POST http://localhost:8080/api/v1/tasks/123/process
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "workspaceUrl": "G:\\progProjects\\Java\\MaturaBinaryNumbersPython"
+}
+
