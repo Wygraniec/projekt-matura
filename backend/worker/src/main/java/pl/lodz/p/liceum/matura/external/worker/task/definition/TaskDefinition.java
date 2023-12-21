@@ -6,8 +6,6 @@ import java.util.Map;
 
 @Data
 public class TaskDefinition {
-
     TaskEnvironment environment;
     Map<String, Subtask> tasks;
-
 }

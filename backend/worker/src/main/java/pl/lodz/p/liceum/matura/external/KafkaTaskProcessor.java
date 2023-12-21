@@ -44,6 +44,8 @@ public class KafkaTaskProcessor {
 
         if (taskEvent instanceof TaskSentForProcessingEvent) {
             log.info("Received TaskSentForProcessingEvent: " + taskEvent);
+            Task task = new Task(taskEvent.getWorkspaceUrl(), "", TestType.FULL);
+            taskExecutor.execute(task);
         } else if (taskEvent instanceof SubtaskSentForFastProcessingEvent subtaskSentForFastProcessingEvent) {
             log.info("Received SubtaskSentForFastProcessingEvent: " + taskEvent);
             Task task = new Task(taskEvent.getWorkspaceUrl(), subtaskSentForFastProcessingEvent.getName(), TestType.FAST);

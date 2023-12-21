@@ -1,7 +1,5 @@
 package pl.lodz.p.liceum.matura.external.worker.task;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -18,9 +16,12 @@ public class YamlTaskDefinitionParser implements TaskDefinitionParser {
     public TaskDefinition parse(String taskDefinitionPath) {
         try {
             InputStream inputStream = new FileInputStream(taskDefinitionPath);
-            Yaml yaml = new Yaml(new Constructor(TaskDefinition.class, new LoaderOptions()));
-            TaskDefinition taskDefinition = yaml.load(inputStream);
-            return taskDefinition;
+
+            var loaderOptions = new LoaderOptions();
+            loaderOptions.setEnumCaseSensitive(false);
+            Yaml yaml = new Yaml(new Constructor(TaskDefinition.class, loaderOptions));
+
+            return yaml.load(inputStream);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
