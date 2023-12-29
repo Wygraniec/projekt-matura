@@ -1,4 +1,4 @@
-package pl.lodz.p.liceum.matura.external.worker.task.events;
+package pl.lodz.p.liceum.matura.domain.task;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubtaskSentForFullProcessingEvent extends SubtaskEvent {
+public class Subtask {
+
     String workspaceUrl;
     String name;
+    TestType type;
+
 }

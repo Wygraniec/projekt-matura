@@ -9,7 +9,7 @@ import pl.lodz.p.liceum.matura.domain.user.UserRepository;
 import pl.lodz.p.liceum.matura.domain.user.UserService;
 import pl.lodz.p.liceum.matura.external.worker.TaskWorkerAdapter;
 import pl.lodz.p.liceum.matura.external.worker.kafka.KafkaTaskEvent;
-import pl.lodz.p.liceum.matura.external.worker.task.events.TaskEventMapper;
+import pl.lodz.p.liceum.matura.external.worker.task.events.SubtaskEventMapper;
 import pl.lodz.p.liceum.matura.external.storage.user.JpaUserRepository;
 import pl.lodz.p.liceum.matura.external.storage.user.UserEntityMapper;
 import pl.lodz.p.liceum.matura.external.storage.user.UserStorageAdapter;
@@ -36,8 +36,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public TaskExecutor taskExecutor1(KafkaTaskEvent kafkaTaskEvent, TaskEventMapper taskEventMapper) {
-        return new TaskWorkerAdapter(kafkaTaskEvent, taskEventMapper);
+    public TaskExecutor taskExecutor1(KafkaTaskEvent kafkaTaskEvent, SubtaskEventMapper subtaskEventMapper) {
+        return new TaskWorkerAdapter(kafkaTaskEvent, subtaskEventMapper);
     }
 
 }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubtaskFullProcessingCompleteEvent extends TaskEvent {
+public class SubtaskFullProcessingCompleteEvent extends SubtaskEvent {
     String workspaceUrl;
     String name;
 }
