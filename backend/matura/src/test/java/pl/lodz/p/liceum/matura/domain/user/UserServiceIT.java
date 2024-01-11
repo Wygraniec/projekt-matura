@@ -26,7 +26,7 @@ public class UserServiceIT extends BaseIT {
 
         //then
         Assertions.assertEquals(user.getEmail(), readUser.getEmail());
-        Assertions.assertEquals(user.getNickname(), readUser.getNickname());
+        Assertions.assertEquals(user.getUsername(), readUser.getUsername());
         Assertions.assertTrue(passwordEncoder.matches(user.getPassword(), readUser.getPassword()));
     }
 
@@ -45,7 +45,7 @@ public class UserServiceIT extends BaseIT {
 
         //then
         Assertions.assertEquals(user2.getEmail(), readUser.getEmail());
-        Assertions.assertEquals(user2.getNickname(), readUser.getNickname());
+        Assertions.assertEquals(user2.getUsername(), readUser.getUsername());
         Assertions.assertTrue(passwordEncoder.matches(user2.getPassword(), readUser.getPassword()));
     }
 }

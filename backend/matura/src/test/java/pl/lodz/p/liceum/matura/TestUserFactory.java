@@ -19,6 +19,7 @@ public class TestUserFactory {
                 "User Name " + userSequence,
                 "password",
                 UserRole.ADMIN,
+                0,
                 ZonedDateTime.of(2023, 6, 17, 12, 40, 00, 0, ZoneId.of("UTC"))
         );
     }
@@ -31,6 +32,7 @@ public class TestUserFactory {
                 "User Name " + userSequence,
                 "password",
                 UserRole.INSTRUCTOR,
+                0,
                 ZonedDateTime.of(2023, 6, 17, 12, 40, 00, 0, ZoneId.of("UTC"))
         );
     }
@@ -43,6 +45,7 @@ public class TestUserFactory {
                 "User Name " + userSequence,
                 "password",
                 UserRole.STUDENT,
+                0,
                 ZonedDateTime.of(2023, 6, 17, 12, 40, 00, 0, ZoneId.of("UTC"))
         );
     }

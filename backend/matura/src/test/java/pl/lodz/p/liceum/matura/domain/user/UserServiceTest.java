@@ -34,6 +34,7 @@ class UserServiceTest {
             "user name",
             "pass",
             UserRole.INSTRUCTOR,
+            0,
             ZonedDateTime.of(2023, 6, 17, 12, 30, 20, 0, ZoneId.of("UTC"))
     );
 
@@ -75,7 +76,7 @@ class UserServiceTest {
         Assertions.assertNotNull(savedUser);
         Assertions.assertEquals(fakeUser.getId(), savedUser.getId());
         Assertions.assertEquals(fakeUser.getEmail(), savedUser.getEmail());
-        Assertions.assertEquals(fakeUser.getNickname(), savedUser.getNickname());
+        Assertions.assertEquals(fakeUser.getUsername(), savedUser.getUsername());
         Assertions.assertEquals(fakeUser.getPassword(), savedUser.getPassword());
     }
 
@@ -103,7 +104,7 @@ class UserServiceTest {
         Assertions.assertNotNull(foundedUser);
         Assertions.assertEquals(fakeUser.getId(), foundedUser.getId());
         Assertions.assertEquals(fakeUser.getEmail(), foundedUser.getEmail());
-        Assertions.assertEquals(fakeUser.getNickname(), foundedUser.getNickname());
+        Assertions.assertEquals(fakeUser.getUsername(), foundedUser.getUsername());
         Assertions.assertEquals(fakeUser.getPassword(), foundedUser.getPassword());
     }
 
@@ -128,7 +129,7 @@ class UserServiceTest {
         Assertions.assertNotNull(foundedUser);
         Assertions.assertEquals(fakeUser.getId(), foundedUser.getId());
         Assertions.assertEquals(fakeUser.getEmail(), foundedUser.getEmail());
-        Assertions.assertEquals(fakeUser.getNickname(), foundedUser.getNickname());
+        Assertions.assertEquals(fakeUser.getUsername(), foundedUser.getUsername());
         Assertions.assertEquals(fakeUser.getPassword(), foundedUser.getPassword());
     }
 
