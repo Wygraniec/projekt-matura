@@ -40,8 +40,11 @@ class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> saveUser(@RequestBody UserDto dto) {
+        User userCreator = security.getPrincipal();
 
-        User user = userService.save(userMapper.toDomain(dto));
+        User tempUser = userMapper.toDomain(dto);
+        tempUser.setCreatedBy(userCreator.getId());
+        User user = userService.save(tempUser);
         return ResponseEntity
                 .ok(userMapper.toDto(user));
     }

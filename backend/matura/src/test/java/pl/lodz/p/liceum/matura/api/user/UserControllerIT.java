@@ -36,7 +36,7 @@ class UserControllerIT extends BaseIT {
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertNotNull(body);
         assertEquals(user.getEmail(), body.email());
-        assertEquals(user.getNickname(), body.nickname());
+        assertEquals(user.getUsername(), body.username());
         assertEquals("######", body.password());
         assertEquals(user.getRole().toString(), body.role());
     }
@@ -115,7 +115,7 @@ class UserControllerIT extends BaseIT {
         UserDto body = response.getBody();
         assertNotNull(body);
         assertEquals(body.email(), user.getEmail());
-        assertEquals(body.nickname(), user.getNickname());
+        assertEquals(body.username(), user.getUsername());
         assertEquals(body.password(), "######");
         assertEquals(body.role(), user.getRole().toString());
     }
@@ -140,7 +140,7 @@ class UserControllerIT extends BaseIT {
         //and
         assertNotNull(body);
         assertEquals(body.email(), user.getEmail());
-        assertEquals(body.nickname(), user.getNickname());
+        assertEquals(body.username(), user.getUsername());
         assertEquals(body.password(), "######");
         assertEquals(body.role(), user.getRole().toString());
     }
@@ -156,6 +156,7 @@ class UserControllerIT extends BaseIT {
                 "newPerson",
                 "newpassword",
                 user.getRole(),
+                user.getCreatedBy(),
                 user.getCreatedAt()
         );
         String adminAccessToken = getAccessTokenForAdmin();
@@ -199,6 +200,7 @@ class UserControllerIT extends BaseIT {
                 "Person",
                 "password",
                 user.getRole(),
+                user.getCreatedBy(),
                 user.getCreatedAt()
         );
         String token = getAccessTokenForUser(user);

@@ -65,6 +65,7 @@ public class BaseIT {
             "John",
             "password",
             UserRole.ADMIN,
+            0,
             ZonedDateTime.of(
                     2023,
                     6,
@@ -82,6 +83,7 @@ public class BaseIT {
             "John",
             "password",
             UserRole.INSTRUCTOR,
+            0,
             ZonedDateTime.of(
                     2023,
                     6,
@@ -99,6 +101,7 @@ public class BaseIT {
             "John",
             "password",
             UserRole.STUDENT,
+            0,
             ZonedDateTime.of(
                     2023,
                     6,

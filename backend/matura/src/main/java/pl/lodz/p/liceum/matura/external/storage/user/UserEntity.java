@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.lodz.p.liceum.matura.domain.user.UserRole;
 
 import java.time.ZonedDateTime;
-import java.util.Set;
 
 @Entity
 @Table(
-//        nickname = "USERS",
+//        username = "USERS",
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "user_email_unique",
@@ -42,7 +42,7 @@ public class UserEntity {
     @Column(
             nullable = false
     )
-    private String nickname;
+    private String username;
     @Column(
             nullable = false
     )
@@ -50,17 +50,19 @@ public class UserEntity {
     @Column(
             nullable = false
     )
-    private String role;
+    private UserRole role;
+    //@ManyToOne
+    private Integer createdBy;
     @Column(
             nullable = false
     )
     ZonedDateTime createdAt;
 
-    public UserEntity(String email, String nickname, String password, Set<String> roles) {
+    public UserEntity(String email, String username, String password, String role) {
         this.email = email;
-        this.nickname = nickname;
+        this.username = username;
         this.password = password;
-        this.role = role;
+        this.role = UserRole.valueOf(role);
     }
 
     @Override

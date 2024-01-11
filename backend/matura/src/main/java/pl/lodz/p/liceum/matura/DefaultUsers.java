@@ -25,6 +25,7 @@ public class DefaultUsers implements CommandLineRunner {
             "John",
             "password",
             UserRole.ADMIN,
+            0,
             ZonedDateTime.now()
     );
 
@@ -34,6 +35,7 @@ public class DefaultUsers implements CommandLineRunner {
             "James",
             "password",
             UserRole.STUDENT,
+            0,
             ZonedDateTime.now()
     );
 
@@ -43,6 +45,7 @@ public class DefaultUsers implements CommandLineRunner {
             "Mary",
             "password",
             UserRole.INSTRUCTOR,
+            0,
             ZonedDateTime.now()
     );
 
