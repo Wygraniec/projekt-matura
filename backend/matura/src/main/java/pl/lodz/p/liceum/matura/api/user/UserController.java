@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.liceum.matura.api.appservices.UserApplicationService;
 import pl.lodz.p.liceum.matura.domain.user.User;
 import pl.lodz.p.liceum.matura.domain.user.UserService;
 import pl.lodz.p.liceum.matura.security.Security;
@@ -15,7 +16,7 @@ import pl.lodz.p.liceum.matura.security.Security;
 @RequestMapping(path = "/api/v1/users")
 class UserController {
 
-    private final UserService userService;
+    private final UserApplicationService userService;
     private final UserDtoMapper userMapper;
     private final PageUserDtoMapper pageUserDtoMapper;
     private final Security security;
@@ -40,11 +41,7 @@ class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> saveUser(@RequestBody UserDto dto) {
-        User userCreator = security.getPrincipal();
-
-        User tempUser = userMapper.toDomain(dto);
-        tempUser.setCreatedBy(userCreator.getId());
-        User user = userService.save(tempUser);
+        User user = userService.save(userMapper.toDomain(dto));
         return ResponseEntity
                 .ok(userMapper.toDto(user));
     }
