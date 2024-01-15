@@ -65,8 +65,8 @@ class UserServiceTest {
 
     @Test
     void save_method_should_return_saved_user_when_user_does_not_exist() {
-        Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
-        Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
+        //Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
+        //Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(fakeUser);
 
         //when
@@ -82,8 +82,8 @@ class UserServiceTest {
 
     @Test
     void save_method_should_throw_user_already_exist_exception_when_user_exist() {
-        Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
-        Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
+        //Mockito.when((clock.getZone())).thenReturn(NOW.getZone());
+        //Mockito.when((clock.instant())).thenReturn(NOW.toInstant());
         Mockito.when(userRepository.save(Mockito.any(User.class)))
                 .thenThrow(new UserAlreadyExistsException());
 

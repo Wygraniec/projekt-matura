@@ -10,6 +10,9 @@ import pl.lodz.p.liceum.matura.api.response.ErrorResponse;
 import pl.lodz.p.liceum.matura.domain.user.User;
 import pl.lodz.p.liceum.matura.domain.user.UserService;
 
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerIT extends BaseIT {
@@ -100,9 +103,12 @@ class UserControllerIT extends BaseIT {
     void admin_should_be_able_to_save_new_user() {
         //given
         User user = TestUserFactory.createInstructor();
-        String adminAccessToken = getAccessTokenForAdmin();
+        User admin = userService.save(TestUserFactory.createAdmin());
+        String token = jwtUtil.issueToken(admin.getEmail(), "ROLE_" + admin.getRole());
+        String adminAccessToken = "Bearer " + token;
 
         //when
+        var timeBeforeCallingTheHTTPMethod = ZonedDateTime.now();
         var response = callHttpMethod(HttpMethod.POST,
                 "/api/v1/users",
                 adminAccessToken,
@@ -110,6 +116,7 @@ class UserControllerIT extends BaseIT {
                 UserDto.class);
 
         //then
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         //and
         UserDto body = response.getBody();
@@ -118,6 +125,9 @@ class UserControllerIT extends BaseIT {
         assertEquals(body.username(), user.getUsername());
         assertEquals(body.password(), "######");
         assertEquals(body.role(), user.getRole().toString());
+        //assertEquals(body.createdAt().format(formatter), timeBeforeCallingTheHTTPMethod.format(formatter));
+        assertTrue(timeBeforeCallingTheHTTPMethod.isBefore(body.createdAt()));
+        assertEquals(body.createdBy(), admin.getId());
     }
 
     @Test
