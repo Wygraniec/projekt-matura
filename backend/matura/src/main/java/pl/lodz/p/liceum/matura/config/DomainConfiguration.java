@@ -4,9 +4,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.lodz.p.liceum.matura.domain.task.TaskExecutor;
+import pl.lodz.p.liceum.matura.domain.template.Template;
+import pl.lodz.p.liceum.matura.domain.template.TemplateRepository;
+import pl.lodz.p.liceum.matura.domain.template.TemplateService;
 import pl.lodz.p.liceum.matura.domain.user.EncodingService;
 import pl.lodz.p.liceum.matura.domain.user.UserRepository;
 import pl.lodz.p.liceum.matura.domain.user.UserService;
+import pl.lodz.p.liceum.matura.external.storage.template.JpaTemplateRepository;
+import pl.lodz.p.liceum.matura.external.storage.template.TemplateEntity;
+import pl.lodz.p.liceum.matura.external.storage.template.TemplateEntityMapper;
+import pl.lodz.p.liceum.matura.external.storage.template.TemplateStorageAdapter;
 import pl.lodz.p.liceum.matura.external.worker.TaskWorkerAdapter;
 import pl.lodz.p.liceum.matura.external.worker.kafka.KafkaTaskEvent;
 import pl.lodz.p.liceum.matura.external.worker.task.events.SubtaskEventMapper;
@@ -15,6 +22,7 @@ import pl.lodz.p.liceum.matura.external.storage.user.UserEntityMapper;
 import pl.lodz.p.liceum.matura.external.storage.user.UserStorageAdapter;
 
 import java.time.Clock;
+import java.util.Optional;
 
 @Configuration
 @ConfigurationProperties("domain.properties")
@@ -38,6 +46,16 @@ public class DomainConfiguration {
     @Bean
     public TaskExecutor taskExecutor1(KafkaTaskEvent kafkaTaskEvent, SubtaskEventMapper subtaskEventMapper) {
         return new TaskWorkerAdapter(kafkaTaskEvent, subtaskEventMapper);
+    }
+
+    @Bean
+    public TemplateRepository templateRepository(JpaTemplateRepository jpaTemplateRepository, TemplateEntityMapper mapper) {
+        return new TemplateStorageAdapter(jpaTemplateRepository, mapper);
+    }
+
+    @Bean
+    public TemplateService templateService(TemplateRepository templateRepository) {
+        return new TemplateService(templateRepository);
     }
 
 }
