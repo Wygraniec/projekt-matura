@@ -5,9 +5,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.lodz.p.liceum.matura.api.appservices.UserApplicationService;
+import pl.lodz.p.liceum.matura.appservices.UserApplicationService;
 import pl.lodz.p.liceum.matura.domain.user.User;
-import pl.lodz.p.liceum.matura.domain.user.UserService;
 import pl.lodz.p.liceum.matura.security.Security;
 
 

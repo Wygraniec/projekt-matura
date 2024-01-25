@@ -1,4 +1,4 @@
-package pl.lodz.p.liceum.matura.api.archtest;
+package pl.lodz.p.liceum.matura.archtest;
 
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;

@@ -1,4 +1,4 @@
-package pl.lodz.p.liceum.matura.api.appservices;
+package pl.lodz.p.liceum.matura.appservices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
