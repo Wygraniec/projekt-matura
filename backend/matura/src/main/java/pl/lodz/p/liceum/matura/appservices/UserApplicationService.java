@@ -1,4 +1,4 @@
-package pl.lodz.p.liceum.matura.api.appservices;
+package pl.lodz.p.liceum.matura.appservices;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
