@@ -1,0 +1,38 @@
+### login admin
+POST http://localhost:8080/api/v1/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "john@gmail.com",
+  "password": "password"
+}
+
+> {%
+    client.global.set("auth_token", "Bearer " + response.body.token);
+%}
+
+
+### create template
+POST http://localhost:8080/api/v1/templates
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+  "sourceUrl": "www.github.com",
+  "taskLanguage": "PYTHON",
+  "source": "Matura 05.2021"
+}
+
+### get template by id
+GET http://localhost:8080/api/v1/templates/2
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### delete user
+DELETE http://localhost:8080/api/v1/templates/1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
