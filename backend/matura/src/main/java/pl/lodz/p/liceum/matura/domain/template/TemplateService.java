@@ -16,6 +16,11 @@ public class TemplateService {
     public void removeById(Integer id) {
         templateRepository.remove(id);
     }
+    public Template findBySourceUrl(String sourceUrl) {
+        return templateRepository
+                .findBySourceUrl(sourceUrl)
+                .orElseThrow(TemplateNotFoundException::new);
+    }
 
     public Template findById(Integer id) {
         return templateRepository

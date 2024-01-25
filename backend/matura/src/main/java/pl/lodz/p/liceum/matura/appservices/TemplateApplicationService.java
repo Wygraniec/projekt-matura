@@ -65,6 +65,9 @@ public class TemplateApplicationService {
         }
     }
 
+    public Template findBySourceUrl(String sourceUrl) {
+        return templateService.findBySourceUrl(sourceUrl);
+    }
     public Template findById(Integer id) {
         return templateService.findById(id);
     }
