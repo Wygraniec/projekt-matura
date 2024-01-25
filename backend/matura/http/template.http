@@ -22,16 +22,16 @@ Authorization: {{auth_token}}
 {
   "sourceUrl": "www.github.com",
   "taskLanguage": "PYTHON",
-  "source": "Matura 05.2021"
+  "source": "Matura 05.2023"
 }
 
 ### get template by id
-GET http://localhost:8080/api/v1/templates/2
+GET http://localhost:8080/api/v1/templates/1
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
 
-### delete user
+### delete template
 DELETE http://localhost:8080/api/v1/templates/1
 Accept: application/json
 Content-Type: application/json

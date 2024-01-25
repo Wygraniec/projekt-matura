@@ -29,24 +29,26 @@ public class TemplateEntity {
             generator = "template_id_seq"
     )
     private Integer id;
-    @Column(
-            nullable = false
-    )
+
+    @Column(nullable = false)
     private String sourceUrl;
-    @Column(
-            nullable = false
-    )
+
+    @Column(nullable = false)
     private TaskLanguage taskLanguage;
+
+    @Column(nullable = false)
+    private String source;
+
     private Integer createdBy;
-    @Column(
-            nullable = false
-    )
+
+    @Column(nullable = false)
     ZonedDateTime createdAt;
 
-    public TemplateEntity(Integer id, String sourceUrl, String taskLanguage) {
+    public TemplateEntity(Integer id, String sourceUrl, String taskLanguage, String source) {
         this.id = id;
         this.sourceUrl = sourceUrl;
         this.taskLanguage = TaskLanguage.valueOf(taskLanguage);
+        this.source = source;
     }
 
     @Override
