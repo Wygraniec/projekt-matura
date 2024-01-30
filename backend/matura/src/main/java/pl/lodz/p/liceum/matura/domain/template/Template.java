@@ -16,4 +16,8 @@ public class Template {
     String source;
     Integer createdBy;
     ZonedDateTime createdAt;
+
+    public boolean isUserTheOwnerOfThisTemplate(Integer userId) {
+        return createdBy.equals(userId);
+    }
 }

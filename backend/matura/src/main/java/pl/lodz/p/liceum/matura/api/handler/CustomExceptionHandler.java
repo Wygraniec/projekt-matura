@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.lodz.p.liceum.matura.api.response.ErrorResponse;
+import pl.lodz.p.liceum.matura.appservices.verifier.UserIsNotAuthorizedToThisTemplateException;
 import pl.lodz.p.liceum.matura.domain.user.UserAlreadyExistsException;
 import pl.lodz.p.liceum.matura.domain.user.UserNotFoundException;
 
@@ -23,6 +24,11 @@ class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public final ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         return buildResponse(ex, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserIsNotAuthorizedToThisTemplateException.class)
+    public final ResponseEntity<ErrorResponse> handleUserIsNotAuthorizedToThisDeviceException(UserIsNotAuthorizedToThisTemplateException ex) {
+        return buildResponse(ex, HttpStatus.METHOD_NOT_ALLOWED);
     }
 
     @ExceptionHandler(IOException.class)

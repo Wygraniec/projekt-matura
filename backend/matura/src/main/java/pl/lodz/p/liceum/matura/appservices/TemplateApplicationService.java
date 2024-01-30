@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTemplate;
 import pl.lodz.p.liceum.matura.domain.template.Template;
 import pl.lodz.p.liceum.matura.domain.template.TemplateAlreadyExistsException;
 import pl.lodz.p.liceum.matura.domain.template.TemplateNotFoundException;
@@ -56,6 +57,7 @@ public class TemplateApplicationService {
         }
     }
 
+    @AuthVerifyTemplate
     public void removeById(Integer id) {
         try {
             templateRemoveByIdTransaction(id);
