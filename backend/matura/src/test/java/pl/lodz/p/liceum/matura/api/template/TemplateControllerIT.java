@@ -248,13 +248,34 @@ class TemplateControllerIT extends BaseIT {
         //then
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
-    //
+
     @Test
-    void instructor_should_not_be_able_to_delete_template() {
+    void instructor_should_be_able_to_delete_his_template() {
         //given
-        User user = TestUserFactory.createInstructor();
+        User user = userService.save(TestUserFactory.createInstructor());
         Template template = TestTemplateFactory.createJavaTemplate();
-        userService.save(user);
+        template.setCreatedBy(user.getId());
+        final Template savedTemplate = service.save(template);
+        String token = getAccessTokenForUser(user);
+
+        //when
+        var response = callHttpMethod(
+                HttpMethod.DELETE,
+                "/api/v1/templates/" + savedTemplate.getId(),
+                token,
+                null,
+                ErrorResponse.class);
+
+        //then
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+
+    @Test
+    void instructor_should_not_be_able_to_delete_someone_else_template() {
+        //given
+        User user = userService.save(TestUserFactory.createInstructor());
+        Template template = TestTemplateFactory.createJavaTemplate();
+        template.setCreatedBy(user.getId() + 1);
         service.save(template);
         String token = getAccessTokenForUser(user);
 
@@ -267,12 +288,9 @@ class TemplateControllerIT extends BaseIT {
                 ErrorResponse.class);
 
         //then
-        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+        assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
     }
-    @Test
-    void instructor_should_be_able_to_delete_their_template() {
-        assertTrue(false);
-    }
+
     @Test
     void student_should_not_be_able_to_delete_template() {
         //given
