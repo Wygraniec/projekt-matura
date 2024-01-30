@@ -34,6 +34,12 @@ public class SecurityFilterChainConfig {
                         .requestMatchers(HttpMethod.POST, "api/v1/templates").hasAnyRole("ADMIN", "INSTRUCTOR")
                         .requestMatchers(HttpMethod.PUT, "api/v1/templates").hasAnyRole("ADMIN", "INSTRUCTOR")
                         .requestMatchers(HttpMethod.DELETE, "api/v1/templates/**").hasAnyRole("ADMIN", "INSTRUCTOR")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/tasks").hasAnyRole("ADMIN", "INSTRUCTOR")
+                        .requestMatchers(HttpMethod.PUT, "api/v1/tasks").hasAnyRole("ADMIN", "INSTRUCTOR")
+                        .requestMatchers(HttpMethod.DELETE, "api/v1/templates/**").hasAnyRole("ADMIN", "INSTRUCTOR")
+                        .requestMatchers(HttpMethod.GET, "api/v1/tasks/**").hasRole("ADMIN") // !TBD or is the user whose tasks are queried
+                        .requestMatchers(HttpMethod.GET, "api/v1/tasks/createdby/**").hasRole("ADMIN") // !TBD or is the user whose tasks are queried
+                        .requestMatchers(HttpMethod.GET, "api/v1/tasks/assignedto/**").hasRole("ADMIN") // !TBD or is the user whose tasks are queried
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
