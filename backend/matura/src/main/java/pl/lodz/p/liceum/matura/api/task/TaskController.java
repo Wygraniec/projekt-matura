@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.liceum.matura.api.user.UserDto;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
+import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTask;
 import pl.lodz.p.liceum.matura.domain.task.*;
 
 import java.util.List;
@@ -23,6 +24,26 @@ public class TaskController {
     public ResponseEntity<TaskDto> getTask(@PathVariable Integer id) {
         Task task = service.findById(id);
         return ResponseEntity.ok(mapper.toDto(task));
+    }
+
+    @GetMapping("/byAssignedUser")
+    public ResponseEntity<List<TaskDto>> getTasksByUserId(@RequestParam(name="id") Integer userId) {
+        return ResponseEntity.ok(
+                service.findByUserId(userId)
+                        .stream()
+                        .map(mapper::toDto)
+                        .toList()
+        );
+    }
+
+    @GetMapping("/byCreatedBy")
+    public ResponseEntity<List<TaskDto>> getTasksByCreatedBy(@RequestParam(name="id") Integer createdById) {
+        return ResponseEntity.ok(
+                service.findByCreatedBy(createdById)
+                        .stream()
+                        .map(mapper::toDto)
+                        .toList()
+        );
     }
 
     @PostMapping
@@ -46,26 +67,7 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/createdby/{id}")
-    public ResponseEntity<List<TaskDto>> findTasksByCreatedBy(@PathVariable Integer id) {
-        return ResponseEntity.ok(
-                service.findByCreatedBy(id)
-                        .stream()
-                        .map(mapper::toDto)
-                        .toList()
-        );
-    }
-
-    @GetMapping("/assignedto/{id}")
-    public ResponseEntity<List<TaskDto>> findTasksByUserId(@PathVariable Integer id) {
-        return ResponseEntity.ok(
-                service.findByUserId(id)
-                        .stream()
-                        .map(mapper::toDto)
-                        .toList()
-        );
-    }
-
+    
     // Task processing
     @PostMapping(path = "{taskId}/subtasks/{subtaskId}/fastprocess")
     public ResponseEntity<Void> executeSubtaskFastProcessing(

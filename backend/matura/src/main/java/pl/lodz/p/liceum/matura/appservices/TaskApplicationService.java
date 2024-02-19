@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTask;
 import pl.lodz.p.liceum.matura.domain.task.Task;
 import pl.lodz.p.liceum.matura.domain.task.TaskAlreadyExistsException;
 import pl.lodz.p.liceum.matura.domain.task.TaskNotFoundException;
@@ -60,6 +61,7 @@ public class TaskApplicationService {
         }
     }
 
+    @AuthVerifyTask
     public void removeById(Integer id) {
         try {
             taskRemoveByIdTransaction(id);
@@ -72,6 +74,7 @@ public class TaskApplicationService {
     public Task findById(Integer id) {
         return taskService.findById(id);
     }
+
     public List<Task> findByCreatedBy(Integer createdAtId) {
         return taskService.findByCreatedBy(createdAtId);
     }
