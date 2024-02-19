@@ -28,7 +28,7 @@ class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UserIsNotAuthorizedToThisTemplateException.class)
-    public final ResponseEntity<ErrorResponse> handleUserIsNotAuthorizedToThisDeviceException(UserIsNotAuthorizedToThisTemplateException ex) {
+    public final ResponseEntity<ErrorResponse> handleUserIsNotAuthorizedToThisTemplateException(UserIsNotAuthorizedToThisTemplateException ex) {
         return buildResponse(ex, HttpStatus.METHOD_NOT_ALLOWED);
     }
     @ExceptionHandler(UserIsNotAuthorizedToThisTaskException.class)
