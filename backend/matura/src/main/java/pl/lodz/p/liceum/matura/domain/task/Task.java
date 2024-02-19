@@ -18,4 +18,7 @@ public class Task {
     private TaskState state;
     private Integer createdBy;
     private ZonedDateTime createdAt;
+    public boolean isUserTheOwnerOfThisTask(Integer userId) {
+        return createdBy.equals(userId);
+    }
 }
