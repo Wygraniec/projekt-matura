@@ -71,10 +71,11 @@ public class TaskController {
     // Task processing
     @PostMapping(path = "{taskId}/subtasks/{subtaskId}/fastprocess")
     public ResponseEntity<Void> executeSubtaskFastProcessing(
-            @PathVariable String taskId,
+            @PathVariable Integer taskId,
             @PathVariable String subtaskId,
             @RequestBody ExecuteCommand command) {
-        taskExecutor.executeSubtask(new Subtask(command.workspaceUrl(), subtaskId, TestType.FAST));
+        Task task = service.findById(taskId);
+        taskExecutor.executeSubtask(new Subtask(task.getWorkspaceUrl(), subtaskId, TestType.FAST));
         return ResponseEntity.ok().build();
     }
 
@@ -83,7 +84,8 @@ public class TaskController {
             @PathVariable Integer taskId,
             @PathVariable String subtaskId,
             @RequestBody ExecuteCommand command) {
-        taskExecutor.executeSubtask(new Subtask(command.workspaceUrl(), subtaskId, TestType.FULL));
+        Task task = service.findById(taskId);
+        taskExecutor.executeSubtask(new Subtask(task.getWorkspaceUrl(), subtaskId, TestType.FULL));
         return ResponseEntity.ok().build();
     }
 

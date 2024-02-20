@@ -13,45 +13,45 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Log
 public class TaskStorageAdapter implements TaskRepository {
+
     private final JpaTaskRepository repository;
     private final TaskEntityMapper mapper;
 
-
     @Override
-    public Task save(Task task) {
+    public Task save(final Task task) {
         try {
             TaskEntity saved = repository.save(mapper.toEntity(task));
             log.info("Saved entity " + saved);
             return mapper.toDomain(saved);
         } catch (DataIntegrityViolationException e) {
-            log.warning("Template " + task.getId() + " already exists");
+            log.warning("Task " + task.getId() + " already exists");
             throw new TaskAlreadyExistsException();
         }
     }
 
     @Override
-    public void update(Task task) {
+    public void update(final Task task) {
         repository
                 .findById(task.getId())
                 .ifPresent(taskEntity -> repository.save(mapper.toEntity(task)));
     }
 
     @Override
-    public void remove(Integer id) {
+    public void remove(final Integer id) {
         repository
                 .findById(id)
                 .ifPresent(taskEntity -> repository.deleteById(id));
     }
 
     @Override
-    public Optional<Task> findById(Integer id) {
+    public Optional<Task> findById(final Integer id) {
         return repository
                 .findById(id)
                 .map(mapper::toDomain);
     }
 
     @Override
-    public List<Task> findByCreatedBy(Integer createdAtId) {
+    public List<Task> findByCreatedBy(final Integer createdAtId) {
         return repository
                 .findByCreatedBy(createdAtId)
                 .stream()
@@ -61,7 +61,7 @@ public class TaskStorageAdapter implements TaskRepository {
     }
 
     @Override
-    public List<Task> findByUserId(Integer userId) {
+    public List<Task> findByUserId(final Integer userId) {
         return repository
                 .findByUserId(userId)
                 .stream()

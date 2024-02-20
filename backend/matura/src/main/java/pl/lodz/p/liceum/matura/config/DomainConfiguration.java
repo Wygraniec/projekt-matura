@@ -3,6 +3,7 @@ package pl.lodz.p.liceum.matura.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.lodz.p.liceum.matura.api.workspace.WorkspaceService;
 import pl.lodz.p.liceum.matura.domain.task.TaskExecutor;
 import pl.lodz.p.liceum.matura.domain.task.TaskRepository;
 import pl.lodz.p.liceum.matura.domain.task.TaskService;
@@ -11,6 +12,7 @@ import pl.lodz.p.liceum.matura.domain.template.TemplateService;
 import pl.lodz.p.liceum.matura.domain.user.EncodingService;
 import pl.lodz.p.liceum.matura.domain.user.UserRepository;
 import pl.lodz.p.liceum.matura.domain.user.UserService;
+import pl.lodz.p.liceum.matura.domain.workspace.Workspace;
 import pl.lodz.p.liceum.matura.external.storage.task.JpaTaskRepository;
 import pl.lodz.p.liceum.matura.external.storage.task.TaskEntityMapper;
 import pl.lodz.p.liceum.matura.external.storage.task.TaskStorageAdapter;
@@ -66,8 +68,11 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public TaskService taskService(TaskRepository taskRepository) {
-        return new TaskService(taskRepository);
+    public TaskService taskService(TaskRepository taskRepository, TemplateService templateService, Workspace workspace) {
+        return new TaskService(taskRepository, templateService, workspace);
     }
-
+    @Bean
+    public Workspace workspace() {
+        return new WorkspaceService("UserWorkspaces");
+    }
 }
