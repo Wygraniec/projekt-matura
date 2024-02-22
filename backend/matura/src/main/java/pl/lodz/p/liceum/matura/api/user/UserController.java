@@ -5,9 +5,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.liceum.matura.api.task.TaskDtoMapper;
+import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
 import pl.lodz.p.liceum.matura.appservices.UserApplicationService;
+import pl.lodz.p.liceum.matura.domain.task.Task;
 import pl.lodz.p.liceum.matura.domain.user.User;
 import pl.lodz.p.liceum.matura.security.Security;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -16,7 +21,9 @@ import pl.lodz.p.liceum.matura.security.Security;
 class UserController {
 
     private final UserApplicationService userService;
+    private final TaskApplicationService tasksService;
     private final UserDtoMapper userMapper;
+    private final TaskDtoMapper taskMapper;
     private final PageUserDtoMapper pageUserDtoMapper;
     private final Security security;
 
@@ -25,6 +32,16 @@ class UserController {
         User user = userService.findById(id);
         return ResponseEntity
                 .ok(userMapper.toDto(user));
+    }
+
+    @GetMapping(path = "/{id}/tasks")
+    public ResponseEntity<List<Integer>> getUserTaskIds(@PathVariable Integer id) {
+        return ResponseEntity.ok(
+                tasksService.findByUserId(id)
+                        .stream()
+                        .map(Task::getId)
+                        .toList()
+        );
     }
 
     @GetMapping

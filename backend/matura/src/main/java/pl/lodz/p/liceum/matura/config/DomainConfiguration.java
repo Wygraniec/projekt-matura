@@ -69,7 +69,7 @@ public class DomainConfiguration {
 
     @Bean
     public TaskService taskService(TaskRepository taskRepository, TemplateService templateService, Workspace workspace) {
-        return new TaskService(taskRepository, templateService, workspace);
+        return new TaskService(taskRepository);
     }
     @Bean
     public Workspace workspace() {

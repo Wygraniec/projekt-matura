@@ -1,12 +1,9 @@
 package pl.lodz.p.liceum.matura.api.task;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.lodz.p.liceum.matura.api.user.UserDto;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
-import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTask;
 import pl.lodz.p.liceum.matura.domain.task.*;
 
 import java.util.List;
@@ -26,18 +23,8 @@ public class TaskController {
         return ResponseEntity.ok(mapper.toDto(task));
     }
 
-    @GetMapping("/byAssignedUser")
-    public ResponseEntity<List<TaskDto>> getTasksByUserId(@RequestParam(name="id") Integer userId) {
-        return ResponseEntity.ok(
-                service.findByUserId(userId)
-                        .stream()
-                        .map(mapper::toDto)
-                        .toList()
-        );
-    }
-
-    @GetMapping("/byCreatedBy")
-    public ResponseEntity<List<TaskDto>> getTasksByCreatedBy(@RequestParam(name="id") Integer createdById) {
+    @GetMapping()
+    public ResponseEntity<List<TaskDto>> getTasksByCreatedBy(@RequestParam(name="createdById") Integer createdById) {
         return ResponseEntity.ok(
                 service.findByCreatedBy(createdById)
                         .stream()
@@ -62,7 +49,7 @@ public class TaskController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> removeUser(@PathVariable Integer id) {
+    public ResponseEntity<Void> removeTask(@PathVariable Integer id) {
         service.removeById(id);
         return ResponseEntity.noContent().build();
     }
