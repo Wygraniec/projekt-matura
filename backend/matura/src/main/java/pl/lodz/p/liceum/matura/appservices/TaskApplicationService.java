@@ -39,6 +39,12 @@ public class TaskApplicationService {
         return workspace.readFile(workspaceUrl, relativePath);
     }
 
+    public void writeFile(Integer taskId, Integer subtaskId, Integer fileIndex, byte[] bytes) {
+        String workspaceUrl = getWorkspaceUrl(taskId);
+        String relativePath = getRelativeFilePath(taskId, subtaskId, fileIndex);
+        workspace.writeFile(workspaceUrl, relativePath, bytes);
+    }
+
     public String getWorkspaceUrl(Integer taskId) {
         return taskService.findById(taskId).getWorkspaceUrl();
     }
