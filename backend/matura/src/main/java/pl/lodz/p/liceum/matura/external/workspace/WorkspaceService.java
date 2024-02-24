@@ -1,5 +1,7 @@
-package pl.lodz.p.liceum.matura.api.workspace;
+package pl.lodz.p.liceum.matura.external.workspace;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
@@ -16,7 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,8 +26,6 @@ import java.util.UUID;
 public class WorkspaceService implements Workspace {
 
     private final String baseWorkspace;
-//    private final String taskDefinitionFile;
-//    private final String resultFile;
 
     @Override
     public String createWorkspace(String sourceRepositoryUrl) {
@@ -35,25 +35,22 @@ public class WorkspaceService implements Workspace {
     }
 
     @Override
-    public List<String> getFilesList(String rootPathUrl) {
-//        String path = java.nio.file.Paths.get(rootPathUrl, taskDefinitionFile).toString();
-//
-//        var mapper = new ObjectMapper(new YAMLFactory());
-//        mapper.findAndRegisterModules();
-//
-//        TaskDefinition taskDefinition;
-//        try {
-//            taskDefinition = mapper.readValue(new File(path), TaskDefinition.class);
-//        } catch (IOException e) {
-//            throw new TaskWasNotCreatedProperlyException();
-//        }
-//
-//        return taskDefinition
-//                .getFilesToBeDeliveredToUser()
-//                .stream()
-//                .map(FileToBeDeliveredToUser::getFile)
-//                .collect(Collectors.toList());
-        throw new UnsupportedOperationException();
+    public Map<String, Object> readTaskDefinitionFile(final String rootPathUrl) {
+
+        String fullPath = java.nio.file.Paths.get(rootPathUrl, "task_definition.yml").toString();
+
+        Map<String, Object> data;
+        try {
+            // Create ObjectMapper and YAMLFactory
+            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+
+            // Read YAML file
+            data = mapper.readValue(new File(fullPath), Map.class);
+        } catch (IOException e) {
+            throw new FileWasNotFoundException();
+        }
+
+        return data;
     }
 
     @Override

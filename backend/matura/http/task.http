@@ -37,6 +37,24 @@ Authorization: {{auth_token}}
   "userId": 1
 }
 
+### get all tasks
+GET http://localhost:8080/api/v1/tasks
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### get task by id
+GET http://localhost:8080/api/v1/tasks/1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### get task definition
+GET http://localhost:8080/api/v1/tasks/1/definition
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
 ### execute subtask by Rafał Nowak
 POST http://localhost:8080/api/v1/tasks/123/process
 Accept: application/json

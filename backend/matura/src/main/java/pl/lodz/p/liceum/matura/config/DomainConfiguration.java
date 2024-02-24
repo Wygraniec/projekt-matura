@@ -3,7 +3,7 @@ package pl.lodz.p.liceum.matura.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.lodz.p.liceum.matura.api.workspace.WorkspaceService;
+import pl.lodz.p.liceum.matura.external.workspace.WorkspaceService;
 import pl.lodz.p.liceum.matura.domain.task.TaskExecutor;
 import pl.lodz.p.liceum.matura.domain.task.TaskRepository;
 import pl.lodz.p.liceum.matura.domain.task.TaskService;

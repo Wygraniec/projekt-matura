@@ -16,6 +16,7 @@ import pl.lodz.p.liceum.matura.domain.workspace.Workspace;
 import java.time.Clock;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,37 @@ public class TaskApplicationService {
     private final TemplateService templateService;
     private final Workspace workspace;
     private final Clock clock;
+
+    public Map<String, Object> readTaskDefinitionFile(Integer taskId) {
+        String workspaceUrl = getWorkspaceUrl(taskId);
+        return workspace.readTaskDefinitionFile(workspaceUrl);
+    }
+
+    public byte[] readFile(Integer taskId, Integer subtaskId, Integer fileIndex) {
+        String workspaceUrl = getWorkspaceUrl(taskId);
+        String relativePath = getRelativeFilePath(taskId, subtaskId, fileIndex);
+        return workspace.readFile(workspaceUrl, relativePath);
+    }
+
+    public String getWorkspaceUrl(Integer taskId) {
+        return taskService.findById(taskId).getWorkspaceUrl();
+    }
+
+    public String getRelativeFilePath(Integer taskId, Integer subtaskId, Integer fileIndex) {
+        Map<String, Object> taskDefinition = readTaskDefinitionFile(taskId);
+        String taskName = "task_" + subtaskId;
+        Map<String, Object> tasks = (Map<String, Object>) taskDefinition.get("tasks");
+        Map<String, Object> task = (Map<String, Object>) tasks.get(taskName);
+        List<String> files = (List<String>) task.get("files");
+        String relativePath = files.get(fileIndex);
+        return relativePath;
+    }
+
+    public String getFileName(Integer taskId, Integer subtaskId, Integer fileIndex) {
+        String relativePath = getRelativeFilePath(taskId, subtaskId, fileIndex);
+        String fileName = relativePath.substring(relativePath.lastIndexOf('/') + 1);
+        return fileName;
+    }
 
     @Transactional
     public Task taskSaveTransaction(Task taskToSave) {
