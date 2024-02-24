@@ -101,6 +101,13 @@
             <artifactId>org.eclipse.jgit</artifactId>
             <version>6.6.0.202305301015-r</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.15.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

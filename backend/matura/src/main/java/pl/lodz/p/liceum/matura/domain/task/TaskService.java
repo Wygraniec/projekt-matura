@@ -7,6 +7,7 @@ import pl.lodz.p.liceum.matura.domain.template.TemplateService;
 import pl.lodz.p.liceum.matura.domain.workspace.Workspace;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 public class TaskService {

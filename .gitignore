@@ -37,3 +37,4 @@ dist-ssr
 *.sln
 *.sw?
 /backend/matura/volumes/
+/backend/matura/UserWorkspaces/

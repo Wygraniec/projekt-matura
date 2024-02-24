@@ -1,12 +1,16 @@
 package pl.lodz.p.liceum.matura.api.task;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
+import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTask;
 import pl.lodz.p.liceum.matura.domain.task.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,6 +25,41 @@ public class TaskController {
     public ResponseEntity<TaskDto> getTask(@PathVariable Integer id) {
         Task task = service.findById(id);
         return ResponseEntity.ok(mapper.toDto(task));
+    }
+
+    @GetMapping(path = "/{id}/definition")
+    public ResponseEntity<Map<String, Object>> getTaskDefinition(@PathVariable Integer id) {
+        final Map<String, Object> taskDefinition = service.readTaskDefinitionFile(id);
+        return ResponseEntity.ok(taskDefinition);
+    }
+
+    @GetMapping(
+            path = "/{taskId}/subtasks/{subtaskId}/files/{fileId}"
+    )
+//    @AuthVerifyTask
+    public ResponseEntity<Object> getFileAssignedToUserTask(
+            @PathVariable Integer taskId,
+            @PathVariable Integer subtaskId,
+            @PathVariable Integer fileId
+    ) {
+        return createResponseEntityForFileAssignedToUserTask(taskId, subtaskId, fileId);
+    }
+
+    private ResponseEntity<Object> createResponseEntityForFileAssignedToUserTask(Integer taskId, Integer subtaskId, Integer fileId) {
+        Integer fileIndex = fileId - 1;
+        String fileName = service.getFileName(taskId, subtaskId, fileIndex);
+        byte[] file = service.readFile(taskId, subtaskId, fileIndex);
+        HttpHeaders headers = prepareHttpHeadersForFileResponse(fileName);
+        return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(file);
+    }
+
+    private HttpHeaders prepareHttpHeadersForFileResponse (String fileName) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+        return headers;
     }
 
     @GetMapping()

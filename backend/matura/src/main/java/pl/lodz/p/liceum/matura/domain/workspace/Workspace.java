@@ -1,12 +1,13 @@
 package pl.lodz.p.liceum.matura.domain.workspace;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Workspace {
 
     String createWorkspace(String sourceRepositoryUrl);
 
-    List<String> getFilesList(String rootPathUrl);
+    Map<String, Object> readTaskDefinitionFile(String rootPathUrl);
 
     void writeFile(String rootPathUrl, String path, byte[] bytes);
 
