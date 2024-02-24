@@ -5,10 +5,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import pl.lodz.p.liceum.matura.api.response.MessageResponse;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
 import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTask;
 import pl.lodz.p.liceum.matura.domain.task.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -36,13 +39,28 @@ public class TaskController {
     @GetMapping(
             path = "/{taskId}/subtasks/{subtaskId}/files/{fileId}"
     )
-//    @AuthVerifyTask
     public ResponseEntity<Object> getFileAssignedToUserTask(
             @PathVariable Integer taskId,
             @PathVariable Integer subtaskId,
             @PathVariable Integer fileId
     ) {
         return createResponseEntityForFileAssignedToUserTask(taskId, subtaskId, fileId);
+    }
+
+    @PostMapping(
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
+            path = "/{taskId}/subtasks/{subtaskId}/files/{fileId}"
+    )
+    public ResponseEntity<MessageResponse> postFileAssignedToUserTask(
+            @PathVariable Integer taskId,
+            @PathVariable Integer subtaskId,
+            @PathVariable Integer fileId,
+            @RequestParam("file") MultipartFile file
+    ) throws IOException {
+        Integer fileIndex = fileId - 1;
+        service.writeFile(taskId, subtaskId, fileIndex, file.getBytes());
+
+        return ResponseEntity.ok(new MessageResponse("The File Uploaded Successfully"));
     }
 
     private ResponseEntity<Object> createResponseEntityForFileAssignedToUserTask(Integer taskId, Integer subtaskId, Integer fileId) {
@@ -61,6 +79,8 @@ public class TaskController {
         headers.add("Expires", "0");
         return headers;
     }
+
+
 
     @GetMapping()
     public ResponseEntity<List<TaskDto>> getTasksByCreatedBy(@RequestParam(name="createdById") Integer createdById) {
