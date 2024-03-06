@@ -3,6 +3,11 @@ package pl.lodz.p.liceum.matura.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.lodz.p.liceum.matura.domain.subtask.SubtaskRepository;
+import pl.lodz.p.liceum.matura.domain.subtask.SubtaskService;
+import pl.lodz.p.liceum.matura.external.storage.subtask.JpaSubtaskRepository;
+import pl.lodz.p.liceum.matura.external.storage.subtask.SubtaskEntityMapper;
+import pl.lodz.p.liceum.matura.external.storage.subtask.SubtaskStorageAdapter;
 import pl.lodz.p.liceum.matura.external.workspace.WorkspaceService;
 import pl.lodz.p.liceum.matura.domain.task.TaskExecutor;
 import pl.lodz.p.liceum.matura.domain.task.TaskRepository;
@@ -48,8 +53,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public TaskExecutor taskExecutor1(KafkaTaskEvent kafkaTaskEvent, SubtaskEventMapper subtaskEventMapper) {
-        return new TaskWorkerAdapter(kafkaTaskEvent, subtaskEventMapper);
+    public TaskExecutor taskExecutor1(KafkaTaskEvent kafkaTaskEvent, SubtaskEventMapper subtaskEventMapper, TaskService taskService) {
+        return new TaskWorkerAdapter(kafkaTaskEvent, subtaskEventMapper, taskService);
     }
 
     @Bean
@@ -71,8 +76,19 @@ public class DomainConfiguration {
     public TaskService taskService(TaskRepository taskRepository, TemplateService templateService, Workspace workspace) {
         return new TaskService(taskRepository);
     }
+
     @Bean
     public Workspace workspace() {
         return new WorkspaceService("UserWorkspaces");
+    }
+
+    @Bean
+    public SubtaskRepository subtaskRepository(JpaSubtaskRepository jpaSubtaskRepository, SubtaskEntityMapper mapper) {
+        return new SubtaskStorageAdapter(jpaSubtaskRepository, mapper);
+    }
+
+    @Bean
+    public SubtaskService subtaskService(SubtaskRepository subtaskRepository) {
+        return new SubtaskService(subtaskRepository);
     }
 }
