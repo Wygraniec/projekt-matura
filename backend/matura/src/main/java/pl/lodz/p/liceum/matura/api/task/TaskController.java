@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.lodz.p.liceum.matura.api.response.MessageResponse;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
+import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
 import pl.lodz.p.liceum.matura.domain.subtask.Subtask;
 import pl.lodz.p.liceum.matura.domain.task.*;
 
@@ -121,7 +122,7 @@ public class TaskController {
             @PathVariable String subtaskId,
             @RequestBody ExecuteCommand command) {
         Task task = service.findById(taskId);
-        taskExecutor.executeSubtask(new Subtask(0, task.getId(), subtaskId, TestType.FAST));
+        taskExecutor.executeSubtask(new Subtask(task.getId(), subtaskId, VerificationType.FAST));
         return ResponseEntity.ok().build();
     }
 
@@ -131,7 +132,7 @@ public class TaskController {
             @PathVariable String subtaskId,
             @RequestBody ExecuteCommand command) {
         Task task = service.findById(taskId);
-        taskExecutor.executeSubtask(new Subtask(0, task.getId(), subtaskId, TestType.FULL));
+        taskExecutor.executeSubtask(new Subtask(task.getId(), subtaskId, VerificationType.FULL));
         return ResponseEntity.ok().build();
     }
 

@@ -3,11 +3,11 @@ package pl.lodz.p.liceum.matura.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.lodz.p.liceum.matura.domain.subtask.SubtaskRepository;
-import pl.lodz.p.liceum.matura.domain.subtask.SubtaskService;
-import pl.lodz.p.liceum.matura.external.storage.subtask.JpaSubtaskRepository;
-import pl.lodz.p.liceum.matura.external.storage.subtask.SubtaskEntityMapper;
-import pl.lodz.p.liceum.matura.external.storage.subtask.SubtaskStorageAdapter;
+import pl.lodz.p.liceum.matura.domain.submission.SubmissionRepository;
+import pl.lodz.p.liceum.matura.domain.submission.SubmissionService;
+import pl.lodz.p.liceum.matura.external.storage.submissions.JpaSubmissionRepository;
+import pl.lodz.p.liceum.matura.external.storage.submissions.SubmissionEntityMapper;
+import pl.lodz.p.liceum.matura.external.storage.submissions.SubmissionStorageAdapter;
 import pl.lodz.p.liceum.matura.external.workspace.WorkspaceService;
 import pl.lodz.p.liceum.matura.domain.task.TaskExecutor;
 import pl.lodz.p.liceum.matura.domain.task.TaskRepository;
@@ -83,12 +83,12 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public SubtaskRepository subtaskRepository(JpaSubtaskRepository jpaSubtaskRepository, SubtaskEntityMapper mapper) {
-        return new SubtaskStorageAdapter(jpaSubtaskRepository, mapper);
+    public SubmissionRepository submissionRepository(JpaSubmissionRepository jpaSubmissionRepository, SubmissionEntityMapper mapper) {
+        return new SubmissionStorageAdapter(jpaSubmissionRepository, mapper);
     }
 
     @Bean
-    public SubtaskService subtaskService(SubtaskRepository subtaskRepository) {
-        return new SubtaskService(subtaskRepository);
+    public SubmissionService submissionService(SubmissionRepository submissionRepository) {
+        return new SubmissionService(submissionRepository);
     }
 }
