@@ -1,9 +1,10 @@
-package pl.lodz.p.liceum.matura.external.storage.subtask;
+package pl.lodz.p.liceum.matura.external.storage.submissions;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
 
 import java.time.ZonedDateTime;
 
@@ -12,7 +13,7 @@ import java.time.ZonedDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SubtaskEntity {
+public class SubmissionEntity {
     @Id
     @SequenceGenerator(
             name = "task_id_seq",
@@ -26,19 +27,21 @@ public class SubtaskEntity {
     private Integer id;
 
     @Column(name="task_id", nullable = false)
-    private Integer templateId;
+    private Integer taskId;
+    @Column(name="verification", nullable = false)
+    private VerificationType verification;
 
-    @Column(name="created_by", nullable = false)
-    private Integer createdBy;
+    @Column(name="submitted_by", nullable = false)
+    private Integer submittedBy;
 
-    @Column(name="created_at", nullable = false)
-    private ZonedDateTime createdAt;
+    @Column(name="submitted_at", nullable = false)
+    private ZonedDateTime submittedAt;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SubtaskEntity that = (SubtaskEntity) o;
+        SubmissionEntity that = (SubmissionEntity) o;
         return id.equals(that.id);
     }
 
