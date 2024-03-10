@@ -1,8 +1,6 @@
 package pl.lodz.p.liceum.matura.domain.submission;
 
 import lombok.RequiredArgsConstructor;
-import pl.lodz.p.liceum.matura.domain.subtask.Subtask;
-import pl.lodz.p.liceum.matura.domain.task.TaskNotFoundException;
 
 @RequiredArgsConstructor
 public class SubmissionService {
@@ -23,6 +21,6 @@ public class SubmissionService {
     public Submission findById(Integer id) {
         return submissionRepository
                 .findById(id)
-                .orElseThrow(TaskNotFoundException::new);
+                .orElseThrow(SubmissionNotFoundException::new);
     }
 }

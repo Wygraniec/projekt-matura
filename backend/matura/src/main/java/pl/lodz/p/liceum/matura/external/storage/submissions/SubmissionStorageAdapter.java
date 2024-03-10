@@ -18,22 +18,22 @@ public class SubmissionStorageAdapter implements SubmissionRepository {
     private final SubmissionEntityMapper mapper;
 
     @Override
-    public Submission save(final Submission subtask) {
+    public Submission save(final Submission submission) {
         try {
-            SubmissionEntity saved = repository.save(mapper.toEntity(subtask));
+            SubmissionEntity saved = repository.save(mapper.toEntity(submission));
             log.info("Saved entity " + saved);
             return mapper.toDomain(saved);
         } catch (DataIntegrityViolationException e) {
-            log.warning("Subtask " + subtask.getId() + " already exists");
+            log.warning("Subtask " + submission.getId() + " already exists");
             throw new SubmissionAlreadyExistsException();
         }
     }
 
     @Override
-    public void update(final Submission task) {
+    public void update(final Submission submission) {
         repository
-                .findById(task.getId())
-                .ifPresent(taskEntity -> repository.save(mapper.toEntity(task)));
+                .findById(submission.getId())
+                .ifPresent(taskEntity -> repository.save(mapper.toEntity(submission)));
     }
 
     @Override
