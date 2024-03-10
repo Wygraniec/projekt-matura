@@ -3,8 +3,13 @@ package pl.lodz.p.liceum.matura.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.lodz.p.liceum.matura.domain.result.ResultRepository;
+import pl.lodz.p.liceum.matura.domain.result.ResultService;
 import pl.lodz.p.liceum.matura.domain.submission.SubmissionRepository;
 import pl.lodz.p.liceum.matura.domain.submission.SubmissionService;
+import pl.lodz.p.liceum.matura.external.storage.result.JpaResultRepository;
+import pl.lodz.p.liceum.matura.external.storage.result.ResultEntityMapper;
+import pl.lodz.p.liceum.matura.external.storage.result.ResultStorageAdapter;
 import pl.lodz.p.liceum.matura.external.storage.submissions.JpaSubmissionRepository;
 import pl.lodz.p.liceum.matura.external.storage.submissions.SubmissionEntityMapper;
 import pl.lodz.p.liceum.matura.external.storage.submissions.SubmissionStorageAdapter;
@@ -90,5 +95,14 @@ public class DomainConfiguration {
     @Bean
     public SubmissionService submissionService(SubmissionRepository submissionRepository) {
         return new SubmissionService(submissionRepository);
+    }
+    @Bean
+    public ResultRepository resultRepository(JpaResultRepository jpaResultRepository, ResultEntityMapper mapper) {
+        return new ResultStorageAdapter(jpaResultRepository, mapper);
+    }
+
+    @Bean
+    public ResultService resultService(ResultRepository resultRepository) {
+        return new ResultService(resultRepository);
     }
 }
