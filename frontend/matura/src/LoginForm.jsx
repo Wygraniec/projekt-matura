@@ -21,7 +21,7 @@ const InputField = ({label, type, ...props}) => {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
-        <FormControl id={name}>
+        <FormControl id={props.name}>
             <FormLabel htmlFor={props.name}>{label}</FormLabel>
             <Flex flexDirection='row'>
                 <Input
