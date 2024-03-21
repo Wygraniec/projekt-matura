@@ -1,15 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Home from './Home.jsx'
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import Login from "./Login.jsx";
 import { ChakraProvider } from "@chakra-ui/react";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home/>,
+        element: <Navigate to={'/login'}></Navigate>
     },
     {
         path: "/login",
