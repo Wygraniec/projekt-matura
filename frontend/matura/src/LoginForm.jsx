@@ -13,14 +13,39 @@ import {
 import {Form, Formik, useField} from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
+import {useState} from "react";
 
-const InputField = ({label, ...props}) => {
+const InputField = ({label, type, ...props}) => {
     const [field, meta] = useField(props);
+
+    const [showPassword, setShowPassword] = useState(false);
 
     return (
         <FormControl id={name}>
             <FormLabel htmlFor={props.name}>{label}</FormLabel>
-            <Input {...field} {...props}/>
+            <Flex flexDirection='row'>
+                <Input
+                    borderTopRightRadius={type === 'password' ? '0' : 'auto'}
+                    borderBottomRightRadius={type === 'password' ? '0' : 'auto'}
+                    {...field}
+                    {...props}
+                    type={type !== 'password'? type : showPassword ? 'text' : 'password'}
+                    autoComplete='1'
+                />
+                {type === 'password' && (
+                    <Button
+                        borderBottomLeftRadius='0'
+                        borderTopLeftRadius='0'
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? (
+                            <i className="fa-solid fa-eye-slash"/>
+                        ) : (
+                            <i className="fa-solid fa-eye"/>
+                        )}
+                    </Button>
+                )}
+            </Flex>
             {
                 meta.touched && meta.error ? (
                     <Alert className='error' status='error' mt='2'>
