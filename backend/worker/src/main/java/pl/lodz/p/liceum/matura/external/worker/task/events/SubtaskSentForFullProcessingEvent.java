@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SubtaskSentForFullProcessingEvent extends TaskEvent {
     String workspaceUrl;
-    Integer index;
+    Integer number;
 }

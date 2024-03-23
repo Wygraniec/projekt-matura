@@ -30,12 +30,12 @@ public class KafkaConsumer {
             log.info("Processing of task completed successfully at " + task.getWorkspaceUrl());
         } else if (taskEvent instanceof SubtaskFastProcessingCompleteEvent event) {
             Subtask subtask = subtaskEventMapper.toDomain(event);
-            log.info(String.format("Fast processing of subtask %s completed successfully with score %d", subtask.getIndex(), 100));
+            log.info(String.format("Fast processing of subtask %s completed successfully with score %d", subtask.getNumber(), 100));
             Result result = new Result(null, 0, 0, "", event.getScore());
             resultService.save(result);
         } else if (taskEvent instanceof SubtaskFullProcessingCompleteEvent event) {
             Subtask subtask = subtaskEventMapper.toDomain(event);
-            log.info(String.format("Full processing of subtask %s completed successfully with score %d", subtask.getIndex(), 100));
+            log.info(String.format("Full processing of subtask %s completed successfully with score %d", subtask.getNumber(), 100));
             Result result = new Result(null, 0, 0, "", event.getScore());
             resultService.save(result);
         } else if (taskEvent instanceof TaskProcessingFailedEvent) {
@@ -43,7 +43,7 @@ public class KafkaConsumer {
             log.info("Processing of task failed at " + task.getWorkspaceUrl());
         } else if (taskEvent instanceof SubtaskProcessingFailedEvent event) {
             Subtask subtask = subtaskEventMapper.toDomain(event);
-            log.info(String.format("Processing of subtask %s failed", subtask.getIndex()));
+            log.info(String.format("Processing of subtask %s failed", subtask.getNumber()));
         } else {
             log.info("Received taskEvent: " + taskEvent);
         }

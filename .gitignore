@@ -38,3 +38,4 @@ dist-ssr
 *.sw?
 /backend/matura/volumes/
 /backend/matura/UserWorkspaces/
+/frontend/matura/.env
