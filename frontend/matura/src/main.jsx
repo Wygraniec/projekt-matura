@@ -5,6 +5,7 @@ import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import LoginForm from "./LoginForm.jsx";
 import {ChakraProvider} from "@chakra-ui/react";
 import {DashboardWithAuth} from "./Dashboard.jsx";
+import theme from './theme'
 
 
 const router = createBrowserRouter([
@@ -26,7 +27,7 @@ ReactDOM
     .createRoot(document.getElementById('root'))
     .render(
         <React.StrictMode>
-            <ChakraProvider>
+            <ChakraProvider theme={theme}>
                 <RouterProvider router={router}/>
             </ChakraProvider>
         </React.StrictMode>,

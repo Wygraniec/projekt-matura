@@ -28,17 +28,7 @@ export class User {
 
     // TBD: implement a validation method working properly (a better API call?)
     async validate() {
-        // const response = await axios
-        //     .get(`${API}/v1/users/me`, {
-        //         headers: {
-        //             'Accept': 'application/json',
-        //             'Content-Type': 'application/json',
-        //             'Authorization': this.token,
-        //         }
-        //     })
-        //     .catch(e => {
-        //         console.log(e);
-        //     });
+
         return true;
     }
 
