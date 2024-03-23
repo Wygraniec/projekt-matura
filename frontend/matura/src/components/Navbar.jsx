@@ -9,9 +9,7 @@ import {
     Menu,
     MenuButton,
     MenuItem,
-    MenuList,
-    Text, useColorMode,
-    VStack
+    MenuList
 } from "@chakra-ui/react";
 import {logout, User} from "../services/userService.js";
 
