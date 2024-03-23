@@ -146,7 +146,7 @@ export const LoginForm = () => {
                                     isLoading={isSubmitting}
                                     loadingText={'Zaloguj się'}
                                 >
-                                    Zaloguj się {isSubmitting? 'wait' : null}
+                                    Zaloguj się
                                 </Button>
 
                             </CardBody>
