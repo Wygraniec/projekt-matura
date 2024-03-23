@@ -10,6 +10,6 @@ import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
 @NoArgsConstructor
 public class Subtask {
     Integer taskId;
-    Integer index;
+    Integer number;
     VerificationType type;
 }

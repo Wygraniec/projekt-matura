@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SubtaskFullProcessingCompleteEvent extends TaskEvent {
     String workspaceUrl;
-    Integer index;
+    Integer number;
     Integer score;
 }
