@@ -142,8 +142,11 @@ export const LoginForm = () => {
                                     type='submit'
                                     marginY={'25px'}
                                     colorScheme='blue'
-                                    disabled={!isValid || isSubmitting}>
-                                    Zaloguj się
+                                    disabled={!isValid || isSubmitting}
+                                    isLoading={isSubmitting}
+                                    loadingText={'Zaloguj się'}
+                                >
+                                    Zaloguj się {isSubmitting? 'wait' : null}
                                 </Button>
 
                             </CardBody>
