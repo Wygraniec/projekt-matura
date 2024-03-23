@@ -26,9 +26,7 @@ export class User {
         localStorage.setItem('user', JSON.stringify(this))
     }
 
-    // TBD: implement a validation method working properly (a better API call?)
-    async validate() {
-
+    validate() {
         return true;
     }
 
