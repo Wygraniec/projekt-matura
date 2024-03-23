@@ -28,19 +28,17 @@ export class User {
 
     // TBD: implement a validation method working properly (a better API call?)
     async validate() {
-        let response = await axios
-            .get(`${API}/v1/users/${this.id}`, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': this.token,
-                }
-            })
-            .catch(() => {
-                console.log('Verification unsuccessful');
-            })
-            .then(result => console.log(result))
-
+        // const response = await axios
+        //     .get(`${API}/v1/users/me`, {
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json',
+        //             'Authorization': this.token,
+        //         }
+        //     })
+        //     .catch(e => {
+        //         console.log(e);
+        //     });
         return true;
     }
 

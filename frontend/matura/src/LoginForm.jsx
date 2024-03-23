@@ -8,14 +8,17 @@ import {
     Input,
     Stack,
     Heading,
-    Button, AlertIcon, Alert
+    Button,
+    AlertIcon,
+    Alert,
+    useToast
 } from "@chakra-ui/react";
 import {Form, Formik, useField} from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import {useState} from "react";
 import {login, User} from "./services/userService.js";
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 
 const InputField = ({label, type, ...props}) => {
     const [field, meta] = useField(props);
@@ -31,7 +34,7 @@ const InputField = ({label, type, ...props}) => {
                     borderBottomRightRadius={type === 'password' ? '0' : 'auto'}
                     {...field}
                     {...props}
-                    type={type !== 'password'? type : showPassword ? 'text' : 'password'}
+                    type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
                     autoComplete='1'
                 />
                 {type === 'password' && (
@@ -68,11 +71,14 @@ InputField.propTypes = {
 }
 
 export const LoginForm = () => {
+    let navigate = useNavigate();
+    const toast = useToast();
+
     try {
-        if(User.fromLocalStorage() !== null)
+        if (User.fromLocalStorage() !== null)
             return <Navigate to='/dashboard'/>
-    } catch(e) { /* empty */ }
-    
+    } catch (e) { /* empty */}
+
     return (
         <Formik
             initialValues={{email: '', password: ''}}
@@ -92,10 +98,24 @@ export const LoginForm = () => {
 
             validateOnMount={true}
 
-            onSubmit={(values) => {
+            onSubmit={(values, {setSubmitting}) => {
+                setSubmitting(true);
                 login(values.email, values.password)
-                    .catch(() => alert('Podano nieprawidłowe dane logowania'))
-                    .then(() => window.location.reload());
+                    .then(() => {
+                        navigate('/dashboard');
+                    })
+                    .catch(() => {
+                        toast({
+                            title: "Błąd logowania",
+                            description: "Podano niepoprawne dane logowania",
+                            status: 'error',
+                            duration: 8000,
+                            isClosable: true,
+                        })
+                    })
+                    .finally(() => {
+                        setSubmitting(false)
+                    })
             }}>
 
             {({isValid, isSubmitting}) => (
