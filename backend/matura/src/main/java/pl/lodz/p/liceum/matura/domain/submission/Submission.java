@@ -13,7 +13,7 @@ public class Submission {
 
     private Integer id;
     private Integer taskId;
-    private VerificationType verificationType;
+    private VerificationType verification;
     private Integer submittedBy;
     private ZonedDateTime submittedAt;
 }

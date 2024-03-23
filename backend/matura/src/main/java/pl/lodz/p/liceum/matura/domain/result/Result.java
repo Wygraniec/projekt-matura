@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Result {
     private Integer id;
-    private Integer subtaskId;
+    private Integer submissionId;
     private Integer subtaskNumber;
     private String description;
     private Integer score;

@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Subtask extends Task {
-    String name;
+    Integer index;
     TestType type;
 
-    public Subtask(String workspaceUrl, String name, TestType type) {
-        this(name, type);
+    public Subtask(String workspaceUrl, Integer index, TestType type) {
+        this(index, type);
         this.workspaceUrl = workspaceUrl;
     }
 }

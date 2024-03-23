@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SubtaskFastProcessingCompleteEvent extends SubtaskEvent {
     String workspaceUrl;
-    String name;
+    Integer index;
+    Integer score;
 }

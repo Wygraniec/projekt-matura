@@ -24,7 +24,8 @@ public class SubmissionStorageAdapter implements SubmissionRepository {
             log.info("Saved entity " + saved);
             return mapper.toDomain(saved);
         } catch (DataIntegrityViolationException e) {
-            log.warning("Subtask " + submission.getId() + " already exists");
+            e.printStackTrace();
+            log.warning("Submission " + submission.getId() + " already exists");
             throw new SubmissionAlreadyExistsException();
         }
     }
