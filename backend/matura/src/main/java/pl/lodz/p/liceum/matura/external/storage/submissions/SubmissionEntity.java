@@ -5,24 +5,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
+import pl.lodz.p.liceum.matura.domain.template.TaskLanguage;
 
 import java.time.ZonedDateTime;
 
 @Entity
-@Table
+@Table(
+
+)
 @Getter
 @Setter
 @NoArgsConstructor
 public class SubmissionEntity {
     @Id
     @SequenceGenerator(
-            name = "task_id_seq",
-            sequenceName = "task_id_seq",
+            name = "submission_id_seq",
+            sequenceName = "submission_id_seq",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "task_id_seq"
+            generator = "submission_id_seq"
     )
     private Integer id;
 
@@ -36,6 +39,12 @@ public class SubmissionEntity {
 
     @Column(name="submitted_at", nullable = false)
     private ZonedDateTime submittedAt;
+
+    public SubmissionEntity(Integer id, Integer taskId, VerificationType verificationType) {
+        this.id = id;
+        this.taskId = taskId;
+        this.verification = verificationType;
+    }
 
     @Override
     public boolean equals(Object o) {

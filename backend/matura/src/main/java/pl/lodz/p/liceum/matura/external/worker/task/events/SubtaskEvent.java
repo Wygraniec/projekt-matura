@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubtaskEvent extends TaskEvent {
-    String workspaceUrl;
-    String name;
+    Integer index;
 }
 

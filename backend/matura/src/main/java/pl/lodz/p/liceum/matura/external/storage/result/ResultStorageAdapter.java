@@ -19,11 +19,12 @@ public class ResultStorageAdapter implements ResultRepository {
     @Override
     public Result save(final Result result) {
         try {
+            var a = mapper.toEntity(result);
             ResultEntity saved = repository.save(mapper.toEntity(result));
             log.info("Saved entity " + saved);
             return mapper.toDomain(saved);
         } catch (DataIntegrityViolationException e) {
-            log.warning("Subtask " + result.getId() + " already exists");
+            log.warning("Result " + result.getId() + " already exists");
             throw new ResultAlreadyExistsException();
         }
     }

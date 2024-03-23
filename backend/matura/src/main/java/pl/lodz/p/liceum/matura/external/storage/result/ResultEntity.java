@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
-
-import java.time.ZonedDateTime;
 
 @Entity
 @Table
@@ -16,13 +13,13 @@ import java.time.ZonedDateTime;
 public class ResultEntity {
     @Id
     @SequenceGenerator(
-            name = "task_id_seq",
+            name = "result_id_seq",
             sequenceName = "task_id_seq",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "task_id_seq"
+            generator = "result_id_seq"
     )
     private Integer id;
 

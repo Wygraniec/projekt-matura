@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.lodz.p.liceum.matura.api.response.MessageResponse;
+import pl.lodz.p.liceum.matura.appservices.SubmissionApplicationService;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
+import pl.lodz.p.liceum.matura.domain.submission.Submission;
 import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
 import pl.lodz.p.liceum.matura.domain.subtask.Subtask;
 import pl.lodz.p.liceum.matura.domain.task.*;
@@ -21,19 +23,20 @@ import java.util.Map;
 @RequestMapping(path = "/api/v1/tasks")
 public class TaskController {
 
-    private final TaskApplicationService service;
+    private final TaskApplicationService taskService;
+    private final SubmissionApplicationService submissionService;
     private final TaskExecutor taskExecutor;
-    private final TaskDtoMapper mapper;
+    private final TaskDtoMapper taskMapper;
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<TaskDto> getTask(@PathVariable Integer id) {
-        Task task = service.findById(id);
-        return ResponseEntity.ok(mapper.toDto(task));
+        Task task = taskService.findById(id);
+        return ResponseEntity.ok(taskMapper.toDto(task));
     }
 
     @GetMapping(path = "/{id}/definition")
     public ResponseEntity<Map<String, Object>> getTaskDefinition(@PathVariable Integer id) {
-        final Map<String, Object> taskDefinition = service.readTaskDefinitionFile(id);
+        final Map<String, Object> taskDefinition = taskService.readTaskDefinitionFile(id);
         return ResponseEntity.ok(taskDefinition);
     }
 
@@ -59,15 +62,15 @@ public class TaskController {
             @RequestParam("file") MultipartFile file
     ) throws IOException {
         Integer fileIndex = fileId - 1;
-        service.writeFile(taskId, subtaskId, fileIndex, file.getBytes());
+        taskService.writeFile(taskId, subtaskId, fileIndex, file.getBytes());
 
         return ResponseEntity.ok(new MessageResponse("The File Uploaded Successfully"));
     }
 
     private ResponseEntity<Object> createResponseEntityForFileAssignedToUserTask(Integer taskId, Integer subtaskId, Integer fileId) {
         Integer fileIndex = fileId - 1;
-        String fileName = service.getFileName(taskId, subtaskId, fileIndex);
-        byte[] file = service.readFile(taskId, subtaskId, fileIndex);
+        String fileName = taskService.getFileName(taskId, subtaskId, fileIndex);
+        byte[] file = taskService.readFile(taskId, subtaskId, fileIndex);
         HttpHeaders headers = prepareHttpHeadersForFileResponse(fileName);
         return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(file);
     }
@@ -86,9 +89,9 @@ public class TaskController {
     @GetMapping()
     public ResponseEntity<List<TaskDto>> getTasksByCreatedBy(@RequestParam(name="createdById") Integer createdById) {
         return ResponseEntity.ok(
-                service.findByCreatedBy(createdById)
+                taskService.findByCreatedBy(createdById)
                         .stream()
-                        .map(mapper::toDto)
+                        .map(taskMapper::toDto)
                         .toList()
         );
     }
@@ -96,21 +99,21 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<TaskDto> saveTask(@RequestBody TaskDto dto) {
         return ResponseEntity.ok(
-                mapper.toDto(
-                        service.save(mapper.toDomain(dto))
+                taskMapper.toDto(
+                        taskService.save(taskMapper.toDomain(dto))
                 )
         );
     }
 
     @PutMapping
     public ResponseEntity<TaskDto> updateTask(@RequestBody TaskDto dto) {
-        service.update(mapper.toDomain(dto));
+        taskService.update(taskMapper.toDomain(dto));
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> removeTask(@PathVariable Integer id) {
-        service.removeById(id);
+        taskService.removeById(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -119,9 +122,12 @@ public class TaskController {
     @PostMapping(path = "{taskId}/subtasks/{subtaskId}/fastprocess")
     public ResponseEntity<Void> executeSubtaskFastProcessing(
             @PathVariable Integer taskId,
-            @PathVariable String subtaskId,
+            @PathVariable Integer subtaskId,
             @RequestBody ExecuteCommand command) {
-        Task task = service.findById(taskId);
+        Task task = taskService.findById(taskId);
+        Submission submission = submissionService.save(
+                new Submission(null, task.getId(), VerificationType.FULL, null, null)
+        );
         taskExecutor.executeSubtask(new Subtask(task.getId(), subtaskId, VerificationType.FAST));
         return ResponseEntity.ok().build();
     }
@@ -129,9 +135,12 @@ public class TaskController {
     @PostMapping(path = "{taskId}/subtasks/{subtaskId}/fullprocess")
     public ResponseEntity<Void> executeSubtaskFullProcessing(
             @PathVariable Integer taskId,
-            @PathVariable String subtaskId,
+            @PathVariable Integer subtaskId,
             @RequestBody ExecuteCommand command) {
-        Task task = service.findById(taskId);
+        Task task = taskService.findById(taskId);
+        Submission submission = submissionService.save(
+                new Submission(null, task.getId(), VerificationType.FULL, null, null)
+        );
         taskExecutor.executeSubtask(new Subtask(task.getId(), subtaskId, VerificationType.FULL));
         return ResponseEntity.ok().build();
     }
@@ -141,7 +150,7 @@ public class TaskController {
             @PathVariable Integer taskId,
             @RequestBody ExecuteCommand command
     ) {
-        taskExecutor.executeTask(service.findById(taskId));
+        taskExecutor.executeTask(taskService.findById(taskId));
         return ResponseEntity.ok().build();
     }
 

@@ -7,7 +7,7 @@ import java.time.ZonedDateTime;
 public record SubmissionDto(
         Integer id,
         Integer taskId,
-        VerificationType type,
+        VerificationType verification,
         Integer submittedBy,
         ZonedDateTime submittedAt
 ) {

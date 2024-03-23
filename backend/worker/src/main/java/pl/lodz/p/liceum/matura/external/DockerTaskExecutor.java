@@ -12,9 +12,9 @@ import pl.lodz.p.liceum.matura.external.worker.task.DockerComposeGenerator;
 import pl.lodz.p.liceum.matura.external.worker.task.TaskDefinitionParser;
 import pl.lodz.p.liceum.matura.external.worker.task.definition.CheckData;
 import pl.lodz.p.liceum.matura.external.worker.task.definition.TaskDefinition;
-import pl.lodz.p.liceum.matura.external.worker.task.definition.TaskEnvironment;
 
 import java.io.*;
+import java.util.ArrayList;
 
 import static java.lang.Runtime.getRuntime;
 import static pl.lodz.p.liceum.matura.domain.ExecutionStatus.COMPLETED;
@@ -43,17 +43,18 @@ public class DockerTaskExecutor implements TaskExecutor {
 
     @Override
     public ExecutionStatus executeTask(Task task) {
-        log.info("Task started");
-
-        TaskDefinition taskDefinition = taskDefinitionParser.parse(task.getWorkspaceUrl() + "/task_definition.yml");
-
-        dockerComposeGenerator.generate(
-                task.getWorkspaceUrl() + "/docker-compose.yml",
-                taskDefinition.getEnvironment(),
-                taskDefinition.getVerification()
-        );
-
-        return execute(task);
+//        log.info("Task started");
+//
+//        TaskDefinition taskDefinition = taskDefinitionParser.parse(task.getWorkspaceUrl() + "/task_definition.yml");
+//
+//        dockerComposeGenerator.generate(
+//                task.getWorkspaceUrl() + "/docker-compose.yml",
+//                taskDefinition.getEnvironment(),
+//                taskDefinition.getVerification()
+//        );
+//
+//        return execute(task);
+        return null;
     }
 
     @Override
@@ -64,7 +65,7 @@ public class DockerTaskExecutor implements TaskExecutor {
 
         CheckData checkData = taskDefinition
                 .getTasks()
-                .get(subtask.getName())
+                .get("task_" + subtask.getIndex())
                 .getCheckTypes()
                 .get(subtask.getType().toString());
 

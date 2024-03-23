@@ -43,38 +43,38 @@ public class KafkaTaskProcessor {
 
         } else if (taskEvent instanceof SubtaskSentForFastProcessingEvent subtaskSentForFastProcessingEvent) {
             log.info("Received SubtaskSentForFastProcessingEvent: " + taskEvent);
-            Subtask subtask = new Subtask(taskEvent.getWorkspaceUrl(), subtaskSentForFastProcessingEvent.getName(), TestType.FAST);
+            Subtask subtask = new Subtask(taskEvent.getWorkspaceUrl(), subtaskSentForFastProcessingEvent.getIndex(), TestType.FAST);
             ExecutionStatus status = taskExecutor.executeSubtask(subtask);
 
             if(status == ExecutionStatus.FAILED) {
                 kafkaTemplate.send(
                         KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                        new SubtaskProcessingFailedEvent(subtask.getWorkspaceUrl(), subtask.getName())
+                        new SubtaskProcessingFailedEvent(subtask.getWorkspaceUrl(), subtask.getIndex())
                 );
                 return;
             }
 
             kafkaTemplate.send(
                     KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                    new SubtaskFastProcessingCompleteEvent(subtask.getWorkspaceUrl(), subtask.getName())
+                    new SubtaskFastProcessingCompleteEvent(subtask.getWorkspaceUrl(), subtask.getIndex(), 100)
             );
 
         } else if (taskEvent instanceof SubtaskSentForFullProcessingEvent subtaskSentForFullProcessingEvent) {
             log.info("Received SubtaskSentForFullProcessingEvent: " + taskEvent);
-            Subtask subtask = new Subtask(taskEvent.getWorkspaceUrl(), subtaskSentForFullProcessingEvent.getName(), TestType.FULL);
+            Subtask subtask = new Subtask(taskEvent.getWorkspaceUrl(), subtaskSentForFullProcessingEvent.getIndex(), TestType.FULL);
             ExecutionStatus status = taskExecutor.executeSubtask(subtask);
 
             if(status == ExecutionStatus.FAILED) {
                 kafkaTemplate.send(
                         KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                        new SubtaskProcessingFailedEvent(subtask.getWorkspaceUrl(), subtask.getName())
+                        new SubtaskProcessingFailedEvent(subtask.getWorkspaceUrl(), subtask.getIndex())
                 );
                 return;
             }
 
             kafkaTemplate.send(
                     KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                    new SubtaskFullProcessingCompleteEvent(subtask.getWorkspaceUrl(), subtask.getName())
+                    new SubtaskFullProcessingCompleteEvent(subtask.getWorkspaceUrl(), subtask.getIndex(), 100)
             );
 
         } else {
