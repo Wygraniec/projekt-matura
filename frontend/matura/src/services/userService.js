@@ -40,6 +40,8 @@ export class User {
                 console.log('Verification unsuccessful');
             })
             .then(result => console.log(result))
+
+        return true;
     }
 
     static fromApiResponse(data) {
