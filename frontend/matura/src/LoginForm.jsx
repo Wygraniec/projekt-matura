@@ -101,7 +101,7 @@ export const LoginForm = () => {
             {({isValid, isSubmitting}) => (
                 <Form>
                     <Flex justifyContent="center" alignItems="center" height="100vh">
-                        <Card minHeight={'35dvh'} minWidth={"30dvw"}>
+                        <Card variant='elevated' minHeight='40dvh' minWidth='50dvw'>
                             <CardHeader>
                                 <Heading>Logowanie</Heading>
                             </CardHeader>
