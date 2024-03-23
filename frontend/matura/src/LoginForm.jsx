@@ -75,9 +75,9 @@ export const LoginForm = () => {
     const toast = useToast();
 
     try {
-        if (User.fromLocalStorage() !== null)
+        if (User.fromLocalStorage() !== null && User.fromLocalStorage().validate())
             return <Navigate to='/dashboard'/>
-    } catch (e) { /* empty */}
+    } catch (e) { /* empty */ }
 
     return (
         <Formik
