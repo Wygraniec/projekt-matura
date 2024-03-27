@@ -52,7 +52,8 @@ export class User {
             data['userDto']['id'],
             data['userDto']['email'],
             data['userDto']['username'],
-            data['userDto']['role'])
+            data['userDto']['role']
+        )
     }
 }
 
