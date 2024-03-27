@@ -34,8 +34,11 @@ export const Navbar = () => {
             bg='#7A3530'
         >
             <Box>
-                <Button size='lg' variant="link" color="white" onClick={() => navigate('/dashboard')}>
+                <Button size='lg' variant="link" color="white" onClick={() => navigate('/dashboard')} margin='10px'>
                     Strona główna
+                </Button>
+                <Button size='lg' variant="link" color="white" onClick={() => navigate('/tasks')} margin='10px'>
+                    Zbiór zadań
                 </Button>
             </Box>
 

@@ -6,6 +6,7 @@ import LoginForm from "./LoginForm.jsx";
 import {ChakraProvider} from "@chakra-ui/react";
 import {DashboardWithAuth} from "./Dashboard.jsx";
 import theme from './theme'
+import {TaskListWithAuth} from "./TaskList.jsx";
 
 
 const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <DashboardWithAuth/>
+    },
+    {
+        path: '/tasks',
+        element: <TaskListWithAuth/>
     }
 ])
 
