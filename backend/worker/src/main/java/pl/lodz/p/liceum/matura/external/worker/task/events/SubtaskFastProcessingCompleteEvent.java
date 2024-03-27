@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubtaskFastProcessingCompleteEvent extends TaskEvent {
+    Integer submissionId;
     String workspaceUrl;
     Integer number;
     Integer score;

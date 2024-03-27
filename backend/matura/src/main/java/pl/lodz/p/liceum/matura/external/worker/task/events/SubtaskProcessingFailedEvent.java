@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubtaskProcessingFailedEvent extends SubtaskEvent {
+    Integer submissionId;
     String workspaceUrl;
     Integer number;
 }

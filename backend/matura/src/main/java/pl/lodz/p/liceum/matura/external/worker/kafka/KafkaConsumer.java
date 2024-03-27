@@ -31,12 +31,12 @@ public class KafkaConsumer {
         } else if (taskEvent instanceof SubtaskFastProcessingCompleteEvent event) {
             Subtask subtask = subtaskEventMapper.toDomain(event);
             log.info(String.format("Fast processing of subtask %s completed successfully with score %d", subtask.getNumber(), 100));
-            Result result = new Result(null, 0, 0, "", event.getScore());
+            Result result = new Result(null, subtask.getSubmissionId(), subtask.getNumber(), "", event.getScore());
             resultService.save(result);
         } else if (taskEvent instanceof SubtaskFullProcessingCompleteEvent event) {
             Subtask subtask = subtaskEventMapper.toDomain(event);
             log.info(String.format("Full processing of subtask %s completed successfully with score %d", subtask.getNumber(), 100));
-            Result result = new Result(null, 0, 0, "", event.getScore());
+            Result result = new Result(null, subtask.getSubmissionId(), subtask.getNumber(), "", event.getScore());
             resultService.save(result);
         } else if (taskEvent instanceof TaskProcessingFailedEvent) {
             Task task = taskEventMapper.toDomain(taskEvent);
