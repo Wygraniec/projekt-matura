@@ -49,14 +49,14 @@ public class KafkaTaskProcessor {
             if(result.getExecutionStatus() == ExecutionStatus.FAILED) {
                 kafkaTemplate.send(
                         KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                        new SubtaskProcessingFailedEvent(subtask.getWorkspaceUrl(), subtask.getNumber())
+                        new SubtaskProcessingFailedEvent(subtaskSentForFastProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber())
                 );
                 return;
             }
 
             kafkaTemplate.send(
                     KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                    new SubtaskFastProcessingCompleteEvent(subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore())
+                    new SubtaskFastProcessingCompleteEvent(subtaskSentForFastProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore())
             );
 
         } else if (taskEvent instanceof SubtaskSentForFullProcessingEvent subtaskSentForFullProcessingEvent) {
@@ -67,14 +67,14 @@ public class KafkaTaskProcessor {
             if(result.getExecutionStatus() == ExecutionStatus.FAILED) {
                 kafkaTemplate.send(
                         KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                        new SubtaskProcessingFailedEvent(subtask.getWorkspaceUrl(), subtask.getNumber())
+                        new SubtaskProcessingFailedEvent(subtaskSentForFullProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber())
                 );
                 return;
             }
 
             kafkaTemplate.send(
                     KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                    new SubtaskFullProcessingCompleteEvent(subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore())
+                    new SubtaskFullProcessingCompleteEvent(subtaskSentForFullProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore())
             );
 
         } else {

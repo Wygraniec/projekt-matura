@@ -9,6 +9,7 @@ import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Subtask {
+    Integer submissionId;
     Integer taskId;
     Integer number;
     VerificationType type;

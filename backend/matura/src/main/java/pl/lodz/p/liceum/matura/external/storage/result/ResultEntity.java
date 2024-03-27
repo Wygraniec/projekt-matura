@@ -14,7 +14,7 @@ public class ResultEntity {
     @Id
     @SequenceGenerator(
             name = "result_id_seq",
-            sequenceName = "task_id_seq",
+            sequenceName = "result_id_seq",
             allocationSize = 1
     )
     @GeneratedValue(

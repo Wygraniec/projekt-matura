@@ -13,7 +13,7 @@ Content-Type: application/json
 %}
 
 ### get result by id
-GET http://localhost:8080/api/v1/results/1
+GET http://localhost:8080/api/v1/results/2
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}

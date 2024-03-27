@@ -128,7 +128,7 @@ public class TaskController {
         Submission submission = submissionService.save(
                 new Submission(null, task.getId(), VerificationType.FULL, null, null)
         );
-        taskExecutor.executeSubtask(new Subtask(task.getId(), subtaskId, VerificationType.FAST));
+        taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskId, VerificationType.FAST));
         return ResponseEntity.ok().build();
     }
 
@@ -141,7 +141,7 @@ public class TaskController {
         Submission submission = submissionService.save(
                 new Submission(null, task.getId(), VerificationType.FULL, null, null)
         );
-        taskExecutor.executeSubtask(new Subtask(task.getId(), subtaskId, VerificationType.FULL));
+        taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskId, VerificationType.FULL));
         return ResponseEntity.ok().build();
     }
 
