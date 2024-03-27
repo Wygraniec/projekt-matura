@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API = import.meta.env.VITE_API_URL;
+const API = `${import.meta.env.VITE_API_URL}/v1`;
 
 export class User {
     constructor(token, id, email, username, role) {
@@ -26,7 +26,23 @@ export class User {
         localStorage.setItem('user', JSON.stringify(this))
     }
 
-    validate() {
+    getAuthHeader = () => ({
+        headers: {
+            Authorization: `Bearer ${this.token}`
+        }
+    })
+
+    async validate() {
+        var userData = null;
+
+        await axios
+            .get(`${API}/users/me`, this.getAuthHeader())
+            .then(res => userData = res.data)
+            .catch();
+
+        if(userData === null || this.id !== userData['id'] || this.role !== userData['role'])
+            logout()
+
         return true;
     }
 
@@ -42,7 +58,7 @@ export class User {
 
 export const login = async (username, password) => {
     let response = await axios
-        .post(`${API}/v1/auth/login`, {
+        .post(`${API}/auth/login`, {
             username: username,
             password: password
         })
