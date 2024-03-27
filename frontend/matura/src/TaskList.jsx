@@ -1,7 +1,6 @@
 import {withAuthentication} from "./routeAuthentication.jsx";
 import {useLocation} from "react-router-dom";
 import {Subpage} from "./components/Subpage.jsx";
-import {CodeEditor} from "./components/CodeEditor.jsx";
 
 const TaskList = () => {
     const location = useLocation();
