@@ -1,6 +1,8 @@
 package pl.lodz.p.liceum.matura.domain.template;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import pl.lodz.p.liceum.matura.domain.user.PageUser;
 
 @RequiredArgsConstructor
 public class TemplateService {
@@ -26,5 +28,8 @@ public class TemplateService {
         return templateRepository
                 .findById(id)
                 .orElseThrow(TemplateNotFoundException::new);
+    }
+    public PageTemplate findAll(Pageable pageable) {
+        return templateRepository.findAll(pageable);
     }
 }

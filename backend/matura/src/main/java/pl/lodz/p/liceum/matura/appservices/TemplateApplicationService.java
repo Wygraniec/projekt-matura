@@ -4,12 +4,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTemplate;
-import pl.lodz.p.liceum.matura.domain.template.Template;
-import pl.lodz.p.liceum.matura.domain.template.TemplateAlreadyExistsException;
-import pl.lodz.p.liceum.matura.domain.template.TemplateNotFoundException;
-import pl.lodz.p.liceum.matura.domain.template.TemplateService;
+import pl.lodz.p.liceum.matura.domain.template.*;
+import pl.lodz.p.liceum.matura.domain.user.PageUser;
 
 import java.time.Clock;
 import java.time.ZonedDateTime;
@@ -72,6 +71,9 @@ public class TemplateApplicationService {
     }
     public Template findById(Integer id) {
         return templateService.findById(id);
+    }
+    public PageTemplate findAll(Pageable pageable) {
+        return templateService.findAll(pageable);
     }
 
 }
