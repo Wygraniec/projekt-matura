@@ -23,7 +23,6 @@ class UserController {
     private final UserApplicationService userService;
     private final TaskApplicationService tasksService;
     private final UserDtoMapper userMapper;
-    private final TaskDtoMapper taskMapper;
     private final PageUserDtoMapper pageUserDtoMapper;
     private final Security security;
 

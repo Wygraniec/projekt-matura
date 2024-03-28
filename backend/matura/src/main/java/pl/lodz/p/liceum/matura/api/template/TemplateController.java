@@ -1,8 +1,11 @@
 package pl.lodz.p.liceum.matura.api.template;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.liceum.matura.api.user.PageUserDto;
 import pl.lodz.p.liceum.matura.appservices.TemplateApplicationService;
 import pl.lodz.p.liceum.matura.domain.template.Template;
 
@@ -12,12 +15,24 @@ import pl.lodz.p.liceum.matura.domain.template.Template;
 public class TemplateController {
     private final TemplateApplicationService templateService;
     private final TemplateDtoMapper templateMapper;
+    private final PageTemplateDtoMapper pageTemplateDtoMapper;
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<TemplateDto> getTemplate(@PathVariable Integer id) {
         return ResponseEntity.ok(
                 templateMapper.toDto(templateService.findById(id))
         );
+    }
+
+    @GetMapping
+    public ResponseEntity<PageTemplateDto> getUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        PageTemplateDto pageTemplate = pageTemplateDtoMapper.toPageDto(templateService.findAll(pageable));
+
+        return ResponseEntity.ok(pageTemplate);
     }
 
     @PostMapping

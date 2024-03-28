@@ -3,13 +3,20 @@ package pl.lodz.p.liceum.matura.external.storage.template;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import pl.lodz.p.liceum.matura.domain.template.PageTemplate;
 import pl.lodz.p.liceum.matura.domain.template.Template;
 import pl.lodz.p.liceum.matura.domain.template.TemplateAlreadyExistsException;
 import pl.lodz.p.liceum.matura.domain.template.TemplateRepository;
+import pl.lodz.p.liceum.matura.domain.user.PageUser;
+import pl.lodz.p.liceum.matura.domain.user.User;
 import pl.lodz.p.liceum.matura.domain.user.UserAlreadyExistsException;
 import pl.lodz.p.liceum.matura.external.storage.user.UserEntity;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Log
@@ -55,5 +62,18 @@ public class TemplateStorageAdapter implements TemplateRepository {
         return templateRepository
                 .findById(id)
                 .map(mapper::toDomain);
+    }
+    @Override
+    public PageTemplate findAll(final Pageable pageable) {
+        Page<TemplateEntity> pageOfTemplateEntity = templateRepository.findAll(pageable);
+        List<Template> templatesOnCurrentPage = pageOfTemplateEntity.getContent().stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+        return new PageTemplate(
+                templatesOnCurrentPage,
+                pageable.getPageNumber() + 1,
+                pageOfTemplateEntity.getTotalPages(),
+                pageOfTemplateEntity.getTotalElements()
+        );
     }
 }
