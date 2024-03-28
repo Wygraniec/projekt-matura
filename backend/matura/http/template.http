@@ -31,6 +31,18 @@ Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
 
+### get all templates
+GET http://localhost:8080/api/v1/templates
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### get all templates
+GET http://localhost:8080/api/v1/templates?page=0&size=3s
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
 ### delete template
 DELETE http://localhost:8080/api/v1/templates/1
 Accept: application/json
