@@ -24,7 +24,6 @@ import java.util.Map;
 public class TaskController {
 
     private final TaskApplicationService taskService;
-    private final SubmissionApplicationService submissionService;
     private final TaskExecutor taskExecutor;
     private final TaskDtoMapper taskMapper;
 
@@ -122,26 +121,16 @@ public class TaskController {
     @PostMapping(path = "{taskId}/subtasks/{subtaskId}/fastprocess")
     public ResponseEntity<Void> executeSubtaskFastProcessing(
             @PathVariable Integer taskId,
-            @PathVariable Integer subtaskId,
-            @RequestBody ExecuteCommand command) {
-        Task task = taskService.findById(taskId);
-        Submission submission = submissionService.save(
-                new Submission(null, task.getId(), VerificationType.FULL, null, null)
-        );
-        taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskId, VerificationType.FAST));
+            @PathVariable Integer subtaskId) {
+        taskService.executeSubtask(taskId, subtaskId, VerificationType.FAST);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "{taskId}/subtasks/{subtaskId}/fullprocess")
     public ResponseEntity<Void> executeSubtaskFullProcessing(
             @PathVariable Integer taskId,
-            @PathVariable Integer subtaskId,
-            @RequestBody ExecuteCommand command) {
-        Task task = taskService.findById(taskId);
-        Submission submission = submissionService.save(
-                new Submission(null, task.getId(), VerificationType.FULL, null, null)
-        );
-        taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskId, VerificationType.FULL));
+            @PathVariable Integer subtaskId) {
+        taskService.executeSubtask(taskId, subtaskId, VerificationType.FULL);
         return ResponseEntity.ok().build();
     }
 

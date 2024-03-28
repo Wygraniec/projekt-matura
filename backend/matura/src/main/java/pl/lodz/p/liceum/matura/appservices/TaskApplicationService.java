@@ -6,6 +6,9 @@ import lombok.extern.java.Log;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTask;
+import pl.lodz.p.liceum.matura.domain.submission.Submission;
+import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
+import pl.lodz.p.liceum.matura.domain.subtask.Subtask;
 import pl.lodz.p.liceum.matura.domain.task.*;
 import pl.lodz.p.liceum.matura.domain.template.Template;
 import pl.lodz.p.liceum.matura.domain.template.TemplateAlreadyExistsException;
@@ -27,6 +30,8 @@ public class TaskApplicationService {
     private final TemplateService templateService;
     private final Workspace workspace;
     private final Clock clock;
+    private final SubmissionApplicationService submissionService;
+    private final TaskExecutor taskExecutor;
 
     public Map<String, Object> readTaskDefinitionFile(Integer taskId) {
         String workspaceUrl = getWorkspaceUrl(taskId);
@@ -126,5 +131,12 @@ public class TaskApplicationService {
 
     public List<Task> findByUserId(Integer userId) {
         return taskService.findByUserId(userId);
+    }
+    public void executeSubtask(Integer taskId, Integer subtaskId, VerificationType verificationType) {
+        Task task = taskService.findById(taskId);
+        Submission submission = submissionService.save(
+                new Submission(null, task.getId(), verificationType, null, null)
+        );
+        taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskId, VerificationType.FULL));
     }
 }
