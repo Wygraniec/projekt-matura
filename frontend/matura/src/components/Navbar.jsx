@@ -3,27 +3,23 @@ import {
     Avatar,
     Box,
     Button,
+    DarkMode,
     Flex,
     Heading,
     HStack,
     Menu,
     MenuButton,
     MenuItem,
-    MenuList
+    MenuList,
+    useColorMode
 } from "@chakra-ui/react";
 import {logout, User} from "../services/userService.js";
 
 
 export const Navbar = () => {
+    const { colorMode, toggleColorMode } = useColorMode();
     const navigate = useNavigate();
     const user = User.fromLocalStorage();
-
-    let colorMode = localStorage.getItem('chakra-ui-color-mode')
-    const changeColorMode = () => {
-        localStorage.setItem('chakra-ui-color-mode', colorMode === 'light'? 'dark' : 'light');
-        colorMode = colorMode === 'light'? 'dark' : 'light';
-        window.location.reload();
-    }
 
     return (
         <Flex
@@ -43,21 +39,25 @@ export const Navbar = () => {
             </Box>
 
             <Menu>
-                <MenuButton as={Button} colorMode='dark'>
-                    <HStack>
-                        <Heading size='md' color='white'>{user.username}</Heading>
-                        <Avatar size='sm' name={user.username}/>
-                    </HStack>
-                </MenuButton>
+                <DarkMode>
+                    <MenuButton as={Button}>
+                        <HStack>
+                            <Heading size='md' color='white'>{user.username}</Heading>
+                            <Avatar size='sm' name={user.username}/>
+                        </HStack>
+                    </MenuButton>
+                </DarkMode>
+
 
                 <MenuList>
                     <MenuItem><i className="fa-solid fa-user fa-fw"/> Profil</MenuItem>
-                    <MenuItem onClick={changeColorMode}>
-                        <i className={'fa-solid fa-fw ' + (colorMode === 'light'? 'fa-moon' : 'fa-sun')}/>
-                        Ustaw {colorMode === 'light'? 'ciemny' : 'jasny'} motyw
+                    <MenuItem onClick={toggleColorMode}>
+                        <i className={'fa-solid fa-fw ' + (colorMode === 'light' ? 'fa-moon' : 'fa-sun')}/>
+                        Ustaw {colorMode === 'light' ? 'ciemny' : 'jasny'} motyw
                     </MenuItem>
                     <MenuItem><i className='fa-solid fa-gear fa-fw'/> Ustawienia </MenuItem>
-                    <MenuItem onClick={logout}><i className="fa-solid fa-right-from-bracket fa-fw"/> Wyloguj się</MenuItem>
+                    <MenuItem onClick={logout}><i className="fa-solid fa-right-from-bracket fa-fw"/> Wyloguj
+                        się</MenuItem>
                 </MenuList>
             </Menu>
         </Flex>
