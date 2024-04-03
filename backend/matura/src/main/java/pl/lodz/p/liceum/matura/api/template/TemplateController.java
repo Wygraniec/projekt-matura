@@ -25,7 +25,7 @@ public class TemplateController {
     }
 
     @GetMapping
-    public ResponseEntity<PageTemplateDto> getUsers(
+    public ResponseEntity<PageTemplateDto> getTemplates(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "6") int size
     ) {
