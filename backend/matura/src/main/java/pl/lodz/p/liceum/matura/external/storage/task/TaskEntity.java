@@ -32,6 +32,8 @@ public class TaskEntity {
 
     @Column(name="template_id", nullable = false)
     private Integer templateId;
+    @Column(name="number_of_subtasks", nullable = false)
+    private Integer numberOfSubtasks;
 
     @Column(name="workspace_url", nullable = false)
     private String workspaceUrl;

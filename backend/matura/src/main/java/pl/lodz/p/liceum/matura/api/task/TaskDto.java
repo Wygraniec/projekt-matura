@@ -8,6 +8,7 @@ public record TaskDto(
         Integer id,
         Integer userId,
         Integer templateId,
+        Integer numberOfSubtasks,
         String workspaceUrl,
         TaskState state,
         Integer createdBy,

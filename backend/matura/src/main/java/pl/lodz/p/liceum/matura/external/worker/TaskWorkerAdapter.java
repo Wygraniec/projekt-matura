@@ -17,9 +17,9 @@ import pl.lodz.p.liceum.matura.external.worker.task.events.TaskSentForProcessing
 @Log
 public class TaskWorkerAdapter implements TaskExecutor {
 
-   private final KafkaTaskEvent kafkaTaskEvent;
-   private final SubtaskEventMapper subtaskEventMapper;
-   private final TaskService taskService;
+    private final KafkaTaskEvent kafkaTaskEvent;
+    private final SubtaskEventMapper subtaskEventMapper;
+    private final TaskService taskService;
 
     @Override
     public void executeTask(Task task) {
@@ -29,10 +29,9 @@ public class TaskWorkerAdapter implements TaskExecutor {
     @Override
     public void executeSubtask(Subtask subtask) {
         Task task = taskService.findById(subtask.getTaskId());
-        if(subtask.getType() == VerificationType.FULL)
+        if (subtask.getType() == VerificationType.FULL)
             kafkaTaskEvent.send(new SubtaskSentForFullProcessingEvent(subtask.getSubmissionId(), task.getWorkspaceUrl(), subtask.getNumber()));
 
-        if(subtask.getType() == VerificationType.FAST)
-            kafkaTaskEvent.send(new SubtaskSentForFastProcessingEvent(subtask.getSubmissionId(), task.getWorkspaceUrl(), subtask.getNumber()));
+        if (subtask.getType() == VerificationType.FAST)
     }
 }

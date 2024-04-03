@@ -13,7 +13,6 @@ import pl.lodz.p.liceum.matura.external.worker.task.definition.TaskDefinition;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 
 import static java.lang.Runtime.getRuntime;
 import static pl.lodz.p.liceum.matura.domain.ExecutionStatus.COMPLETED;
@@ -32,7 +31,7 @@ public class DockerTaskExecutor implements TaskExecutor {
         try {
             var command = prepareCommand(task.getWorkspaceUrl());
             var process = getRuntime().exec(command);
-            log.info("Task started");
+            log.info("Execution started");
             return SUCCESS == process.waitFor() ? COMPLETED : FAILED;
         } catch (InterruptedException | IOException exception) {
             log.info(exception.toString());
@@ -67,7 +66,7 @@ public class DockerTaskExecutor implements TaskExecutor {
 //        );
 //
 //        return execute(task);
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -101,6 +100,4 @@ public class DockerTaskExecutor implements TaskExecutor {
         else
             return new String[]{"bash", "-c", "cd " + workspaceUrl + ";docker-compose up"};
     }
-
 }
-
