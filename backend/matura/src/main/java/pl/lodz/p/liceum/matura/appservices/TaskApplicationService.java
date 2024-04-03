@@ -11,8 +11,6 @@ import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
 import pl.lodz.p.liceum.matura.domain.subtask.Subtask;
 import pl.lodz.p.liceum.matura.domain.task.*;
 import pl.lodz.p.liceum.matura.domain.template.Template;
-import pl.lodz.p.liceum.matura.domain.template.TemplateAlreadyExistsException;
-import pl.lodz.p.liceum.matura.domain.template.TemplateNotFoundException;
 import pl.lodz.p.liceum.matura.domain.template.TemplateService;
 import pl.lodz.p.liceum.matura.domain.workspace.Workspace;
 
@@ -137,6 +135,15 @@ public class TaskApplicationService {
         Submission submission = submissionService.save(
                 new Submission(null, task.getId(), verificationType, null, null)
         );
-        taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskId, VerificationType.FULL));
+        taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskId, verificationType));
+    }
+    public void executeTask(Integer taskId) {
+        Task task = taskService.findById(taskId);
+        Submission submission = submissionService.save(
+                new Submission(null, task.getId(), VerificationType.FULL, null, null)
+        );
+        for (int subtaskNumber = 1; subtaskNumber <= task.getNumberOfSubtasks(); subtaskNumber++) {
+            taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskNumber, VerificationType.FULL));
+        }
     }
 }

@@ -24,7 +24,6 @@ import java.util.Map;
 public class TaskController {
 
     private final TaskApplicationService taskService;
-    private final TaskExecutor taskExecutor;
     private final TaskDtoMapper taskMapper;
 
     @GetMapping(path = "/{id}")
@@ -136,12 +135,9 @@ public class TaskController {
 
     @PostMapping("{taskId}/process")
     public ResponseEntity<Void> executeTask(
-            @PathVariable Integer taskId,
-            @RequestBody ExecuteCommand command
+            @PathVariable Integer taskId
     ) {
-        taskExecutor.executeTask(taskService.findById(taskId));
+        taskService.executeTask(taskId);
         return ResponseEntity.ok().build();
     }
-
-
 }

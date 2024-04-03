@@ -34,6 +34,7 @@ Authorization: {{auth_token}}
 
 {
   "templateId": 1,
+  "numberOfSubtasks": 3,
   "userId": 1
 }
 
