@@ -33,5 +33,6 @@ public class TaskWorkerAdapter implements TaskExecutor {
             kafkaTaskEvent.send(new SubtaskSentForFullProcessingEvent(subtask.getSubmissionId(), task.getWorkspaceUrl(), subtask.getNumber()));
 
         if (subtask.getType() == VerificationType.FAST)
+            kafkaTaskEvent.send(new SubtaskSentForFastProcessingEvent(subtask.getSubmissionId(), task.getWorkspaceUrl(), subtask.getNumber()));
     }
 }
