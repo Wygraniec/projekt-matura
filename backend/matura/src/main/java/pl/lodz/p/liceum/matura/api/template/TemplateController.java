@@ -5,8 +5,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.lodz.p.liceum.matura.api.user.PageUserDto;
 import pl.lodz.p.liceum.matura.appservices.TemplateApplicationService;
+import pl.lodz.p.liceum.matura.domain.template.TaskLanguage;
 import pl.lodz.p.liceum.matura.domain.template.Template;
 
 @RequiredArgsConstructor
@@ -31,6 +31,17 @@ public class TemplateController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         PageTemplateDto pageTemplate = pageTemplateDtoMapper.toPageDto(templateService.findAll(pageable));
+
+        return ResponseEntity.ok(pageTemplate);
+    }
+    @GetMapping(params = "taskLanguage")
+    public ResponseEntity<PageTemplateDto> getTemplatesByTaskLanguage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size,
+            @RequestParam TaskLanguage taskLanguage
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        PageTemplateDto pageTemplate = pageTemplateDtoMapper.toPageDto(templateService.findByTaskLanguage(taskLanguage, pageable));
 
         return ResponseEntity.ok(pageTemplate);
     }

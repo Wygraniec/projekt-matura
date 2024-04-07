@@ -22,7 +22,7 @@ Authorization: {{auth_token}}
 {
   "sourceUrl": "https://github.com/HubertM6/MaturaBinaryNumbersPython",
   "taskLanguage": "PYTHON",
-  "source": "Matura 05.2023"
+  "source": "Matura 05.20223"
 }
 
 ### get template by id
@@ -38,7 +38,13 @@ Content-Type: application/json
 Authorization: {{auth_token}}
 
 ### get all templates
-GET http://localhost:8080/api/v1/templates?page=0&size=3s
+GET http://localhost:8080/api/v1/templates?page=0&size=3
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### get all templates by task language
+GET http://localhost:8080/api/v1/templates?page=0&size=3&taskLanguage=PYTHON
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
