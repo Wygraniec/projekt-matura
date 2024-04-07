@@ -82,4 +82,17 @@ public class TemplateStorageAdapter implements TemplateRepository {
                 pageOfTemplateEntity.getTotalElements()
         );
     }
+    @Override
+    public PageTemplate findBySource(final String source, Pageable pageable) {
+        Page<TemplateEntity> pageOfTemplateEntity = templateRepository.findBySourceLike(source, pageable);
+        List<Template> templatesOnCurrentPage = pageOfTemplateEntity.getContent().stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+        return new PageTemplate(
+                templatesOnCurrentPage,
+                pageable.getPageNumber() + 1,
+                pageOfTemplateEntity.getTotalPages(),
+                pageOfTemplateEntity.getTotalElements()
+        );
+    }
 }

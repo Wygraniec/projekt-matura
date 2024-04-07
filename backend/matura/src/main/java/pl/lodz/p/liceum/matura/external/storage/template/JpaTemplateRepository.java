@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface JpaTemplateRepository extends JpaRepository<TemplateEntity, Integer> {
     Optional<TemplateEntity> findBySourceUrl(String sourceUrl);
     Page<TemplateEntity> findByTaskLanguage(TaskLanguage taskLanguage, Pageable pageable);
+    Page<TemplateEntity> findBySourceLike(String source, Pageable pageable);
 }

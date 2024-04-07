@@ -45,6 +45,17 @@ public class TemplateController {
 
         return ResponseEntity.ok(pageTemplate);
     }
+    @GetMapping(params = "source")
+    public ResponseEntity<PageTemplateDto> getTemplatesBySource(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size,
+            @RequestParam String source
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        PageTemplateDto pageTemplate = pageTemplateDtoMapper.toPageDto(templateService.findBySource(source, pageable));
+
+        return ResponseEntity.ok(pageTemplate);
+    }
 
     @PostMapping
     public ResponseEntity<TemplateDto> saveTemplate(@RequestBody TemplateDto dto) {

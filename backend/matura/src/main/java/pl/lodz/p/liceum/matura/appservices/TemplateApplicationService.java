@@ -69,14 +69,20 @@ public class TemplateApplicationService {
     public Template findBySourceUrl(String sourceUrl) {
         return templateService.findBySourceUrl(sourceUrl);
     }
+
     public Template findById(Integer id) {
         return templateService.findById(id);
     }
+
     public PageTemplate findAll(Pageable pageable) {
         return templateService.findAll(pageable);
     }
+
     public PageTemplate findByTaskLanguage(TaskLanguage taskLanguage, Pageable pageable) {
         return templateService.findByTaskLanguage(taskLanguage, pageable);
     }
 
+    public PageTemplate findBySource(String source, Pageable pageable) {
+        return templateService.findBySource(source, pageable);
+    }
 }
