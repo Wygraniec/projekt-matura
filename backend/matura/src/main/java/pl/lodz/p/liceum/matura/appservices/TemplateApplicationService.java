@@ -85,4 +85,7 @@ public class TemplateApplicationService {
     public PageTemplate findBySource(String source, Pageable pageable) {
         return templateService.findBySource(source, pageable);
     }
+    public PageTemplate findByTaskLanguageAndSource(TaskLanguage taskLanguage, String source, Pageable pageable) {
+        return templateService.findByTaskLanguageAndSource(taskLanguage, source, pageable);
+    }
 }

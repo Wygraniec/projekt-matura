@@ -37,4 +37,7 @@ public class TemplateService {
     public PageTemplate findBySource(String source, Pageable pageable) {
         return templateRepository.findBySource(source, pageable);
     }
+    public PageTemplate findByTaskLanguageAndSource(TaskLanguage taskLanguage, String source, Pageable pageable) {
+        return templateRepository.findByTaskLanguageAndSource(taskLanguage, source, pageable);
+    }
 }
