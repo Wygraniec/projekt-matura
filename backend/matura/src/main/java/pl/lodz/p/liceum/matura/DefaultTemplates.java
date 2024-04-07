@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 import pl.lodz.p.liceum.matura.domain.template.TaskLanguage;
 import pl.lodz.p.liceum.matura.domain.template.Template;
 import pl.lodz.p.liceum.matura.domain.template.TemplateService;
-import pl.lodz.p.liceum.matura.domain.user.User;
-import pl.lodz.p.liceum.matura.domain.user.UserRole;
 
 import java.time.ZonedDateTime;
 
