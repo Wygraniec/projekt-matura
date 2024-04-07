@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTemplate;
 import pl.lodz.p.liceum.matura.domain.template.*;
-import pl.lodz.p.liceum.matura.domain.user.PageUser;
 
 import java.time.Clock;
 import java.time.ZonedDateTime;
