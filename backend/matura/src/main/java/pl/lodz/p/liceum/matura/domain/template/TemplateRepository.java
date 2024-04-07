@@ -13,4 +13,5 @@ public interface TemplateRepository {
     PageTemplate findAll(Pageable pageable);
     PageTemplate findByTaskLanguage(TaskLanguage taskLanguage, Pageable pageable);
     PageTemplate findBySource(String source, Pageable pageable);
+    PageTemplate findByTaskLanguageAndSource(TaskLanguage taskLanguage, String source, Pageable pageable);
 }

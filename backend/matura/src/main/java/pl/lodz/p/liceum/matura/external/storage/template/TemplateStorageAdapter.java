@@ -50,12 +50,14 @@ public class TemplateStorageAdapter implements TemplateRepository {
                 .findBySourceUrl(sourceUrl)
                 .map(mapper::toDomain);
     }
+
     @Override
     public Optional<Template> findById(final Integer id) {
         return templateRepository
                 .findById(id)
                 .map(mapper::toDomain);
     }
+
     @Override
     public PageTemplate findAll(final Pageable pageable) {
         Page<TemplateEntity> pageOfTemplateEntity = templateRepository.findAll(pageable);
@@ -69,6 +71,7 @@ public class TemplateStorageAdapter implements TemplateRepository {
                 pageOfTemplateEntity.getTotalElements()
         );
     }
+
     @Override
     public PageTemplate findByTaskLanguage(final TaskLanguage taskLanguage, Pageable pageable) {
         Page<TemplateEntity> pageOfTemplateEntity = templateRepository.findByTaskLanguage(taskLanguage, pageable);
@@ -82,9 +85,24 @@ public class TemplateStorageAdapter implements TemplateRepository {
                 pageOfTemplateEntity.getTotalElements()
         );
     }
+
     @Override
     public PageTemplate findBySource(final String source, Pageable pageable) {
         Page<TemplateEntity> pageOfTemplateEntity = templateRepository.findBySourceLike(source, pageable);
+        List<Template> templatesOnCurrentPage = pageOfTemplateEntity.getContent().stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+        return new PageTemplate(
+                templatesOnCurrentPage,
+                pageable.getPageNumber() + 1,
+                pageOfTemplateEntity.getTotalPages(),
+                pageOfTemplateEntity.getTotalElements()
+        );
+    }
+
+    @Override
+    public PageTemplate findByTaskLanguageAndSource(final TaskLanguage taskLanguage, String source, Pageable pageable) {
+        Page<TemplateEntity> pageOfTemplateEntity = templateRepository.findByTaskLanguageAndSourceLike(taskLanguage, source, pageable);
         List<Template> templatesOnCurrentPage = pageOfTemplateEntity.getContent().stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());

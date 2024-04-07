@@ -11,4 +11,5 @@ public interface JpaTemplateRepository extends JpaRepository<TemplateEntity, Int
     Optional<TemplateEntity> findBySourceUrl(String sourceUrl);
     Page<TemplateEntity> findByTaskLanguage(TaskLanguage taskLanguage, Pageable pageable);
     Page<TemplateEntity> findBySourceLike(String source, Pageable pageable);
+    Page<TemplateEntity> findByTaskLanguageAndSourceLike(TaskLanguage taskLanguage, String source, Pageable pageable);
 }
