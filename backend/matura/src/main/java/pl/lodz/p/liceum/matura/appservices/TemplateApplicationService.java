@@ -75,5 +75,8 @@ public class TemplateApplicationService {
     public PageTemplate findAll(Pageable pageable) {
         return templateService.findAll(pageable);
     }
+    public PageTemplate findByTaskLanguage(TaskLanguage taskLanguage, Pageable pageable) {
+        return templateService.findByTaskLanguage(taskLanguage, pageable);
+    }
 
 }

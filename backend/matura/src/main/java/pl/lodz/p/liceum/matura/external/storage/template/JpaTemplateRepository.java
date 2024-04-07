@@ -1,10 +1,13 @@
 package pl.lodz.p.liceum.matura.external.storage.template;
 
-import io.micrometer.observation.ObservationFilter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import pl.lodz.p.liceum.matura.domain.template.TaskLanguage;
 
 import java.util.Optional;
 
 public interface JpaTemplateRepository extends JpaRepository<TemplateEntity, Integer> {
     Optional<TemplateEntity> findBySourceUrl(String sourceUrl);
+    Page<TemplateEntity> findByTaskLanguage(TaskLanguage taskLanguage, Pageable pageable);
 }

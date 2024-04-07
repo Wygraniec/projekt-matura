@@ -1,8 +1,6 @@
 package pl.lodz.p.liceum.matura.domain.template;
 
 import org.springframework.data.domain.Pageable;
-import pl.lodz.p.liceum.matura.domain.user.PageUser;
-import pl.lodz.p.liceum.matura.domain.user.User;
 
 import java.util.Optional;
 
@@ -13,4 +11,5 @@ public interface TemplateRepository {
     Optional<Template> findBySourceUrl(String sourceUrl);
     Optional<Template> findById(Integer id);
     PageTemplate findAll(Pageable pageable);
+    PageTemplate findByTaskLanguage(TaskLanguage taskLanguage, Pageable pageable);
 }
