@@ -49,7 +49,7 @@ public class DefaultTemplates implements CommandLineRunner {
             null,
             "https://github.com",
             TaskLanguage.PYTHON,
-            "Matura 05.2023",
+            "Matura 05.2022",
             0,
             ZonedDateTime.now()
     );
