@@ -66,3 +66,9 @@ DELETE http://localhost:8080/api/v1/templates/1
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
+
+### get available task languages
+GET http://localhost:8080/api/v1/templates/languages
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
