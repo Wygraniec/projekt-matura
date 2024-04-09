@@ -92,4 +92,10 @@ public class TemplateController {
         templateService.removeById(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/languages")
+    public ResponseEntity<TaskLanguage[]> getTemplate() {
+        return ResponseEntity.ok(
+                TaskLanguage.values()
+        );
+    }
 }
