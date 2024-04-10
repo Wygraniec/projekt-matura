@@ -6,7 +6,7 @@ export const Subpage = ({children}) => (
     <>
         <Navbar/>
 
-        <Box paddingX='20px' paddingY='10px' margin='10px'>
+        <Box paddingX='20px' paddingY='10px' margin='10px' minHeight='90dvh'>
             {children}
         </Box>
     </>
