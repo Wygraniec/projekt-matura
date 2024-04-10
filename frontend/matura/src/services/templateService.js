@@ -106,4 +106,7 @@ export const getTemplates = async (page = 0, pageSize = 10) => {
     )
 }
 
-
+export const getAvailableLanguages = async () => {
+    let request = await axios.get(`${API}/templates/languages`, User.fromLocalStorage().getAuthHeader())
+    return Object.values(request.data).sort()
+}
