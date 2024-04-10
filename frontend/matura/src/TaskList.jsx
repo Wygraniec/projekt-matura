@@ -1,7 +1,7 @@
 import {withAuthentication} from "./routeAuthentication.jsx";
 import {Link, Navigate, useLocation} from "react-router-dom";
 import {Subpage} from "./components/Subpage.jsx";
-import {getTemplates, Template, TemplatePage} from "./services/templateService.js";
+import {getAvailableLanguages, getTemplates, Template, TemplatePage} from "./services/templateService.js";
 import {useEffect, useMemo, useState} from "react";
 import {
     Box,
@@ -10,13 +10,14 @@ import {
     CardBody,
     CardHeader, Divider,
     Flex,
-    Image,
+    Image, Input, Select,
     Spinner,
     Text
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import {motion} from 'framer-motion'
 import ReactMarkdown from "react-markdown";
+import {Formik, Form} from "formik";
 
 export const PaginationLinks = ({totalPages, currentPage}) => {
     const paginationLinks = useMemo(() => {
@@ -160,23 +161,36 @@ TemplateCard.propTypes = {
     template: Template
 }
 
+const languagesText = {
+    'C_SHARP': 'C#',
+    'PYTHON': 'Python',
+    'JAVA': 'Java',
+    'CPP': 'C++'
+}
 
 const TaskList = () => {
     const location = useLocation();
     const [templatePage, setTemplatePage] = useState(new TemplatePage());
+    const [languages, setLanguages] = useState({});
     const [loading, setLoading] = useState(true);
 
     let page = Number(new URLSearchParams(location.search).get("page"));
     page = page === null ? 0 : page;
 
     useEffect(() => {
-        getTemplates(page, 4).then(
+        getTemplates(page, 5).then(
             page => {
                 setTemplatePage(page);
                 setLoading(false);
             }
         );
     }, [page]);
+
+    useEffect(() => {
+        getAvailableLanguages().then(languages => {
+            setLanguages(languages)
+        })
+    }, [languages])
 
     // TODO create an option to filter the available templates
     return (
@@ -195,6 +209,29 @@ const TaskList = () => {
 
             {!loading && (
                 <>
+                    <Box marginBottom='15px'>
+                        <Formik initialValues={{language: '', source: ''}} onSubmit={values => {}}>
+                            {() => (
+                                <Form>
+                                    <Flex flexDirection='row'>
+                                        <Select placeholder='Wybierz język' borderRightRadius='0' width='33%'
+                                                name='language'>
+                                            {languages.map(language =>
+                                                <option key={language}
+                                                        value={language}>{languagesText[language]}</option>)
+                                            }
+                                        </Select>
+                                        <Input type='text' borderRadius='0' placeholder='Pochodzenie zadania'
+                                               name='source'/>
+                                        <Button type='submit' borderLeftRadius='0'>
+                                            <i className="fa-solid fa-magnifying-glass fa-fw"/>
+                                        </Button>
+                                    </Flex>
+                                </Form>
+                            )}
+                        </Formik>
+                    </Box>
+
                     {templatePage.templates.map((template) => (
                         <TemplateCard template={template} id={template.id} key={template.id}/>
                     ))}
