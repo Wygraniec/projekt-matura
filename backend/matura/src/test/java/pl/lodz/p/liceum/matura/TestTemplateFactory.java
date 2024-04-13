@@ -16,7 +16,7 @@ public class TestTemplateFactory {
         templateSequence++;
         return new Template(
                 templateSequence,
-                "https://github.com/Wygraniec/projekt-matura",
+                "https://github.com/" + templateSequence,
                 TaskLanguage.C_SHARP,
                 "Matura 05.2023",
                 "C# task statement",
@@ -29,7 +29,7 @@ public class TestTemplateFactory {
         templateSequence++;
         return new Template(
                 templateSequence,
-                "https://github.com/amigoscode/cohort-2-e",
+                "https://github.com/" + templateSequence,
                 TaskLanguage.PYTHON,
                 "Matura 05.2023",
                 "Python task statement",
@@ -42,7 +42,7 @@ public class TestTemplateFactory {
         templateSequence++;
         return new Template(
                 templateSequence,
-                "https://github.com/amigoscode/spring-boot-fullstack-professional/",
+                "https://github.com/" + templateSequence,
                 TaskLanguage.JAVA,
                 "Matura 05.2023",
                 "Java task statement",
