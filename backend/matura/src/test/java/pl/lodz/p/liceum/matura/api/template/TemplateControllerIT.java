@@ -1,7 +1,9 @@
 package pl.lodz.p.liceum.matura.api.template;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import pl.lodz.p.liceum.matura.BaseIT;
@@ -10,6 +12,7 @@ import pl.lodz.p.liceum.matura.TestUserFactory;
 import pl.lodz.p.liceum.matura.api.response.ErrorResponse;
 import pl.lodz.p.liceum.matura.api.user.PageUserDto;
 import pl.lodz.p.liceum.matura.api.user.UserDto;
+import pl.lodz.p.liceum.matura.appservices.TaskStatementApplicationService;
 import pl.lodz.p.liceum.matura.domain.template.TaskLanguage;
 import pl.lodz.p.liceum.matura.domain.template.Template;
 import pl.lodz.p.liceum.matura.domain.template.TemplateService;
@@ -20,11 +23,14 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.notNull;
 
 class TemplateControllerIT extends BaseIT {
 
     @Autowired
     TemplateService service;
+    @MockBean
+    TaskStatementApplicationService taskStatementApplicationService;
 
     @Test
     void admin_should_get_information_about_any_template() {
@@ -87,6 +93,7 @@ class TemplateControllerIT extends BaseIT {
 
     @Test
     void admin_should_be_able_to_save_new_template() {
+        Mockito.when(taskStatementApplicationService.readTaskStatement((Template) notNull())).thenReturn("Test task statement");
         //given
         Template template = TestTemplateFactory.createCSharpTemplate();
         User admin = userService.save(TestUserFactory.createAdmin());

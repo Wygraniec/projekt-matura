@@ -36,8 +36,7 @@ public class TaskStatementApplicationService {
             reader.close();
             return responseBuilder.toString();
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Template statement cannot be read");
+            throw new TaskStatementCannotBeReadException();
         }
     }
     private String getDefaultBranch(Template template) throws IOException {
