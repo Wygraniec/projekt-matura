@@ -7,6 +7,7 @@ public record TemplateDto(
         String sourceUrl,
         String taskLanguage,
         String source,
+        String statement,
         Integer createdBy,
         ZonedDateTime createdAt
 ) { }

@@ -38,6 +38,8 @@ public class TemplateEntity {
 
     @Column(nullable = false)
     private String source;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String statement;
 
     private Integer createdBy;
 

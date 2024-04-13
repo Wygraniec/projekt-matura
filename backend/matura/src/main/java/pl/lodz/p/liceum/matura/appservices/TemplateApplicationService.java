@@ -17,11 +17,13 @@ import java.time.ZonedDateTime;
 @Log
 public class TemplateApplicationService {
     private final TemplateService templateService;
+    private final TaskStatementApplicationService taskStatementService;
     private final IAuthenticationFacade authenticationFacade;
     private final Clock clock;
 
     @Transactional
     public Template templateSaveTransaction(Template templateToSave) {
+        templateToSave.setStatement(taskStatementService.readTaskStatement(templateToSave));
         templateToSave.setCreatedAt(ZonedDateTime.now(clock));
         templateToSave.setCreatedBy(authenticationFacade.getLoggedInUserId());
         return templateService.save(templateToSave);
@@ -84,6 +86,7 @@ public class TemplateApplicationService {
     public PageTemplate findBySource(String source, Pageable pageable) {
         return templateService.findBySource(source, pageable);
     }
+
     public PageTemplate findByTaskLanguageAndSource(TaskLanguage taskLanguage, String source, Pageable pageable) {
         return templateService.findByTaskLanguageAndSource(taskLanguage, source, pageable);
     }

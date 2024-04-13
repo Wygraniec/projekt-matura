@@ -16,9 +16,10 @@ public class TestTemplateFactory {
         templateSequence++;
         return new Template(
                 templateSequence,
-                "newC#Template" + templateSequence + ".example.com",
+                "https://github.com/Wygraniec/projekt-matura",
                 TaskLanguage.C_SHARP,
                 "Matura 05.2023",
+                "C# task statement",
                 0,
                 ZonedDateTime.of(2023, 6, 17, 12, 40, 00, 0, ZoneId.of("UTC"))
         );
@@ -28,9 +29,10 @@ public class TestTemplateFactory {
         templateSequence++;
         return new Template(
                 templateSequence,
-                "newPythonTemplate" + templateSequence + ".example.com",
+                "https://github.com/amigoscode/cohort-2-e",
                 TaskLanguage.PYTHON,
                 "Matura 05.2023",
+                "Python task statement",
                 0,
                 ZonedDateTime.of(2023, 6, 17, 12, 40, 00, 0, ZoneId.of("UTC"))
         );
@@ -40,9 +42,10 @@ public class TestTemplateFactory {
         templateSequence++;
         return new Template(
                 templateSequence,
-                "newJavaTemplate" + templateSequence + ".example.com",
+                "https://github.com/amigoscode/spring-boot-fullstack-professional/",
                 TaskLanguage.JAVA,
                 "Matura 05.2023",
+                "Java task statement",
                 0,
                 ZonedDateTime.of(2023, 6, 17, 12, 40, 00, 0, ZoneId.of("UTC"))
         );
