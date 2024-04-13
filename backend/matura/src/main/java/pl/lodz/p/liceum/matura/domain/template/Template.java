@@ -14,6 +14,7 @@ public class Template {
     String sourceUrl;
     TaskLanguage taskLanguage;
     String source;
+    String statement;
     Integer createdBy;
     ZonedDateTime createdAt;
 

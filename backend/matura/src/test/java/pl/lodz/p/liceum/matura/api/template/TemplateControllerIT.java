@@ -123,6 +123,7 @@ class TemplateControllerIT extends BaseIT {
                 "newUrl.example.com",
                 TaskLanguage.JAVA,
                 "Matura 07.2023",
+                "Updated task statement",
                 template.getCreatedBy(),
                 template.getCreatedAt()
         );
@@ -168,6 +169,7 @@ class TemplateControllerIT extends BaseIT {
                 "newUrl.example.com",
                 TaskLanguage.JAVA,
                 "Matura 07.2023",
+                "Updated task statement",
                 template.getCreatedBy(),
                 template.getCreatedAt()
         );
@@ -196,6 +198,7 @@ class TemplateControllerIT extends BaseIT {
                 "newUrl.example.com",
                 TaskLanguage.JAVA,
                 "Matura 07.2023",
+                "Updated task statement",
                 template.getCreatedBy(),
                 template.getCreatedAt()
         );

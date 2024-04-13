@@ -12,7 +12,7 @@ class TemplateServiceIT extends BaseIT {
     TemplateService service;
 
     @Test
-    void add_user_test() {
+    void add_template_test() {
         //given
         Template template = TestTemplateFactory.createCSharpTemplate();
         service.save(template);
@@ -27,7 +27,7 @@ class TemplateServiceIT extends BaseIT {
     }
 
     @Test
-    void get_by_email_should_return_correct_user() {
+    void get_by_email_should_return_correct_template() {
         //given
         Template CSharpTemplate = TestTemplateFactory.createCSharpTemplate();
         Template PythonTemplate = TestTemplateFactory.createPythonTemplate();

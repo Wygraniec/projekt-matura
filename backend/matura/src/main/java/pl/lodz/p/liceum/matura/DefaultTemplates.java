@@ -24,6 +24,7 @@ public class DefaultTemplates implements CommandLineRunner {
             "https://github.com/HubertM6/MaturaBinaryNumbersPython",
             TaskLanguage.PYTHON,
             "Matura 05.2023",
+            "Matura 05.2023 Python",
             0,
             ZonedDateTime.now()
     );
@@ -32,6 +33,7 @@ public class DefaultTemplates implements CommandLineRunner {
             "https://github.com/HubertM6/MaturaBinaryNumbersCSharp",
             TaskLanguage.C_SHARP,
             "Matura 05.2023",
+            "Matura 05.2023 C#",
             0,
             ZonedDateTime.now()
     );
@@ -40,6 +42,7 @@ public class DefaultTemplates implements CommandLineRunner {
             "https://github.com/HubertM6/MaturaBinaryNumbersJava",
             TaskLanguage.JAVA,
             "Matura 05.2023",
+            "Matura 05.2023 Java",
             0,
             ZonedDateTime.now()
     );
@@ -48,6 +51,7 @@ public class DefaultTemplates implements CommandLineRunner {
             "https://github.com",
             TaskLanguage.PYTHON,
             "Matura 05.2022",
+            "Matura 05.2022 Python",
             0,
             ZonedDateTime.now()
     );
@@ -56,6 +60,7 @@ public class DefaultTemplates implements CommandLineRunner {
             "https://github.com",
             TaskLanguage.PYTHON,
             "31 OI Etap 1 Budowa lotniska",
+            "Etap 1, 31 OI, Budowa lotniska",
             0,
             ZonedDateTime.now()
     );
