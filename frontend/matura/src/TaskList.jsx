@@ -158,7 +158,7 @@ const TemplateCard = ({template, ...props}) => {
     )
 }
 TemplateCard.propTypes = {
-    template: Template
+    template: PropTypes.instanceOf(Template)
 }
 
 const languagesText = {
