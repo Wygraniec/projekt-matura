@@ -171,16 +171,15 @@ const languagesText = {
 const TaskList = () => {
     const location = useLocation();
     const [templatePage, setTemplatePage] = useState(new TemplatePage());
-    const [languages, setLanguages] = useState({});
+    const [languages, setLanguages] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    let page = Number(new URLSearchParams(location.search).get("page"));
-    page = page === null ? 0 : page;
+    let page = Number((new URLSearchParams(location.search)).get('page') || 0);
 
     useEffect(() => {
         getTemplates(page, 5).then(
-            page => {
-                setTemplatePage(page);
+            templatePage => {
+                setTemplatePage(templatePage);
                 setLoading(false);
             }
         );
@@ -190,7 +189,7 @@ const TaskList = () => {
         getAvailableLanguages().then(languages => {
             setLanguages(languages)
         })
-    }, [languages])
+    }, [])
 
     // TODO create an option to filter the available templates
     return (
