@@ -209,20 +209,39 @@ const TaskList = () => {
             {!loading && (
                 <>
                     <Box marginBottom='15px'>
-                        <Formik initialValues={{language: '', source: ''}} onSubmit={values => {}}>
-                            {() => (
+                        <Formik initialValues={{language: '', source: ''}} onSubmit={(values, {setSubmitting}) => {
+                            setSubmitting(true);
+                            console.log(values);
+                            setSubmitting(false);
+                        }}>
+                            {({values, isSubmitting, handleChange, handleBlur}) => (
                                 <Form>
                                     <Flex flexDirection='row'>
-                                        <Select placeholder='Wybierz język' borderRightRadius='0' width='33%'
-                                                name='language'>
-                                            {languages.map(language =>
-                                                <option key={language}
-                                                        value={language}>{languagesText[language]}</option>)
-                                            }
+                                        <Select
+                                            placeholder='Wybierz język'
+                                            borderRightRadius='0'
+                                            width='33%'
+                                            name='language'
+                                            value={values.language}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        >
+                                            {languages.map(language => (
+                                                <option key={language} value={language}>
+                                                    {languagesText[language]}
+                                                </option>
+                                            ))}
                                         </Select>
-                                        <Input type='text' borderRadius='0' placeholder='Pochodzenie zadania'
-                                               name='source'/>
-                                        <Button type='submit' borderLeftRadius='0'>
+                                        <Input
+                                            type='text'
+                                            borderRadius='0'
+                                            placeholder='Pochodzenie zadania'
+                                            name='source'
+                                            value={values.source}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+                                        <Button type='submit' borderLeftRadius='0' disabled={isSubmitting}>
                                             <i className="fa-solid fa-magnifying-glass fa-fw"/>
                                         </Button>
                                     </Flex>
