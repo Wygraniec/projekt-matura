@@ -36,6 +36,9 @@ export const Navbar = () => {
                 <Button size='lg' variant="link" color="white" onClick={() => navigate('/tasks')} margin='10px'>
                     Zbiór zadań
                 </Button>
+                <Button size='lg' variant="link" color="white" onClick={() => navigate('/mytasks')} margin='10px'>
+                    Moje zadania
+                </Button>
             </Box>
 
             <Menu>

@@ -8,8 +8,10 @@ import {DashboardWithAuth} from "./Dashboard.jsx";
 import theme from './theme'
 import {TaskListWithAuth} from "./TaskList.jsx";
 
+// eslint-disable-next-line react-refresh/only-export-components
 const TemplateDetails = () => {
     const {taskId} = useParams()
+    
     return <p>{taskId}</p>
 }
 
@@ -33,6 +35,10 @@ const router = createBrowserRouter([
     {
         path: "/tasks/:taskId",
         element: <TemplateDetails/>
+    },
+    {
+        path: '/mytasks',
+        element: <h1>Kiedyś tu coś będzie</h1>
     },
 ])
 
