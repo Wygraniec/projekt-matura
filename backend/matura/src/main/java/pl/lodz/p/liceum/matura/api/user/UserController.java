@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.liceum.matura.api.task.TaskDto;
 import pl.lodz.p.liceum.matura.api.task.TaskDtoMapper;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
 import pl.lodz.p.liceum.matura.appservices.UserApplicationService;
@@ -13,6 +14,7 @@ import pl.lodz.p.liceum.matura.domain.user.User;
 import pl.lodz.p.liceum.matura.security.Security;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -21,8 +23,9 @@ import java.util.List;
 class UserController {
 
     private final UserApplicationService userService;
-    private final TaskApplicationService tasksService;
+    private final TaskApplicationService taskService;
     private final UserDtoMapper userMapper;
+    private final TaskDtoMapper taskMapper;
     private final PageUserDtoMapper pageUserDtoMapper;
     private final Security security;
 
@@ -36,7 +39,7 @@ class UserController {
     @GetMapping(path = "/{id}/tasks")
     public ResponseEntity<List<Integer>> getUserTaskIds(@PathVariable Integer id) {
         return ResponseEntity.ok(
-                tasksService.findByUserId(id)
+                taskService.findByUserId(id)
                         .stream()
                         .map(Task::getId)
                         .toList()
@@ -80,6 +83,12 @@ class UserController {
         return ResponseEntity
                 .ok(userMapper.toDto(user));
     }
-
-
+    @GetMapping(path = "/{id}/pendingTask")
+    public ResponseEntity<TaskDto> getUser(
+            @PathVariable Integer id,
+            @RequestParam Integer templateId
+    ) {
+        Optional<Task> task = taskService.findPendingTaskForUser(id, templateId);
+        return task.map(value -> ResponseEntity.ok(taskMapper.toDto(value))).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

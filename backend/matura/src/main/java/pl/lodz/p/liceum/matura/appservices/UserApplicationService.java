@@ -27,10 +27,12 @@ public class UserApplicationService {
         userToSave.setCreatedBy(authenticationFacade.getLoggedInUserId());
         return userService.save(userToSave);
     }
+
     @Transactional
     public void userUpdateTransaction(User userToUpdate) {
         userService.update(userToUpdate);
     }
+
     @Transactional
     public void userRemoveByIdTransaction(Integer id) {
         userService.removeById(id);
