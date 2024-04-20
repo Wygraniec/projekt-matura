@@ -8,6 +8,7 @@ import pl.lodz.p.liceum.matura.domain.workspace.Workspace;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class TaskService {
@@ -37,5 +38,8 @@ public class TaskService {
 
     public List<Task> findByUserId(Integer userId) {
         return taskRepository.findByUserId(userId);
+    }
+    public Optional<Task> findByTemplateIdAndUserId(Integer templateId, Integer userId) {
+        return taskRepository.findByTemplateIdAndUserId(templateId, userId);
     }
 }

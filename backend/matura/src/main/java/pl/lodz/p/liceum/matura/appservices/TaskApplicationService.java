@@ -18,6 +18,7 @@ import java.time.Clock;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -145,5 +146,8 @@ public class TaskApplicationService {
         for (int subtaskNumber = 1; subtaskNumber <= task.getNumberOfSubtasks(); subtaskNumber++) {
             taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskNumber, VerificationType.FULL));
         }
+    }
+    public Optional<Task> findPendingTaskForUser(Integer userId, Integer templateId) {
+        return taskService.findByTemplateIdAndUserId(userId, templateId);
     }
 }

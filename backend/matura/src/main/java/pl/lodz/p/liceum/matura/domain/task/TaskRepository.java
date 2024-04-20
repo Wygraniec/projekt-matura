@@ -18,4 +18,5 @@ public interface TaskRepository {
     Optional<Task> findById(Integer id);
     List<Task> findByCreatedBy(Integer createdAtId);
     List<Task> findByUserId(Integer userId);
+    Optional<Task> findByTemplateIdAndUserId(Integer templateId, Integer userId);
 }
