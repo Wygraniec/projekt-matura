@@ -12,7 +12,7 @@ import {
     Flex, HStack,
     Image, Input, Select,
     Spinner,
-    Text
+    Text, useToast
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import {motion} from 'framer-motion'
@@ -37,16 +37,16 @@ export const PaginationLinks = ({totalPages, currentPage}) => {
     }, [totalPages, currentPage]);
 
     return <HStack maxWidth='70dvw'>
-        {currentPage - 1 >= 0? (
-        <Link to={`/tasks?page=${currentPage - 1}`}>
-            <Button size="md" margin="5px" width="2px">
-                <i className="fa-solid fa-angle-left" />
-            </Button>
-        </Link>
+        {currentPage - 1 >= 0 ? (
+            <Link to={`/tasks?page=${currentPage - 1}`}>
+                <Button size="md" margin="5px" width="2px">
+                    <i className="fa-solid fa-angle-left"/>
+                </Button>
+            </Link>
         ) : (
-        <Button size="md" margin="5px" width="2px" isDisabled>
-            <i className="fa-solid fa-angle-left" />
-        </Button>
+            <Button size="md" margin="5px" width="2px" isDisabled>
+                <i className="fa-solid fa-angle-left"/>
+            </Button>
         )}
 
         <HStack spacing={0} overflowX='scroll' css={{
@@ -70,16 +70,16 @@ export const PaginationLinks = ({totalPages, currentPage}) => {
             ))}
         </HStack>
 
-        {currentPage + 1 < totalPages? (
-        <Link to={`/tasks?page=${currentPage + 1}`}>
-            <Button size="md" margin="5px" width="2px">
-                <i className="fa-solid fa-angle-right" />
-            </Button>
-        </Link>
+        {currentPage + 1 < totalPages ? (
+            <Link to={`/tasks?page=${currentPage + 1}`}>
+                <Button size="md" margin="5px" width="2px">
+                    <i className="fa-solid fa-angle-right"/>
+                </Button>
+            </Link>
         ) : (
-        <Button size="md" margin="5px" width="2px" isDisabled>
-            <i className="fa-solid fa-angle-right" />
-        </Button>
+            <Button size="md" margin="5px" width="2px" isDisabled>
+                <i className="fa-solid fa-angle-right"/>
+            </Button>
         )}
     </HStack>;
 };
@@ -215,6 +215,7 @@ const languagesText = {
 
 const TaskList = () => {
     const location = useLocation();
+    const toast = useToast();
     const [templatePage, setTemplatePage] = useState(new TemplatePage());
     const [languages, setLanguages] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -224,10 +225,11 @@ const TaskList = () => {
 
     let page = Number((new URLSearchParams(location.search)).get('page') || 0);
 
-    if(page < 0)
+    if (page < 0)
         window.location = '/tasks?page=0';
 
     useEffect(() => {
+        setLoading(true);
         getTemplates(page, 5, templateLanguage, templateSource).then(
             templatePage => {
                 setTemplatePage(templatePage);
@@ -237,12 +239,23 @@ const TaskList = () => {
     }, [page, templateLanguage, templateSource]);
 
     useEffect(() => {
+        if(templatePage.totalElements === 0) {
+            toast({
+                title: 'Brak wyników',
+                description: 'Nie znaleziono zadań spełniających określone kryteria',
+                status: 'error',
+                duration: 4000,
+                isClosable: false
+            })
+        }
+    }, [templatePage]);
+
+    useEffect(() => {
         getAvailableLanguages().then(languages => {
             setLanguages(languages)
         })
     }, [])
 
-    // TODO create an option to filter the available templates
     return (
         <Subpage>
             {page >= templatePage.totalPages ? <Navigate to="/tasks"/> : null}
@@ -287,7 +300,7 @@ const TaskList = () => {
                                         <Input
                                             type='text'
                                             borderRadius='0'
-                                            placeholder='Pochodzenie zadania'
+                                            placeholder='Zadanie'
                                             name='source'
                                             value={values.source}
                                             onChange={handleChange}
@@ -306,13 +319,15 @@ const TaskList = () => {
                         <TemplateCard template={template} id={template.id} key={template.id}/>
                     ))}
 
-                    <Flex justifyContent='center' flexWrap='wrap'>
+                    <Flex justifyContent='center'>
                         <PaginationLinks totalPages={templatePage.totalPages} currentPage={page}/>
                     </Flex>
                 </>
-            )}
+            )
+            }
         </Subpage>
-    );
+    )
+        ;
 };
 
 export const TaskListWithAuth = withAuthentication(TaskList)
