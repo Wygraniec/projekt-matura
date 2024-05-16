@@ -22,8 +22,20 @@ export class TemplatePage {
     }
 }
 
-export const getTemplates = async (page = 0, pageSize = 10) => {
-    let request = await axios.get(`${API}/templates?page=${page}&size=${pageSize}`, User.fromLocalStorage().getAuthHeader())
+export const getTemplates = async (page = 0, pageSize = 10, language = '', source = '') => {
+    let endpoint = `${API}/templates?page=${page}&size=${pageSize}`
+
+    source = `*${source.replaceAll(' ', '*').replaceAll('.', '*')}*`
+
+    console.log(source)
+
+    if(language)
+        endpoint += `&taskLanguage=${language}`
+
+    if(source.replaceAll('*', ''))
+        endpoint += `&source=${source.replaceAll('*', '%25')}`
+
+    let request = await axios.get(endpoint, User.fromLocalStorage().getAuthHeader())
 
     return new TemplatePage(
         request.data['templates'].map(data => new Template(data['id'], data['taskLanguage'], data['statement'], data['source'], new Date(data['createdAt']))),

@@ -12,7 +12,7 @@ import {
     Flex, HStack,
     Image, Input, Select,
     Spinner,
-    Text, VStack
+    Text
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import {motion} from 'framer-motion'
@@ -49,8 +49,6 @@ export const PaginationLinks = ({totalPages, currentPage}) => {
         </Button>
         )}
 
-        {/*{paginationLinks}*/}
-
         <HStack spacing={0} overflowX='scroll' css={{
             '&::-webkit-scrollbar': {
                 width: '10px',
@@ -67,7 +65,9 @@ export const PaginationLinks = ({totalPages, currentPage}) => {
                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
             },
         }}>
-            {paginationLinks}
+            {paginationLinks.map((paginationLink) => (
+                paginationLink
+            ))}
         </HStack>
 
         {currentPage + 1 < totalPages? (
@@ -219,19 +219,23 @@ const TaskList = () => {
     const [languages, setLanguages] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const [templateLanguage, setTemplateLanguage] = useState('')
+    const [templateSource, setTemplateSource] = useState('')
+
     let page = Number((new URLSearchParams(location.search)).get('page') || 0);
 
     if(page < 0)
         window.location = '/tasks?page=0';
 
     useEffect(() => {
-        getTemplates(page, 5).then(
+        console.log('Getting tasks')
+        getTemplates(page, 5, templateLanguage, templateSource).then(
             templatePage => {
                 setTemplatePage(templatePage);
                 setLoading(false);
             }
         );
-    }, [page]);
+    }, [page, templateLanguage, templateSource]);
 
     useEffect(() => {
         getAvailableLanguages().then(languages => {
@@ -260,6 +264,8 @@ const TaskList = () => {
                         <Formik initialValues={{language: '', source: ''}} onSubmit={(values, {setSubmitting}) => {
                             setSubmitting(true);
                             console.log(values);
+                            setTemplateLanguage(values.language);
+                            setTemplateSource(values.source);
                             setSubmitting(false);
                         }}>
                             {({values, isSubmitting, handleChange, handleBlur}) => (
