@@ -9,10 +9,10 @@ import {
     Card,
     CardBody,
     CardHeader, Divider,
-    Flex,
+    Flex, HStack,
     Image, Input, Select,
     Spinner,
-    Text
+    Text, VStack
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import {motion} from 'framer-motion'
@@ -36,7 +36,52 @@ export const PaginationLinks = ({totalPages, currentPage}) => {
         return links;
     }, [totalPages, currentPage]);
 
-    return <>{paginationLinks}</>;
+    return <HStack maxWidth='70dvw'>
+        {currentPage - 1 >= 0? (
+        <Link to={`/tasks?page=${currentPage - 1}`}>
+            <Button size="md" margin="5px" width="2px">
+                <i className="fa-solid fa-angle-left" />
+            </Button>
+        </Link>
+        ) : (
+        <Button size="md" margin="5px" width="2px" isDisabled>
+            <i className="fa-solid fa-angle-left" />
+        </Button>
+        )}
+
+        {/*{paginationLinks}*/}
+
+        <HStack spacing={0} overflowX='scroll' css={{
+            '&::-webkit-scrollbar': {
+                width: '10px',
+                height: '10px',
+            },
+            '&::-webkit-scrollbar-track': {
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+            },
+            '&::-webkit-scrollbar-thumb': {
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: '5px',
+            },
+            '&::-webkit-scrollbar-thumb:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            },
+        }}>
+            {paginationLinks}
+        </HStack>
+
+        {currentPage + 1 < totalPages? (
+        <Link to={`/tasks?page=${currentPage + 1}`}>
+            <Button size="md" margin="5px" width="2px">
+                <i className="fa-solid fa-angle-right" />
+            </Button>
+        </Link>
+        ) : (
+        <Button size="md" margin="5px" width="2px" isDisabled>
+            <i className="fa-solid fa-angle-right" />
+        </Button>
+        )}
+    </HStack>;
 };
 PaginationLinks.propTypes = {
     totalPages: PropTypes.number,
@@ -175,6 +220,9 @@ const TaskList = () => {
     const [loading, setLoading] = useState(true);
 
     let page = Number((new URLSearchParams(location.search)).get('page') || 0);
+
+    if(page < 0)
+        window.location = '/tasks?page=0';
 
     useEffect(() => {
         getTemplates(page, 5).then(
