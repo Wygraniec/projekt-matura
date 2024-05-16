@@ -15,7 +15,7 @@ export class User {
         const storedUserJson = localStorage.getItem('user');
 
         if (!storedUserJson)
-            throw new Error("There is no user saved locally")
+            return null;
 
         let data = JSON.parse(storedUserJson);
 
