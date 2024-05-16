@@ -5,7 +5,7 @@ import {Heading} from "@chakra-ui/react";
 const TasksInstructor = () => {
     return (
         <Subpage>
-            <Heading>Tu będą 'moje zadania' w wersji dla instruktorów i administratorów</Heading>
+            <Heading>Tu będą zadania w wersji dla instruktorów i administratorów</Heading>
         </Subpage>
     )
 }

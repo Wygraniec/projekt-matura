@@ -5,7 +5,7 @@ import {Heading} from "@chakra-ui/react";
 const TasksStudent = () => {
     return (
         <Subpage>
-            <Heading>Tu będą 'moje zadania' w wersji dla ucznia</Heading>
+            <Heading>Tu będą zadania w wersji dla ucznia</Heading>
         </Subpage>
     )
 }
