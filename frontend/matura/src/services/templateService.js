@@ -27,8 +27,6 @@ export const getTemplates = async (page = 0, pageSize = 10, language = '', sourc
 
     source = `*${source.replaceAll(' ', '*').replaceAll('.', '*')}*`
 
-    console.log(source)
-
     if(language)
         endpoint += `&taskLanguage=${language}`
 
