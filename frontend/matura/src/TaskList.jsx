@@ -248,7 +248,7 @@ const TaskList = () => {
                 isClosable: false
             })
         }
-    }, [templatePage]);
+    }, [templatePage, toast]);
 
     useEffect(() => {
         getAvailableLanguages().then(languages => {
