@@ -228,7 +228,6 @@ const TaskList = () => {
         window.location = '/tasks?page=0';
 
     useEffect(() => {
-        console.log('Getting tasks')
         getTemplates(page, 5, templateLanguage, templateSource).then(
             templatePage => {
                 setTemplatePage(templatePage);
@@ -263,7 +262,6 @@ const TaskList = () => {
                     <Box marginBottom='15px'>
                         <Formik initialValues={{language: '', source: ''}} onSubmit={(values, {setSubmitting}) => {
                             setSubmitting(true);
-                            console.log(values);
                             setTemplateLanguage(values.language);
                             setTemplateSource(values.source);
                             setSubmitting(false);
