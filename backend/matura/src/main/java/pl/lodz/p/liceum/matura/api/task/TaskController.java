@@ -7,11 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.lodz.p.liceum.matura.api.response.MessageResponse;
-import pl.lodz.p.liceum.matura.appservices.SubmissionApplicationService;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
-import pl.lodz.p.liceum.matura.domain.submission.Submission;
 import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
-import pl.lodz.p.liceum.matura.domain.subtask.Subtask;
 import pl.lodz.p.liceum.matura.domain.task.*;
 
 import java.io.IOException;
