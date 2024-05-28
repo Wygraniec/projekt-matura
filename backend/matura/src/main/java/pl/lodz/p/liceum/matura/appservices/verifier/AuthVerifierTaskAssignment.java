@@ -16,33 +16,28 @@ import pl.lodz.p.liceum.matura.domain.user.UserService;
 import java.util.Arrays;
 
 import static pl.lodz.p.liceum.matura.domain.user.UserRole.ADMIN;
+import static pl.lodz.p.liceum.matura.domain.user.UserRole.INSTRUCTOR;
 
 
 @Component
 @Aspect
 @RequiredArgsConstructor
-public class AuthVerifierTask {
+public class AuthVerifierTaskAssignment {
 
     private final IAuthenticationFacade authenticationFacade;
     private final UserService userService;
     private final TaskService taskService;
 
 
-    @Before(value = "@annotation(authVerifyTask)")
-    public void userIsAdminOwnerOfTask(JoinPoint joinPoint, AuthVerifyTask authVerifyTask) {
-        Integer taskId = (Integer) getParameterByName(joinPoint, authVerifyTask.taskIdParamName());
+    @Before(value = "@annotation(authVerifyTaskAssignment)")
+    public void userHavePermissionToAssignThisTask(JoinPoint joinPoint, AuthVerifyTaskAssignment authVerifyTaskAssignment) {
+        Task task = (Task) getParameterByName(joinPoint, authVerifyTaskAssignment.taskParamName());
         User user = userService.findById(authenticationFacade.getLoggedInUserId());
 
-        Task task;
-        try {
-            task = taskService.findById(taskId);
-        } catch (Exception ex) {
-            throw new UserIsNotAuthorizedToThisTaskException("User is not authorized to this task.");
-        }
-
-        final boolean userIsOwnerOfThisTask = task.isUserTheOwnerOfThisTask(user.getId());
+        final boolean userIsAssignedToThisTask = task.isUserAssignedToThisTask(user.getId());
+        final boolean userIsInstructor = user.getRole().equals(INSTRUCTOR);
         final boolean userIsAdmin = user.getRole().equals(ADMIN);
-        boolean authorizationConfirmed = userIsOwnerOfThisTask || userIsAdmin;
+        boolean authorizationConfirmed = userIsAssignedToThisTask || userIsInstructor || userIsAdmin;
 
         if (!authorizationConfirmed) {
             throw new UserIsNotAuthorizedToThisTaskException("User is not authorized to this task.");

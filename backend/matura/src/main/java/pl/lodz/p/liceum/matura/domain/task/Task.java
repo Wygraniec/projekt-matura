@@ -3,7 +3,6 @@ package pl.lodz.p.liceum.matura.domain.task;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.lodz.p.liceum.matura.domain.user.User;
 
 import java.time.ZonedDateTime;
 
@@ -21,5 +20,8 @@ public class Task {
     private ZonedDateTime createdAt;
     public boolean isUserTheOwnerOfThisTask(Integer userId) {
         return createdBy.equals(userId);
+    }
+    public boolean isUserAssignedToThisTask(Integer userId) {
+        return this.userId.equals(userId);
     }
 }

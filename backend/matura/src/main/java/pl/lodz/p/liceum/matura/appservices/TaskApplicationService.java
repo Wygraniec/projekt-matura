@@ -6,6 +6,7 @@ import lombok.extern.java.Log;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTask;
+import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTaskAssignment;
 import pl.lodz.p.liceum.matura.domain.submission.Submission;
 import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
 import pl.lodz.p.liceum.matura.domain.subtask.Subtask;
@@ -86,6 +87,7 @@ public class TaskApplicationService {
         taskService.removeById(id);
     }
 
+    @AuthVerifyTaskAssignment
     public Task save(Task taskToSave) {
         try {
             Template template = templateService.findById(taskToSave.getTemplateId());
