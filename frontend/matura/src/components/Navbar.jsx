@@ -9,15 +9,18 @@ import {
     HStack,
     Menu,
     MenuButton,
+    MenuDivider,
+    MenuGroup,
     MenuItem,
     MenuList,
+    Text,
     useColorMode
 } from "@chakra-ui/react";
 import {logout, User} from "../services/userService.js";
 
 
 export const Navbar = () => {
-    const { colorMode, toggleColorMode } = useColorMode();
+    const {colorMode, toggleColorMode} = useColorMode();
     const navigate = useNavigate();
     const user = User.fromLocalStorage();
 
@@ -31,14 +34,47 @@ export const Navbar = () => {
         >
             <Box>
                 <Button size='lg' variant="link" color="white" onClick={() => navigate('/dashboard')} margin='10px'>
-                    Strona główna
+                    <i className="fa-solid fa-house"/><Text marginX='5px'>Strona główna</Text>
                 </Button>
+
                 <Button size='lg' variant="link" color="white" onClick={() => navigate('/tasks')} margin='10px'>
-                    Zbiór zadań
+                    <i className="fa-solid fa-fw fa-book-open"/> <Text marginX='5px'>Zbiór zadań</Text>
                 </Button>
-                <Button size='lg' variant="link" color="white" onClick={() => navigate('/mytasks')} margin='10px'>
-                    Moje zadania
-                </Button>
+
+                <Menu>
+                    <MenuButton as={Button} size='lg' variant="link" color='white' marginX='10px'>
+                        Moje zadania <i className="fa-solid fa-fw fa-angle-down"/>
+                    </MenuButton>
+                    <MenuList>
+                        {user.role === "INSTRUCTOR" && (
+                            <>
+                                <MenuGroup title='Przypisywanie'>
+                                    <MenuItem>Zarządzaj</MenuItem>
+                                    <MenuItem>Przypisz uczniowi</MenuItem>
+                                    <MenuItem>Przypisz grupie</MenuItem>
+                                </MenuGroup>
+                                <MenuDivider/>
+                                <MenuGroup title='Zadania'>
+                                    <MenuItem>Zarządzaj</MenuItem>
+                                    <MenuItem>Stwórz</MenuItem>
+                                </MenuGroup>
+                            </>
+                        )}
+
+                        {user.role === "STUDENT" && (
+                            <>
+                                <MenuItem>
+                                    <i className="fa-solid fa-fw fa-clipboard"/><Text marginX='2px'>Aktywne</Text>
+                                </MenuItem>
+
+                                <MenuItem>
+                                    <i className="fa-solid fa-fw fa-check-double"/><Text marginX='2px'>Rozwiązane</Text>
+                                </MenuItem>
+                            </>
+                        )}
+
+                    </MenuList>
+                </Menu>
             </Box>
 
             <Menu>
@@ -51,16 +87,19 @@ export const Navbar = () => {
                     </MenuButton>
                 </DarkMode>
 
-
                 <MenuList>
                     <MenuItem><i className="fa-solid fa-user fa-fw"/> Profil</MenuItem>
+
                     <MenuItem onClick={toggleColorMode}>
                         <i className={'fa-solid fa-fw ' + (colorMode === 'light' ? 'fa-moon' : 'fa-sun')}/>
                         Ustaw {colorMode === 'light' ? 'ciemny' : 'jasny'} motyw
                     </MenuItem>
+
                     <MenuItem><i className='fa-solid fa-gear fa-fw'/> Ustawienia </MenuItem>
-                    <MenuItem onClick={logout}><i className="fa-solid fa-right-from-bracket fa-fw"/> Wyloguj
-                        się</MenuItem>
+
+                    <MenuItem onClick={logout}><i className="fa-solid fa-right-from-bracket fa-fw"/>
+                        Wyloguj się
+                    </MenuItem>
                 </MenuList>
             </Menu>
         </Flex>
