@@ -1,11 +1,11 @@
-name: CI - Build Backend
+name: CI - Build Matura
 
 on:
   pull_request:
     branches:
       - main
     paths:
-      - backend/**
+      - backend/matura/**
 
 jobs:
   build:
