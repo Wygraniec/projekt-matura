@@ -1,4 +1,4 @@
-name: CD - Deploy Matura
+name: CD - Deploy Worker
 
 on:
   workflow_dispatch:
@@ -6,28 +6,14 @@ on:
     branches:
       - main
     paths:
-      - backend/matura/**
+      - backend/worker/**
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:15-alpine
-        env:
-          POSTGRES_USER: admin
-          POSTGRES_PASSWORD: admin
-          POSTGRES_DB: training
-        ports:
-          - 5432:5432
-        options:
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     defaults:
       run:
-        working-directory: ./backend/matura
+        working-directory: ./backend/worker
 
     steps:
       - uses: actions/checkout@v4

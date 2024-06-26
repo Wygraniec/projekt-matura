@@ -13,10 +13,14 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>worker</name>
 	<description>worker</description>
+
 	<properties>
 		<java.version>17</java.version>
 		<mapstruct.version>1.4.2.Final</mapstruct.version>
+		<docker.image.name>matura-worker</docker.image.name>
+		<docker.username>wygraniec</docker.username>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -81,6 +85,32 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:17</image>
+						<platforms>
+							<platform>
+								<architecture>arm64</architecture>
+								<os>linux</os>
+							</platform>
+							<platform>
+								<architecture>amd64</architecture>
+								<os>linux</os>
+							</platform>
+						</platforms>
+					</from>
+					<to>
+						<image>docker.io/${docker.username}/${docker.image.name}:${docker.image.tag}</image>
+						<tags>
+							<tag>latest</tag>
+						</tags>
+					</to>
 				</configuration>
 			</plugin>
 		</plugins>
