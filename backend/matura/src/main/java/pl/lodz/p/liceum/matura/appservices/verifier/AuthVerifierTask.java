@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import pl.lodz.p.liceum.matura.appservices.IAuthenticationFacade;
 import pl.lodz.p.liceum.matura.domain.task.Task;
 import pl.lodz.p.liceum.matura.domain.task.TaskService;
-import pl.lodz.p.liceum.matura.domain.template.Template;
 import pl.lodz.p.liceum.matura.domain.user.User;
 import pl.lodz.p.liceum.matura.domain.user.UserService;
 
@@ -30,7 +29,7 @@ public class AuthVerifierTask {
 
 
     @Before(value = "@annotation(authVerifyTask)")
-    public void userIsAdminOwnerOfTemplate(JoinPoint joinPoint, AuthVerifyTask authVerifyTask) {
+    public void userIsAdminOwnerOfTask(JoinPoint joinPoint, AuthVerifyTask authVerifyTask) {
         Integer taskId = (Integer) getParameterByName(joinPoint, authVerifyTask.taskIdParamName());
         User user = userService.findById(authenticationFacade.getLoggedInUserId());
 

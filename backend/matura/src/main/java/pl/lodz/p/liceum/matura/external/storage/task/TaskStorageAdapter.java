@@ -3,12 +3,13 @@ package pl.lodz.p.liceum.matura.external.storage.task;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.dao.DataIntegrityViolationException;
-import pl.lodz.p.liceum.matura.domain.task.Task;
-import pl.lodz.p.liceum.matura.domain.task.TaskAlreadyExistsException;
-import pl.lodz.p.liceum.matura.domain.task.TaskRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import pl.lodz.p.liceum.matura.domain.task.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Log
@@ -59,7 +60,19 @@ public class TaskStorageAdapter implements TaskRepository {
                 .toList();
 
     }
-
+    @Override
+    public PageTask findByUserIdAndStateIn(final Integer userId, List<TaskState> taskStates, Pageable pageable) {
+        Page<TaskEntity> pageOfTemplateEntity = repository.findByUserIdAndStateIn(userId, taskStates, pageable);
+        List<Task> tasksOnCurrentPage = pageOfTemplateEntity.getContent().stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+        return new PageTask(
+                tasksOnCurrentPage,
+                pageable.getPageNumber() + 1,
+                pageOfTemplateEntity.getTotalPages(),
+                pageOfTemplateEntity.getTotalElements()
+        );
+    }
     @Override
     public List<Task> findByUserId(final Integer userId) {
         return repository
