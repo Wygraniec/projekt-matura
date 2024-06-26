@@ -5,11 +5,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.liceum.matura.api.task.PageTaskDto;
+import pl.lodz.p.liceum.matura.api.task.PageTaskDtoMapper;
 import pl.lodz.p.liceum.matura.api.task.TaskDto;
 import pl.lodz.p.liceum.matura.api.task.TaskDtoMapper;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
 import pl.lodz.p.liceum.matura.appservices.UserApplicationService;
 import pl.lodz.p.liceum.matura.domain.task.Task;
+import pl.lodz.p.liceum.matura.domain.task.TaskState;
 import pl.lodz.p.liceum.matura.domain.user.User;
 import pl.lodz.p.liceum.matura.security.Security;
 
@@ -27,6 +30,7 @@ class UserController {
     private final UserDtoMapper userMapper;
     private final TaskDtoMapper taskMapper;
     private final PageUserDtoMapper pageUserDtoMapper;
+    private final PageTaskDtoMapper pageTaskDtoMapper;
     private final Security security;
 
     @GetMapping(path = "/{id}")
@@ -43,6 +47,18 @@ class UserController {
                         .stream()
                         .map(Task::getId)
                         .toList()
+        );
+    }
+    @GetMapping(path = "/{id}/tasks/byState")
+    public ResponseEntity<PageTaskDto> getUserTaskIds(
+            @PathVariable Integer id,
+            @RequestParam() List<TaskState> taskStates,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        PageTaskDto pageTasks = pageTaskDtoMapper.toPageDto(taskService.findByUserIdAndStateIn(id, taskStates, pageable));
+        return ResponseEntity.ok(
+                pageTasks
         );
     }
 

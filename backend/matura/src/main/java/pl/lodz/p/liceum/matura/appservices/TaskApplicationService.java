@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.liceum.matura.appservices.verifier.AuthVerifyTask;
 import pl.lodz.p.liceum.matura.domain.submission.Submission;
@@ -130,6 +131,9 @@ public class TaskApplicationService {
 
     public List<Task> findByUserId(Integer userId) {
         return taskService.findByUserId(userId);
+    }
+    public PageTask findByUserIdAndStateIn(final Integer userId, List<TaskState> taskStates, Pageable pageable) {
+        return taskService.findByUserIdAndStateIn(userId, taskStates, pageable);
     }
     public void executeSubtask(Integer taskId, Integer subtaskId, VerificationType verificationType) {
         Task task = taskService.findById(taskId);

@@ -35,11 +35,17 @@ Authorization: {{auth_token}}
 {
   "templateId": 1,
   "numberOfSubtasks": 3,
-  "userId": 1
+  "userId": 2
 }
 
 ### get all tasks
 GET http://localhost:8080/api/v1/tasks
+Accept: application/json
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+### get all user's tasks by state
+GET http://localhost:8080/api/v1/users/2/tasks/byState?page=0&size=3&taskStates=CREATED&taskStates=PROCESSING
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
@@ -55,16 +61,6 @@ GET http://localhost:8080/api/v1/tasks/1/definition
 Accept: application/json
 Content-Type: application/json
 Authorization: {{auth_token}}
-
-### execute subtask by Rafał Nowak
-POST http://localhost:8080/api/v1/tasks/123/process
-Accept: application/json
-Content-Type: application/json
-Authorization: {{auth_token}}
-
-{
-  "workspaceUrl": "/Users/rafalnowak/Dev/training/task1"
-}
 
 ### execute subtask
 POST http://localhost:8080/api/v1/tasks/1/subtasks/1/fastprocess
