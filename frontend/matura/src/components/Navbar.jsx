@@ -63,7 +63,7 @@ export const Navbar = () => {
 
                         {user.role === "STUDENT" && (
                             <>
-                                <MenuItem>
+                                <MenuItem onClick={() => navigate('/activeTasks')}>
                                     <i className="fa-solid fa-fw fa-clipboard"/><Text marginX='2px'>Aktywne</Text>
                                 </MenuItem>
 

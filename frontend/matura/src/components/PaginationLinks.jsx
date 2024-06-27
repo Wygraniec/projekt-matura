@@ -21,7 +21,7 @@ export const PaginationLinks = ({totalPages, currentPage}) => {
         }
 
         return links;
-    }, [totalPages, currentPage]);
+    }, [totalPages, currentPageUrl, currentPage]);
 
     return <HStack maxWidth='70dvw'>
         {currentPage - 1 >= 0 ? (
