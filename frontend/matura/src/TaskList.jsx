@@ -2,14 +2,14 @@ import {withAuthentication} from "./routeAuthentication.jsx";
 import {Link, Navigate, useLocation} from "react-router-dom";
 import {Subpage} from "./components/Subpage.jsx";
 import {getAvailableLanguages, getTemplates, Template, TemplatePage} from "./services/templateService.js";
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {
     Box,
     Button,
     Card,
     CardBody,
     CardHeader, Divider,
-    Flex, HStack,
+    Flex,
     Image, Input, Select,
     Spinner,
     Text, useToast
@@ -18,75 +18,7 @@ import PropTypes from "prop-types";
 import {motion} from 'framer-motion'
 import ReactMarkdown from "react-markdown";
 import {Formik, Form} from "formik";
-
-export const PaginationLinks = ({totalPages, currentPage}) => {
-    const paginationLinks = useMemo(() => {
-        const links = [];
-
-        for (let i = 1; i <= totalPages; i++) {
-            links.push(
-                <Link key={i} to={`/tasks?page=${i - 1}`}>
-                    <Button size="md" variant={currentPage === i - 1 ? "solid" : "outline"} margin='5px' width='2px'>
-                        {i}
-                    </Button>
-                </Link>
-            );
-        }
-
-        return links;
-    }, [totalPages, currentPage]);
-
-    return <HStack maxWidth='70dvw'>
-        {currentPage - 1 >= 0 ? (
-            <Link to={`/tasks?page=${currentPage - 1}`}>
-                <Button size="md" margin="5px" width="2px">
-                    <i className="fa-solid fa-angle-left"/>
-                </Button>
-            </Link>
-        ) : (
-            <Button size="md" margin="5px" width="2px" isDisabled>
-                <i className="fa-solid fa-angle-left"/>
-            </Button>
-        )}
-
-        <HStack spacing={0} overflowX='scroll' css={{
-            '&::-webkit-scrollbar': {
-                width: '10px',
-                height: '10px',
-            },
-            '&::-webkit-scrollbar-track': {
-                backgroundColor: 'rgba(0, 0, 0, 0.1)',
-            },
-            '&::-webkit-scrollbar-thumb': {
-                backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                borderRadius: '5px',
-            },
-            '&::-webkit-scrollbar-thumb:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            },
-        }}>
-            {paginationLinks.map((paginationLink) => (
-                paginationLink
-            ))}
-        </HStack>
-
-        {currentPage + 1 < totalPages ? (
-            <Link to={`/tasks?page=${currentPage + 1}`}>
-                <Button size="md" margin="5px" width="2px">
-                    <i className="fa-solid fa-angle-right"/>
-                </Button>
-            </Link>
-        ) : (
-            <Button size="md" margin="5px" width="2px" isDisabled>
-                <i className="fa-solid fa-angle-right"/>
-            </Button>
-        )}
-    </HStack>;
-};
-PaginationLinks.propTypes = {
-    totalPages: PropTypes.number,
-    currentPage: PropTypes.number
-}
+import {PaginationLinks} from "./components/PaginationLinks.jsx";
 
 const LanguageIcon = ({language, ...props}) => {
     switch (language) {
