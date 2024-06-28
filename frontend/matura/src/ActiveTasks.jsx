@@ -67,11 +67,9 @@ const ActiveTaskList = () => {
                         </Text>
                     ))}
                 </>
-            )
-            }
+            )}
         </Subpage>
-    )
-        ;
+    );
 };
 
 export const ActiveTaskListWithAuth = withAuthentication(ActiveTaskList)

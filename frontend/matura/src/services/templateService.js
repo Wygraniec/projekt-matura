@@ -11,6 +11,19 @@ export class Template {
         this.source = source
         this.createdAt = createdAt
     }
+
+    static async findById(id) {
+        let endpoint = `${API}/templates/${id}`
+        let data = (await axios.get(endpoint, User.fromLocalStorage().getAuthHeader())).data
+
+        return new Template(
+            data['id'],
+            data['language'],
+            data['statement'],
+            data['source'],
+            data['createdAt'],
+        )
+    }
 }
 
 export class TemplatePage {
