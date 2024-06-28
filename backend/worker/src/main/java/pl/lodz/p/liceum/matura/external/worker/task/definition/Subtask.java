@@ -8,7 +8,6 @@ import java.util.Map;
 
 @Data
 public class Subtask {
-    List<String> files;
 
     Map<String, CheckData> checkTypes;
 

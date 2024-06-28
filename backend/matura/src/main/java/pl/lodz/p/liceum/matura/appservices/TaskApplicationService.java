@@ -56,7 +56,7 @@ public class TaskApplicationService {
 
     public String getRelativeFilePath(Integer taskId) {
         Map<String, Object> taskDefinition = readTaskDefinitionFile(taskId);
-        String relativePath = (String) taskDefinition.get("source_file");
+        String relativePath = (String) taskDefinition.get("sourceFile");
         return relativePath;
     }
 

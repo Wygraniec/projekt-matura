@@ -7,6 +7,6 @@ import java.util.Map;
 @Data
 public class TaskDefinition {
     TaskEnvironment environment;
-    CheckData verification;
+    String sourceFile;
     Map<String, Subtask> tasks;
 }
