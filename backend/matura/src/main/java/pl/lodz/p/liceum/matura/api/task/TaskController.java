@@ -46,16 +46,13 @@ public class TaskController {
 
     @PostMapping(
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
-            path = "/{taskId}/subtasks/{subtaskId}/files/{fileId}"
+            path = "/{taskId}/file"
     )
     public ResponseEntity<MessageResponse> postFileAssignedToUserTask(
             @PathVariable Integer taskId,
-            @PathVariable Integer subtaskId,
-            @PathVariable Integer fileId,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        Integer fileIndex = fileId - 1;
-        taskService.writeFile(taskId, subtaskId, fileIndex, file.getBytes());
+        taskService.writeFile(taskId, file.getBytes());
 
         return ResponseEntity.ok(new MessageResponse("The File Uploaded Successfully"));
     }
