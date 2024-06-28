@@ -105,23 +105,24 @@ const SolveTask = () => {
                                 </Menu>
 
                                 <Button
-                                    onClick={
-                                        () => task.saveFile(fileContents).then(success => success ?
-                                            toast({
-                                                title: 'Zapisano',
-                                                description: 'Zmiany zostały zapisane pomyślnie',
-                                                status: 'success',
-                                                duration: 4000,
-                                                isClosable: true
-                                            }) :
-                                            toast({
-                                                title: 'Wystąpił błąd',
-                                                description: 'Zapisywanie nie powiodło się',
-                                                status: 'error',
-                                                duration: 3000,
-                                                isClosable: true
-                                            })
-                                        )}
+                                    onClick={() => task.saveFile(fileContents)
+                                        .then(success => {
+                                            success ?
+                                                toast({
+                                                    title: 'Zapisano',
+                                                    description: 'Zmiany zostały zapisane pomyślnie',
+                                                    status: 'success',
+                                                    duration: 4000,
+                                                    isClosable: true
+                                                }) :
+                                                toast({
+                                                    title: 'Wystąpił błąd',
+                                                    description: 'Zapisywanie nie powiodło się',
+                                                    status: 'error',
+                                                    duration: 3000,
+                                                    isClosable: true
+                                                })
+                                        })}
                                 >
                                     <i className="fa-solid fa-fw fa-cloud-arrow-up"/>
                                     <Text marginLeft='5px'>Zapisz</Text>
