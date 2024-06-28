@@ -19,7 +19,6 @@ export const CodeEditor = ({ language, startingCode }) => {
                     enabled: 'on',
                 },
                 scrollbar: {
-                    verticalScrollbarSize: 0,
                     horizontalScrollbarSize: 0
                 }
             }}

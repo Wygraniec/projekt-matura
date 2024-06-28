@@ -14,6 +14,8 @@ export const RenderMarkdown = ({document}) =>
             borderStyle="solid"
             paddingX="2.5em"
             paddingY='1.5em'
+            overflowY='scroll'
+            maxHeight='75vh'
         >
             <ReactMarkdown components={{
                 paragraph: (props) => <Text as='p' {...props}/>,

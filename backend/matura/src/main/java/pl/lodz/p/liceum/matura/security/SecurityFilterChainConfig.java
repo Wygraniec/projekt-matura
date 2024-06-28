@@ -37,7 +37,7 @@ public class SecurityFilterChainConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/tasks").hasAnyRole("ADMIN", "INSTRUCTOR")
                         .requestMatchers(HttpMethod.PUT, "api/v1/tasks").hasAnyRole("ADMIN", "INSTRUCTOR")
                         .requestMatchers(HttpMethod.DELETE, "api/v1/templates/**").hasAnyRole("ADMIN", "INSTRUCTOR")
-                        .requestMatchers(HttpMethod.GET, "api/v1/tasks/**").hasAnyRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "api/v1/tasks/**").hasAnyRole("ADMIN", "INSTRUCTOR", "STUDENT")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

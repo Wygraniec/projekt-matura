@@ -18,7 +18,7 @@ export class Template {
 
         return new Template(
             data['id'],
-            data['language'],
+            data['taskLanguage'],
             data['statement'],
             data['source'],
             data['createdAt'],
