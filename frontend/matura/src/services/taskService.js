@@ -31,6 +31,32 @@ export class Task {
             data['numberOfSubtasks']
         )
     }
+
+    async getFile() {
+        let endpoint = `${API}/tasks/${this.id}/file`
+        const response = await axios.get(endpoint, User.fromLocalStorage().getAuthHeader({ responseType: 'text' }));
+
+        return response.data;
+    }
+
+    async saveFile(fileContents) {
+        let endpoint = `${API}/tasks/${this.id}/file`
+
+        const blob = new Blob([fileContents], { type: 'text/plain' })
+        const formData = new FormData();
+        formData.append('file', blob, 'task.py')
+
+        const response = await axios.post(
+            endpoint,
+            formData,
+            User.fromLocalStorage().getAuthHeader({
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }))
+
+        console.log(response.data)
+    }
 }
 
 export class TaskPage {

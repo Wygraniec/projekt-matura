@@ -1,9 +1,8 @@
 import {withAuthentication} from "./routeAuthentication.jsx";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {Subpage} from "./components/Subpage.jsx";
 import {useEffect, useState} from "react";
 import {
-    Box,
     Button,
     Card,
     CardBody, Flex,
@@ -11,8 +10,7 @@ import {
     MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList,
     Spinner,
     Stack,
-    Text, useToast,
-    VStack
+    Text, VStack
 } from "@chakra-ui/react";
 import {Task} from "./services/taskService.js";
 import {CodeEditor} from "./components/CodeEditor.jsx";
@@ -26,6 +24,7 @@ const SolveTask = () => {
     const [loading, setLoading] = useState(true)
     const [task, setTask] = useState(null)
     const [template, setTemplate] = useState(null)
+    const [fileContents, setFileContents] = useState('')
 
     const editorLanguageMapping = {
         'PYTHON': 'python',
@@ -42,8 +41,12 @@ const SolveTask = () => {
         const fetchData = async () => {
             const task = await Task.findById(taskId);
             setTask(task);
+
             const template = await task.getTemplate();
             setTemplate(template);
+
+            const file = await task.getFile()
+            setFileContents(file)
         }
 
         fetchData().finally(() => setLoading(false));
@@ -80,11 +83,9 @@ const SolveTask = () => {
                     </Card>
                 )}
 
-
-                {/*TODO implement reading template file from API*/}
                 {!loading && (
-                    <Stack direction='row' height='80vh'>
-                        <CodeEditor language={editorLanguageMapping[template.language]} startingCode={""}/>
+                    <Stack direction='row' height='80vh' maxWidth='98dvw'>
+                        <CodeEditor language={editorLanguageMapping[template.language]} startingCode={fileContents} onChangeCallback={setFileContents}/>
 
                         <VStack width='60dvw'>
                                 <Flex as='nav' direction='row' justifyContent='space-around' width='90%'
@@ -101,9 +102,14 @@ const SolveTask = () => {
                                         </MenuList>
                                     </Menu>
 
+                                    <Button onClick={() => task.saveFile(fileContents)}>
+                                        <i className="fa-solid fa-fw fa-cloud-arrow-up"/>
+                                        <Text marginLeft='5px'>Zapisz</Text>
+                                    </Button>
+
                                     <Button>
                                         <i className="fa-fw fa-solid fa-check"/>
-                                        <Text marginLeft='5px'>Sprawdź całe zadanie</Text>
+                                        <Text marginLeft='5px'>Sprawdź</Text>
                                     </Button>
                                 </Flex>
 

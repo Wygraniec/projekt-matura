@@ -26,7 +26,8 @@ export class User {
         localStorage.setItem('user', JSON.stringify(this))
     }
 
-    getAuthHeader = () => ({
+    getAuthHeader = (config = {}) => ({
+        ...config,
         headers: {
             Authorization: `Bearer ${this.token}`
         }
