@@ -5,12 +5,13 @@ import {Template} from "./templateService.js";
 const API = `${import.meta.env.VITE_API_URL}/v1`;
 
 export class Task {
-    constructor(id, templateId, state, createdAt, createdBy) {
+    constructor(id, templateId, state, createdAt, createdBy, numberOfSubtasks) {
         this.id = id
         this.templateId = templateId
         this.state = state
         this.createdAt = createdAt
         this.createdBy = createdBy
+        this.numberOfSubtasks = numberOfSubtasks
     }
 
     async getTemplate() {
@@ -26,7 +27,8 @@ export class Task {
             data['templateId'],
             data['state'],
             data['createdAt'],
-            data['createdBy']
+            data['createdBy'],
+            data['numberOfSubtasks']
         )
     }
 }
@@ -49,7 +51,7 @@ export const getTasks = async (page = 0, pageSize = 10, userId = 0, states = nul
     let request = await axios.get(endpoint, User.fromLocalStorage().getAuthHeader())
 
     return new TaskPage(
-        request.data['tasks'].map(data => new Task(data['id'], data['templateId'], data['state'], new Date(data['createdAt']), request.data['createdBy'])),
+        request.data['tasks'].map(data => new Task(data['id'], data['templateId'], data['state'], new Date(data['createdAt']), request.data['createdBy'], request.data['numberOfSubtasks'])),
         request.data['currentPage'],
         request.data['totalPages'],
         request.data['totalElements'],
