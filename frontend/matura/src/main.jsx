@@ -8,6 +8,7 @@ import {DashboardWithAuth} from "./Dashboard.jsx";
 import theme from './theme'
 import {TaskListWithAuth} from "./TaskList.jsx";
 import {ActiveTaskListWithAuth} from "./ActiveTasks.jsx";
+import SolveTaskWithAuth from "./SolveTask.jsx";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
     {
         path: '/activeTasks',
         element: <ActiveTaskListWithAuth/>
+    },
+    {
+        path: '/solve',
+        element: <SolveTaskWithAuth/>
     },
 ])
 
