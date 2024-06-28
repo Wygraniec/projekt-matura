@@ -36,14 +36,12 @@ public class TaskController {
     }
 
     @GetMapping(
-            path = "/{taskId}/subtasks/{subtaskId}/files/{fileId}"
+            path = "/{taskId}/file"
     )
     public ResponseEntity<Object> getFileAssignedToUserTask(
-            @PathVariable Integer taskId,
-            @PathVariable Integer subtaskId,
-            @PathVariable Integer fileId
+            @PathVariable Integer taskId
     ) {
-        return createResponseEntityForFileAssignedToUserTask(taskId, subtaskId, fileId);
+        return createResponseEntityForFileAssignedToUserTask(taskId);
     }
 
     @PostMapping(
@@ -62,10 +60,9 @@ public class TaskController {
         return ResponseEntity.ok(new MessageResponse("The File Uploaded Successfully"));
     }
 
-    private ResponseEntity<Object> createResponseEntityForFileAssignedToUserTask(Integer taskId, Integer subtaskId, Integer fileId) {
-        Integer fileIndex = fileId - 1;
-        String fileName = taskService.getFileName(taskId, subtaskId, fileIndex);
-        byte[] file = taskService.readFile(taskId, subtaskId, fileIndex);
+    private ResponseEntity<Object> createResponseEntityForFileAssignedToUserTask(Integer taskId) {
+        String fileName = taskService.getFileName(taskId);
+        byte[] file = taskService.readFile(taskId);
         HttpHeaders headers = prepareHttpHeadersForFileResponse(fileName);
         return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(file);
     }
