@@ -8,7 +8,7 @@ export const CodeEditor = ({ language, startingCode }) => {
             defaultLanguage={language}
             defaultValue={startingCode}
             theme='vs-dark'
-            height="70vh"
+            height="100%"
             width='100%'
             options={{
                 wordWrap: 'on',
