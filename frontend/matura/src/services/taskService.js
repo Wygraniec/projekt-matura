@@ -46,16 +46,19 @@ export class Task {
         const formData = new FormData();
         formData.append('file', blob, 'task.py')
 
-        const response = await axios.post(
-            endpoint,
-            formData,
-            User.fromLocalStorage().getAuthHeader({
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            }))
-
-        console.log(response.data)
+        try {
+            await axios.post(
+                endpoint,
+                formData,
+                User.fromLocalStorage().getAuthHeader({
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }))
+            return true
+        } catch(e) {
+            return false
+        }
     }
 }
 
