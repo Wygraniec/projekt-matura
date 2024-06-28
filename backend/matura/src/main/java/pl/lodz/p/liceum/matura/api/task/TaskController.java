@@ -7,11 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.lodz.p.liceum.matura.api.response.MessageResponse;
-import pl.lodz.p.liceum.matura.appservices.SubmissionApplicationService;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
-import pl.lodz.p.liceum.matura.domain.submission.Submission;
 import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
-import pl.lodz.p.liceum.matura.domain.subtask.Subtask;
 import pl.lodz.p.liceum.matura.domain.task.*;
 
 import java.io.IOException;
@@ -39,14 +36,12 @@ public class TaskController {
     }
 
     @GetMapping(
-            path = "/{taskId}/subtasks/{subtaskId}/files/{fileId}"
+            path = "/{taskId}/file"
     )
     public ResponseEntity<Object> getFileAssignedToUserTask(
-            @PathVariable Integer taskId,
-            @PathVariable Integer subtaskId,
-            @PathVariable Integer fileId
+            @PathVariable Integer taskId
     ) {
-        return createResponseEntityForFileAssignedToUserTask(taskId, subtaskId, fileId);
+        return createResponseEntityForFileAssignedToUserTask(taskId);
     }
 
     @PostMapping(
@@ -65,10 +60,9 @@ public class TaskController {
         return ResponseEntity.ok(new MessageResponse("The File Uploaded Successfully"));
     }
 
-    private ResponseEntity<Object> createResponseEntityForFileAssignedToUserTask(Integer taskId, Integer subtaskId, Integer fileId) {
-        Integer fileIndex = fileId - 1;
-        String fileName = taskService.getFileName(taskId, subtaskId, fileIndex);
-        byte[] file = taskService.readFile(taskId, subtaskId, fileIndex);
+    private ResponseEntity<Object> createResponseEntityForFileAssignedToUserTask(Integer taskId) {
+        String fileName = taskService.getFileName(taskId);
+        byte[] file = taskService.readFile(taskId);
         HttpHeaders headers = prepareHttpHeadersForFileResponse(fileName);
         return ResponseEntity.ok().headers(headers).contentLength(file.length).contentType(MediaType.parseMediaType("application/txt")).body(file);
     }
