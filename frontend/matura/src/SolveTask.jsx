@@ -1,5 +1,5 @@
 import {withAuthentication} from "./routeAuthentication.jsx";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {Subpage} from "./components/Subpage.jsx";
 import {useEffect, useState} from "react";
 import {
@@ -10,7 +10,7 @@ import {
     MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList,
     Spinner,
     Stack,
-    Text, VStack
+    Text, useToast, VStack
 } from "@chakra-ui/react";
 import {Task} from "./services/taskService.js";
 import {CodeEditor} from "./components/CodeEditor.jsx";
@@ -20,6 +20,7 @@ const SolveTask = () => {
     const [searchParams] = useSearchParams()
     const taskId = Number(searchParams.get('task'))
     const navigate = useNavigate()
+    const toast = useToast()
 
     const [loading, setLoading] = useState(true)
     const [task, setTask] = useState(null)
@@ -85,33 +86,52 @@ const SolveTask = () => {
 
                 {!loading && (
                     <Stack direction='row' height='80vh' maxWidth='98dvw'>
-                        <CodeEditor language={editorLanguageMapping[template.language]} startingCode={fileContents} onChangeCallback={setFileContents}/>
+                        <CodeEditor language={editorLanguageMapping[template.language]} startingCode={fileContents}
+                                    onChangeCallback={setFileContents}/>
 
                         <VStack width='60dvw'>
-                                <Flex as='nav' direction='row' justifyContent='space-around' width='90%'
-                                      marginBottom='10px'>
-                                    <Menu>
-                                        <MenuButton as={Button}>
-                                            Sprawdź podzadanie <i className="fa-solid fa-fw fa-chevron-down"/>
-                                        </MenuButton>
+                            <Flex as='nav' direction='row' justifyContent='space-around' width='90%'
+                                  marginBottom='10px'>
+                                <Menu>
+                                    <MenuButton as={Button}>
+                                        Sprawdź podzadanie <i className="fa-solid fa-fw fa-chevron-down"/>
+                                    </MenuButton>
 
-                                        <MenuList paddingTop='0'>
-                                            {verificationTypes.map((verificationType) => (
-                                                verificationType
-                                            ))}
-                                        </MenuList>
-                                    </Menu>
+                                    <MenuList paddingTop='0'>
+                                        {verificationTypes.map((verificationType) => (
+                                            verificationType
+                                        ))}
+                                    </MenuList>
+                                </Menu>
 
-                                    <Button onClick={() => task.saveFile(fileContents)}>
-                                        <i className="fa-solid fa-fw fa-cloud-arrow-up"/>
-                                        <Text marginLeft='5px'>Zapisz</Text>
-                                    </Button>
+                                <Button
+                                    onClick={
+                                        () => task.saveFile(fileContents).then(success => success ?
+                                            toast({
+                                                title: 'Zapisano',
+                                                description: 'Zmiany zostały zapisane pomyślnie',
+                                                status: 'success',
+                                                duration: 4000,
+                                                isClosable: true
+                                            }) :
+                                            toast({
+                                                title: 'Wystąpił błąd',
+                                                description: 'Zapisywanie nie powiodło się',
+                                                status: 'error',
+                                                duration: 3000,
+                                                isClosable: true
+                                            })
+                                        )}
+                                >
+                                    <i className="fa-solid fa-fw fa-cloud-arrow-up"/>
+                                    <Text marginLeft='5px'>Zapisz</Text>
+                                </Button>
 
-                                    <Button>
-                                        <i className="fa-fw fa-solid fa-check"/>
-                                        <Text marginLeft='5px'>Sprawdź</Text>
-                                    </Button>
-                                </Flex>
+                                <Button>
+                                    <i className="fa-fw fa-solid fa-check"/>
+                                    <Text marginLeft='5px'>Sprawdź</Text>
+                                </Button>
+                            </Flex>
 
                             <RenderMarkdown document={template.statement}/>
                         </VStack>
