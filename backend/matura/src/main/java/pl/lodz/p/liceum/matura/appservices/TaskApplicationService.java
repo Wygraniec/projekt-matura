@@ -38,15 +38,15 @@ public class TaskApplicationService {
         return workspace.readTaskDefinitionFile(workspaceUrl);
     }
 
-    public byte[] readFile(Integer taskId, Integer subtaskId, Integer fileIndex) {
+    public byte[] readFile(Integer taskId) {
         String workspaceUrl = getWorkspaceUrl(taskId);
-        String relativePath = getRelativeFilePath(taskId, subtaskId, fileIndex);
+        String relativePath = getRelativeFilePath(taskId);
         return workspace.readFile(workspaceUrl, relativePath);
     }
 
     public void writeFile(Integer taskId, Integer subtaskId, Integer fileIndex, byte[] bytes) {
         String workspaceUrl = getWorkspaceUrl(taskId);
-        String relativePath = getRelativeFilePath(taskId, subtaskId, fileIndex);
+        String relativePath = getRelativeFilePath(taskId);
         workspace.writeFile(workspaceUrl, relativePath, bytes);
     }
 
@@ -54,18 +54,14 @@ public class TaskApplicationService {
         return taskService.findById(taskId).getWorkspaceUrl();
     }
 
-    public String getRelativeFilePath(Integer taskId, Integer subtaskId, Integer fileIndex) {
+    public String getRelativeFilePath(Integer taskId) {
         Map<String, Object> taskDefinition = readTaskDefinitionFile(taskId);
-        String taskName = "task_" + subtaskId;
-        Map<String, Object> tasks = (Map<String, Object>) taskDefinition.get("tasks");
-        Map<String, Object> task = (Map<String, Object>) tasks.get(taskName);
-        List<String> files = (List<String>) task.get("files");
-        String relativePath = files.get(fileIndex);
+        String relativePath = (String) taskDefinition.get("source_file");
         return relativePath;
     }
 
-    public String getFileName(Integer taskId, Integer subtaskId, Integer fileIndex) {
-        String relativePath = getRelativeFilePath(taskId, subtaskId, fileIndex);
+    public String getFileName(Integer taskId) {
+        String relativePath = getRelativeFilePath(taskId);
         String fileName = relativePath.substring(relativePath.lastIndexOf('/') + 1);
         return fileName;
     }
