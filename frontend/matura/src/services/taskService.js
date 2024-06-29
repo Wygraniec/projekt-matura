@@ -52,6 +52,18 @@ export class Task {
         return response.data['id']
     }
 
+    /**
+     * @returns Username of the person who assigned the task
+     * */
+    async getAssigningUsername() {
+        const response = await axios.get(
+            `${API}/users/${this.createdBy}`,
+            User.fromLocalStorage().getAuthHeader()
+        )
+
+        return response.data['username']
+    }
+
     async getFile() {
         let endpoint = `${API}/tasks/${this.id}/file`
         const response = await axios.get(endpoint, User.fromLocalStorage().getAuthHeader({responseType: 'text'}));
@@ -138,9 +150,10 @@ export const getTasks = async (page = 0, pageSize = 10, userId = 0, states = nul
     let request = await axios.get(endpoint, User.fromLocalStorage().getAuthHeader())
 
     return new TaskPage(
-        request.data['tasks'].map(data => new Task(data['id'], data['templateId'], data['state'], new Date(data['createdAt']), request.data['createdBy'], request.data['numberOfSubtasks'])),
+        request.data['tasks'].map(data => new Task(data['id'], data['templateId'], data['state'], new Date(data['createdAt']), data['createdBy'], data['numberOfSubtasks'])),
         request.data['currentPage'],
         request.data['totalPages'],
         request.data['totalElements'],
+        request.data['']
     )
 }
