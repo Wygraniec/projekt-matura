@@ -70,7 +70,14 @@ export class Task {
     async check(fileContents) {
         await this.saveFile(fileContents)
 
-        const result = await axios.post(`${API}/tasks/${this.id}/process`, {}, User.fromLocalStorage().getAuthHeader())
+        const result = await axios.post(
+            `${API}/tasks/${this.id}/process`,
+            {},
+            User.fromLocalStorage().getAuthHeader()
+        )
+
+        console.log(result)
+        return result
     }
 
     /**
@@ -82,7 +89,14 @@ export class Task {
     async checkSubtask(fileContents, subtaskNumber, processingType) {
         await this.saveFile(fileContents)
 
-        const result = await axios.post(`${API}/tasks/${this.id}/subtasks/${subtaskNumber}/${processingType}process`, {}, User.fromLocalStorage().getAuthHeader())
+        const result = await axios.post(
+            `${API}/tasks/${this.id}/subtasks/${subtaskNumber}/${processingType}process`,
+            {},
+            User.fromLocalStorage().getAuthHeader()
+        )
+
+        console.log(result)
+        return result
     }
 }
 
