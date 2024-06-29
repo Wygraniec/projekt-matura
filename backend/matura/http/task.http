@@ -33,7 +33,7 @@ Content-Type: application/json
 Authorization: {{auth_token}}
 
 {
-  "templateId": 1,
+  "templateId": 3,
   "numberOfSubtasks": 3,
   "userId": 2
 }
