@@ -1,5 +1,5 @@
 import {withAuthentication} from "./routeAuthentication.jsx";
-import {Link, Navigate, useLocation} from "react-router-dom";
+import {Link, Navigate, useLocation, useNavigate} from "react-router-dom";
 import {Subpage} from "./components/Subpage.jsx";
 import {getAvailableLanguages, getTemplates, Template, TemplatePage} from "./services/templateService.js";
 import {useEffect, useState} from "react";
@@ -18,6 +18,7 @@ import {motion} from 'framer-motion'
 import {Formik, Form} from "formik";
 import {PaginationLinks} from "./components/PaginationLinks.jsx";
 import {RenderMarkdown} from "./components/RenderMarkdown.jsx";
+import {Task} from "./services/taskService.js";
 
 const LanguageIcon = ({language, ...props}) => {
     switch (language) {
@@ -49,6 +50,8 @@ LanguageIcon.propTypes = {
 
 
 const TemplateCard = ({template, ...props}) => {
+    const toast = useToast()
+    const navigate = useNavigate()
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
@@ -61,13 +64,31 @@ const TemplateCard = ({template, ...props}) => {
                     </Flex>
 
                     <Flex flexDirection='column'>
-                        {/* TODO handle opening tasks reasonably (user whom it was assigned should be displayed the task with an appropriate id, whereas the others should have a new task created by them - for themselves)*/}
-                        <Link to={``}>
-                            <Button marginY='5px'>
-                                <i className="fa-solid fa-code fa-fw"/>
-                                <Text marginLeft='5px'>Rozwiąż</Text>
-                            </Button>
-                        </Link>
+                        <Button marginY='5px' onClick={() => {
+                            const id = Task.createOrGet(template.id)
+
+                            toast.promise(id, {
+                                success: {
+                                    title: 'Ładowanie zakończone',
+                                    description: 'Wkrótce nastąpi przekierowanie',
+                                    isClosable: false
+                                },
+                                error: {
+                                    title: 'Wystąpił błąd',
+                                    description: 'Zadanie nie mogło zostać przypisane',
+                                    isClosable: true
+                                },
+                                loading: {
+                                    title: 'Ładowanie',
+                                    isClosable: false
+                                },
+                            })
+
+                            id.then(value => { navigate(`/solve?task=${value}`) })
+                        }}>
+                            <i className="fa-solid fa-code fa-fw"/>
+                            <Text marginLeft='5px'>Rozwiąż</Text>
+                        </Button>
                         <Button onClick={() => setIsExpanded(!isExpanded)} marginY='5px'>
                             <i className={`fa-solid fa-arrow-${isExpanded ? "up" : "down"} fa-fw`}/>
                             <Text marginLeft='5px'>Polecenie</Text>
@@ -128,7 +149,7 @@ const TaskList = () => {
     }, [page, templateLanguage, templateSource]);
 
     useEffect(() => {
-        if(templatePage.totalElements === 0) {
+        if (templatePage.totalElements === 0) {
             toast({
                 title: 'Brak wyników',
                 description: 'Nie znaleziono zadań spełniających określone kryteria',
