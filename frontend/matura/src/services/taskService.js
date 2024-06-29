@@ -60,6 +60,30 @@ export class Task {
             return false
         }
     }
+
+    // TODO react to the result, so that the user knew their score on the given task/subtask
+
+    /**
+     * Sends the code for full validation to the backend
+     * @param fileContents current version of code
+     * */
+    async check(fileContents) {
+        await this.saveFile(fileContents)
+
+        const result = await axios.post(`${API}/tasks/${this.id}/process`, {}, User.fromLocalStorage().getAuthHeader())
+    }
+
+    /**
+     * Sends a specific subtask for a given kind of validation to the backend
+     * @param fileContents current version of code
+     * @param subtaskNumber number of subtask to be checked
+     * @param processingType processing type - 'fast' or 'full'
+     * */
+    async checkSubtask(fileContents, subtaskNumber, processingType) {
+        await this.saveFile(fileContents)
+
+        const result = await axios.post(`${API}/tasks/${this.id}/subtasks/${subtaskNumber}/${processingType}process`, {}, User.fromLocalStorage().getAuthHeader())
+    }
 }
 
 export class TaskPage {
