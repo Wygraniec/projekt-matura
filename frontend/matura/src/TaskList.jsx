@@ -1,5 +1,5 @@
 import {withAuthentication} from "./routeAuthentication.jsx";
-import {Link, Navigate, useLocation, useNavigate} from "react-router-dom";
+import {Navigate, useLocation, useNavigate} from "react-router-dom";
 import {Subpage} from "./components/Subpage.jsx";
 import {getAvailableLanguages, getTemplates, Template, TemplatePage} from "./services/templateService.js";
 import {useEffect, useState} from "react";
@@ -9,7 +9,7 @@ import {
     Card,
     CardBody,
     CardHeader, Flex,
-    Image, Input, Select,
+    Input, Select,
     Spinner,
     Text, useToast
 } from "@chakra-ui/react";
@@ -19,35 +19,7 @@ import {Formik, Form} from "formik";
 import {PaginationLinks} from "./components/PaginationLinks.jsx";
 import {RenderMarkdown} from "./components/RenderMarkdown.jsx";
 import {Task} from "./services/taskService.js";
-
-const LanguageIcon = ({language, ...props}) => {
-    switch (language) {
-        case "CPP":
-            return <Image
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg"
-                {...props}
-            />
-        case "PYTHON":
-            return <Image
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-                {...props}
-            />
-        case "C_SHARP":
-            return <Image
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
-                {...props}
-            />
-        case "JAVA":
-            return <Image
-                src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
-                {...props}
-            />
-    }
-}
-LanguageIcon.propTypes = {
-    language: PropTypes.string.isRequired
-}
-
+import {LanguageIcon} from "./components/LanguageIcon.jsx";
 
 const TemplateCard = ({template, ...props}) => {
     const toast = useToast()
@@ -84,7 +56,9 @@ const TemplateCard = ({template, ...props}) => {
                                 },
                             })
 
-                            id.then(value => { navigate(`/solve?task=${value}`) })
+                            id.then(value => {
+                                navigate(`/solve?task=${value}`)
+                            })
                         }}>
                             <i className="fa-solid fa-code fa-fw"/>
                             <Text marginLeft='5px'>Rozwiąż</Text>
@@ -237,7 +211,6 @@ const TaskList = () => {
             }
         </Subpage>
     )
-        ;
 };
 
 export const TaskListWithAuth = withAuthentication(TaskList)

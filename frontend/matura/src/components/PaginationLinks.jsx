@@ -68,7 +68,7 @@ export const PaginationLinks = ({totalPages, currentPage}) => {
                 <i className="fa-solid fa-angle-right"/>
             </Button>
         )}
-    </HStack>;
+    </HStack>
 };
 PaginationLinks.propTypes = {
     totalPages: PropTypes.number,
