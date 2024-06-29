@@ -62,10 +62,35 @@ const SolveTask = () => {
                 <div key={i}>
                     {i !== 1 && <MenuDivider/>}
                     <MenuGroup title={`Podzadanie ${i}`}>
-                        <MenuItem><i className="fa-fw fa-solid fa-forward"/> <Text marginLeft='5px'>Sprawdzenie
-                            szybkie</Text></MenuItem>
-                        <MenuItem><i className="fa-fw fa-solid fa-check"/> <Text marginLeft='5px'>Sprawdzenie
-                            pełne</Text></MenuItem>
+                        <MenuItem onClick={() => {
+                            task.checkSubtask(fileContents, i, 'fast')
+
+                            toast({
+                                title: 'Wysłano',
+                                description: `Szybkie sprawdzenie podzadania ${i} w toku`,
+                                status: 'info',
+                                duration: 4000,
+                                isClosable: false
+                            })
+                        }}>
+                            <i className="fa-fw fa-solid fa-forward"/>
+                            <Text marginLeft='5px'>Sprawdzenie szybkie</Text>
+                        </MenuItem>
+
+                        <MenuItem onClick={() => {
+                            task.checkSubtask(fileContents, i, 'full')
+
+                            toast({
+                                title: 'Wysłano',
+                                description: `Pełne sprawdzenie podzadania ${i} w toku`,
+                                status: 'info',
+                                duration: 4000,
+                                isClosable: false
+                            })
+                        }}>
+                            <i className="fa-fw fa-solid fa-check"/>
+                            <Text marginLeft='5px'>Sprawdzenie pełne</Text>
+                        </MenuItem>
                     </MenuGroup>
                 </div>
             )
@@ -104,31 +129,38 @@ const SolveTask = () => {
                                     </MenuList>
                                 </Menu>
 
-                                <Button
-                                    onClick={() => task.saveFile(fileContents)
-                                        .then(success => {
-                                            success ?
-                                                toast({
-                                                    title: 'Zapisano',
-                                                    description: 'Zmiany zostały zapisane pomyślnie',
-                                                    status: 'success',
-                                                    duration: 4000,
-                                                    isClosable: true
-                                                }) :
-                                                toast({
-                                                    title: 'Wystąpił błąd',
-                                                    description: 'Zapisywanie nie powiodło się',
-                                                    status: 'error',
-                                                    duration: 3000,
-                                                    isClosable: true
-                                                })
-                                        })}
-                                >
+                                <Button onClick={() => task.saveFile(fileContents)
+                                    .then(success => {
+                                        success ?
+                                            toast({
+                                                title: 'Zapisano',
+                                                description: 'Zmiany zostały zapisane pomyślnie',
+                                                status: 'success',
+                                                duration: 4000,
+                                                isClosable: true
+                                            }) :
+                                            toast({
+                                                title: 'Wystąpił błąd',
+                                                description: 'Zapisywanie nie powiodło się',
+                                                status: 'error',
+                                                duration: 3000,
+                                                isClosable: true
+                                            })
+                                    })}>
                                     <i className="fa-solid fa-fw fa-cloud-arrow-up"/>
                                     <Text marginLeft='5px'>Zapisz</Text>
                                 </Button>
 
-                                <Button>
+                                <Button onClick={() => {
+                                    task.check(fileContents)
+                                    toast({
+                                        title: 'Wysłano',
+                                        description: 'Sprawdzanie zadania w toku',
+                                        status: 'info',
+                                        duration: 4000,
+                                        isClosable: false
+                                    })
+                                }}>
                                     <i className="fa-fw fa-solid fa-check"/>
                                     <Text marginLeft='5px'>Sprawdź</Text>
                                 </Button>
