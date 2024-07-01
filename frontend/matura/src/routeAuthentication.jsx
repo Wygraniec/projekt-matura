@@ -8,16 +8,12 @@ const permissionLevels = {
 };
 
 const isAuthenticated = () => {
-    let user;
-
     try {
-        user = User.fromLocalStorage();
+        return User.fromLocalStorage().validate()
     } catch (e) {
         // There's no user saved locally, therefore no one is logged in
         return false;
     }
-
-    return user.validate();
 }
 
 export const withAuthentication = (Component, requiredPermission = 'STUDENT') => {
