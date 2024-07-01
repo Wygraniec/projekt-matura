@@ -41,7 +41,7 @@ export const ErrorElement = () => (
             </Text>
             <Button
                 mt={8}
-                background='#7A3530'
+                background={'#7A3530'}
                 variant="solid"
                 size="lg"
                 onClick={() => window.location.href = '/'}

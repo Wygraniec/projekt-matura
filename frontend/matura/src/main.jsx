@@ -10,7 +10,6 @@ import {TaskListWithAuth} from "./TaskList.jsx";
 import {ActiveTaskListWithAuth} from "./ActiveTasks.jsx";
 import SolveTaskWithAuth from "./SolveTask.jsx";
 import {FinishedTasksWithAuth} from "../FinishedTasks.jsx";
-import {ErrorBoundary} from "react-error-boundary";
 import {ErrorElement} from "./ErrorElement.jsx";
 
 const router = createBrowserRouter([
