@@ -9,6 +9,7 @@ import theme from './theme'
 import {TaskListWithAuth} from "./TaskList.jsx";
 import {ActiveTaskListWithAuth} from "./ActiveTasks.jsx";
 import SolveTaskWithAuth from "./SolveTask.jsx";
+import {FinishedTasksWithAuth} from "../FinishedTasks.jsx";
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
     {
         path: '/activeTasks',
         element: <ActiveTaskListWithAuth/>
+    },
+    {
+        path: '/finishedTasks',
+        element: <FinishedTasksWithAuth/>
     },
     {
         path: '/solve',
