@@ -157,7 +157,7 @@ const TaskList = () => {
             {!loading && (
                 <>
                     <Box marginBottom='15px'>
-                        <Formik initialValues={{language: '', source: ''}} onSubmit={(values, {setSubmitting}) => {
+                        <Formik initialValues={{language: templateLanguage, source: templateSource}} onSubmit={(values, {setSubmitting}) => {
                             setSubmitting(true);
                             setTemplateLanguage(values.language);
                             setTemplateSource(values.source);
