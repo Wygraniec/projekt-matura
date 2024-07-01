@@ -67,7 +67,7 @@ export const Navbar = () => {
                                     <i className="fa-solid fa-fw fa-clipboard"/><Text marginX='2px'>Aktywne</Text>
                                 </MenuItem>
 
-                                <MenuItem>
+                                <MenuItem onClick={() => navigate('/finishedTasks')}>
                                     <i className="fa-solid fa-fw fa-check-double"/><Text marginX='2px'>Rozwiązane</Text>
                                 </MenuItem>
                             </>
