@@ -1,5 +1,5 @@
 import {Navigate} from "react-router-dom";
-import {logout, User} from './services/userService.js'
+import {User} from './services/userService.js'
 
 const permissionLevels = {
     'STUDENT': 1,
