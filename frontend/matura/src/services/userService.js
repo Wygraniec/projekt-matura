@@ -15,7 +15,7 @@ export class User {
         const storedUserJson = localStorage.getItem('user');
 
         if (!storedUserJson)
-            return null
+            throw "No user saved locally"
 
         let data = JSON.parse(storedUserJson);
 
@@ -76,5 +76,4 @@ export const login = async (username, password) => {
 
 export const logout = () => {
     localStorage.removeItem('user');
-    window.location.href = '/login';
 }

@@ -11,52 +11,52 @@ import {ActiveTaskListWithAuth} from "./ActiveTasks.jsx";
 import SolveTaskWithAuth from "./SolveTask.jsx";
 import {FinishedTasksWithAuth} from "../FinishedTasks.jsx";
 import {ErrorBoundary} from "react-error-boundary";
+import {ErrorElement} from "./ErrorElement.jsx";
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Navigate to={'/login'}/>
+        element: <Navigate to={'/login'}/>,
+        errorElement: <ErrorElement/>
     },
     {
         path: '/login',
-        element: <LoginForm/>
+        element: <LoginForm/>,
+        errorElement: <ErrorElement/>
     },
     {
         path: '/dashboard',
-        element: <DashboardWithAuth/>
+        element: <DashboardWithAuth/>,
+        errorElement: <ErrorElement/>
     },
     {
         path: '/tasks',
-        element: <TaskListWithAuth/>
+        element: <TaskListWithAuth/>,
+        errorElement: <ErrorElement/>
     },
     {
         path: '/activeTasks',
-        element: <ActiveTaskListWithAuth/>
+        element: <ActiveTaskListWithAuth/>,
+        errorElement: <ErrorElement/>
     },
     {
         path: '/finishedTasks',
-        element: <FinishedTasksWithAuth/>
+        element: <FinishedTasksWithAuth/>,
+        errorElement: <ErrorElement/>
     },
     {
         path: '/solve',
-        element: <SolveTaskWithAuth/>
+        element: <SolveTaskWithAuth/>,
+        errorElement: <ErrorElement/>
     },
 ])
 
 ReactDOM
     .createRoot(document.getElementById('root'))
     .render(
-        <React.StrictMode>
-            <ChakraProvider theme={theme}>
-                <ErrorBoundary
-                    FallbackComponent={() => <Navigate to={'/'}/>}
-                    onError={(error, info) => {
-                        if(import.meta.env.DEV)
-                            console.log(error, info)
-                    }}
-                >
+            <React.StrictMode>
+                <ChakraProvider theme={theme}>
                     <RouterProvider router={router}/>
-                </ErrorBoundary>
-            </ChakraProvider>
-        </React.StrictMode>,
+                </ChakraProvider>
+            </React.StrictMode>
     )
