@@ -24,9 +24,6 @@ export const Navbar = () => {
     const navigate = useNavigate();
     const user = User.fromLocalStorage();
 
-    if(!user)
-        navigate('/')
-
     return (
         <Flex
             as="nav"
