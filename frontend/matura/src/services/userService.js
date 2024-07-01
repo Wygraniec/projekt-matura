@@ -15,7 +15,7 @@ export class User {
         const storedUserJson = localStorage.getItem('user');
 
         if (!storedUserJson)
-            return null;
+            return null
 
         let data = JSON.parse(storedUserJson);
 
@@ -34,12 +34,10 @@ export class User {
     })
 
     async validate() {
-        var userData = null;
+        let userData = null;
 
         try {
-            await axios
-                .get(`${API}/users/me`, this.getAuthHeader())
-                .then(res => userData = res.data)
+            userData = (await axios.get(`${API}/users/me`, this.getAuthHeader())).data
         } catch (e) {
             // An error has occurred, so probably the API rejected the request
             // Therefore something was wrong with the token and user is invalid
@@ -70,7 +68,6 @@ export const login = async (username, password) => {
             password: password
         })
         .catch(e => {
-            console.log('Error during login');
             throw e;
         });
 
