@@ -78,19 +78,14 @@ export class Task {
         const formData = new FormData();
         formData.append('file', blob, 'task.py')
 
-        try {
-            await axios.post(
-                endpoint,
-                formData,
-                User.fromLocalStorage().getAuthHeader({
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }))
-            return true
-        } catch (e) {
-            return false
-        }
+        await axios.post(
+            endpoint,
+            formData,
+            User.fromLocalStorage().getAuthHeader({
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }))
     }
 
     // TODO react to the result, so that the user knew their score on the given task/subtask

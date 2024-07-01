@@ -68,7 +68,7 @@ const SolveTask = () => {
                             toast({
                                 title: 'Wysłano',
                                 description: `Szybkie sprawdzenie podzadania ${i} w toku`,
-                                status: 'info',
+                                status: 'loading',
                                 duration: 4000,
                                 isClosable: false
                             })
@@ -83,7 +83,7 @@ const SolveTask = () => {
                             toast({
                                 title: 'Wysłano',
                                 description: `Pełne sprawdzenie podzadania ${i} w toku`,
-                                status: 'info',
+                                status: 'loading',
                                 duration: 4000,
                                 isClosable: false
                             })
@@ -129,24 +129,25 @@ const SolveTask = () => {
                                     </MenuList>
                                 </Menu>
 
-                                <Button onClick={() => task.saveFile(fileContents)
-                                    .then(success => {
-                                        success ?
-                                            toast({
-                                                title: 'Zapisano',
-                                                description: 'Zmiany zostały zapisane pomyślnie',
-                                                status: 'success',
-                                                duration: 4000,
-                                                isClosable: true
-                                            }) :
-                                            toast({
-                                                title: 'Wystąpił błąd',
-                                                description: 'Zapisywanie nie powiodło się',
-                                                status: 'error',
-                                                duration: 3000,
-                                                isClosable: true
-                                            })
-                                    })}>
+                                <Button onClick={() => {
+                                    toast.promise(task.saveFile(fileContents), {
+                                        success: {
+                                            title: 'Zapisano',
+                                            description: 'Zmiany zostały zapisane pomyślnie',
+                                            duration: 4000,
+                                            isClosable: true
+                                        },
+                                        loading: {
+                                            title: 'Zapisywanie'
+                                        },
+                                        error: {
+                                            title: 'Wystąpił błąd',
+                                            description: 'Zapisywanie nie powiodło się',
+                                            duration: 3000,
+                                            isClosable: true
+                                        }
+                                    })
+                                }}>
                                     <i className="fa-solid fa-fw fa-cloud-arrow-up"/>
                                     <Text marginLeft='5px'>Zapisz</Text>
                                 </Button>
