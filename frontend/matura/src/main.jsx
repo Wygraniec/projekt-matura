@@ -10,6 +10,7 @@ import {TaskListWithAuth} from "./TaskList.jsx";
 import {ActiveTaskListWithAuth} from "./ActiveTasks.jsx";
 import SolveTaskWithAuth from "./SolveTask.jsx";
 import {FinishedTasksWithAuth} from "../FinishedTasks.jsx";
+import {ErrorBoundary} from "react-error-boundary";
 
 const router = createBrowserRouter([
     {
@@ -47,7 +48,15 @@ ReactDOM
     .render(
         <React.StrictMode>
             <ChakraProvider theme={theme}>
-                <RouterProvider router={router}/>
+                <ErrorBoundary
+                    FallbackComponent={() => <Navigate to={'/'}/>}
+                    onError={(error, info) => {
+                        if(import.meta.env.DEV)
+                            console.log(error, info)
+                    }}
+                >
+                    <RouterProvider router={router}/>
+                </ErrorBoundary>
             </ChakraProvider>
         </React.StrictMode>,
     )
