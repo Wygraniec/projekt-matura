@@ -131,21 +131,27 @@ public class TaskApplicationService {
     public PageTask findByUserIdAndStateIn(final Integer userId, List<TaskState> taskStates, Pageable pageable) {
         return taskService.findByUserIdAndStateIn(userId, taskStates, pageable);
     }
-    public void executeSubtask(Integer taskId, Integer subtaskId, VerificationType verificationType) {
+    public Submission executeSubtask(Integer taskId, Integer subtaskId, VerificationType verificationType) {
         Task task = taskService.findById(taskId);
+        task.setState(TaskState.PROCESSING);
+        update(task);
         Submission submission = submissionService.save(
                 new Submission(null, task.getId(), verificationType, null, null)
         );
         taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskId, verificationType));
+        return submission;
     }
-    public void executeTask(Integer taskId) {
+    public Submission executeTask(Integer taskId) {
         Task task = taskService.findById(taskId);
+        task.setState(TaskState.PROCESSING);
+        update(task);
         Submission submission = submissionService.save(
                 new Submission(null, task.getId(), VerificationType.FULL, null, null)
         );
         for (int subtaskNumber = 1; subtaskNumber <= task.getNumberOfSubtasks(); subtaskNumber++) {
             taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskNumber, VerificationType.FULL));
         }
+        return submission;
     }
     public Optional<Task> findPendingTaskForUser(Integer userId, Integer templateId) {
         return taskService.findByTemplateIdAndUserId(userId, templateId);

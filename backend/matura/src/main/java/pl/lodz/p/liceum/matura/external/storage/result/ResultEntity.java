@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.ZonedDateTime;
+
 @Entity
 @Table
 @Getter
@@ -31,6 +33,8 @@ public class ResultEntity {
     private String description;
     @Column(name="score", nullable = false)
     private Integer score;
+    @Column(name="created_at", nullable = false)
+    private ZonedDateTime createdAt;
 
     @Override
     public boolean equals(Object o) {

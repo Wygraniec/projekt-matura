@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubtaskEvent extends TaskEvent {
+    Integer taskId;
     Integer submissionId;
     Integer number;
 }

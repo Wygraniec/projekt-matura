@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskSentForProcessingEvent extends TaskEvent {
+    Integer taskId;
     String workspaceUrl;
 }
