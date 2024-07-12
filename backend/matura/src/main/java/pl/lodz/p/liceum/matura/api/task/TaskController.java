@@ -7,7 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.lodz.p.liceum.matura.api.response.MessageResponse;
+import pl.lodz.p.liceum.matura.api.submission.SubmissionDto;
+import pl.lodz.p.liceum.matura.api.submission.SubmissionDtoMapper;
 import pl.lodz.p.liceum.matura.appservices.TaskApplicationService;
+import pl.lodz.p.liceum.matura.domain.result.ResultService;
+import pl.lodz.p.liceum.matura.domain.submission.Submission;
 import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
 import pl.lodz.p.liceum.matura.domain.task.*;
 
@@ -22,6 +26,8 @@ public class TaskController {
 
     private final TaskApplicationService taskService;
     private final TaskDtoMapper taskMapper;
+    private final ResultService resultService;
+    private final SubmissionDtoMapper submissionMapper;
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<TaskDto> getTask(@PathVariable Integer id) {
@@ -109,26 +115,32 @@ public class TaskController {
     
     // Task processing
     @PostMapping(path = "{taskId}/subtasks/{subtaskId}/fastprocess")
-    public ResponseEntity<Void> executeSubtaskFastProcessing(
+    public ResponseEntity<SubmissionDto> executeSubtaskFastProcessing(
             @PathVariable Integer taskId,
             @PathVariable Integer subtaskId) {
-        taskService.executeSubtask(taskId, subtaskId, VerificationType.FAST);
-        return ResponseEntity.ok().build();
+        Submission submission = taskService.executeSubtask(taskId, subtaskId, VerificationType.FAST);
+        return ResponseEntity.ok(
+                submissionMapper.toDto(submission)
+        );
     }
 
     @PostMapping(path = "{taskId}/subtasks/{subtaskId}/fullprocess")
-    public ResponseEntity<Void> executeSubtaskFullProcessing(
+    public ResponseEntity<SubmissionDto> executeSubtaskFullProcessing(
             @PathVariable Integer taskId,
             @PathVariable Integer subtaskId) {
-        taskService.executeSubtask(taskId, subtaskId, VerificationType.FULL);
-        return ResponseEntity.ok().build();
+        Submission submission = taskService.executeSubtask(taskId, subtaskId, VerificationType.FULL);
+        return ResponseEntity.ok(
+                submissionMapper.toDto(submission)
+        );
     }
 
     @PostMapping("{taskId}/process")
-    public ResponseEntity<Void> executeTask(
+    public ResponseEntity<SubmissionDto> executeTask(
             @PathVariable Integer taskId
     ) {
-        taskService.executeTask(taskId);
-        return ResponseEntity.ok().build();
+        Submission submission = taskService.executeTask(taskId);
+        return ResponseEntity.ok(
+                submissionMapper.toDto(submission)
+        );
     }
 }

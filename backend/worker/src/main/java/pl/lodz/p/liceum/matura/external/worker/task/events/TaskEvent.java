@@ -10,6 +10,7 @@ import pl.lodz.p.liceum.matura.domain.TestType;
 @NoArgsConstructor
 public class TaskEvent {
 
+    Integer taskId;
     String workspaceUrl;
 
 }

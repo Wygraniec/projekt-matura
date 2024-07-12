@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubtaskSentForFastProcessingEvent extends SubtaskEvent {
+    Integer taskId;
     Integer submissionId;
     String workspaceUrl;
     Integer number;

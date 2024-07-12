@@ -15,8 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static java.lang.Runtime.getRuntime;
-import static pl.lodz.p.liceum.matura.domain.ExecutionStatus.COMPLETED;
-import static pl.lodz.p.liceum.matura.domain.ExecutionStatus.FAILED;
 
 @RequiredArgsConstructor
 @Log
@@ -28,14 +26,34 @@ public class DockerTaskExecutor implements TaskExecutor {
     private final DockerComposeGenerator dockerComposeGenerator;
 
     private ExecutionStatus execute(Task task) {
+        Process process = null;
         try {
             var command = prepareCommand(task.getWorkspaceUrl());
-            var process = getRuntime().exec(command);
+            process = getRuntime().exec(command);
             log.info("Execution started");
-            return SUCCESS == process.waitFor() ? COMPLETED : FAILED;
+
+            // Create separate threads to handle output and error streams
+            StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), log::info);
+            StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), log::info);
+
+            outputGobbler.start();
+            errorGobbler.start();
+
+            // Wait for the process to complete
+            int exitCode = process.waitFor();
+            outputGobbler.join();
+            errorGobbler.join();
+
+            log.info("Execution finished");
+
+            return exitCode == 0 ? ExecutionStatus.COMPLETED : ExecutionStatus.FAILED;
         } catch (InterruptedException | IOException exception) {
-            log.info(exception.toString());
-            return FAILED;
+            log.info("Exception during execution: " + exception);
+            return ExecutionStatus.FAILED;
+        } finally {
+            if (process != null) {
+                process.destroy();
+            }
         }
     }
     private Result getSubtaskResult(Subtask subtask) {
@@ -96,8 +114,8 @@ public class DockerTaskExecutor implements TaskExecutor {
     private String[] prepareCommand(String workspaceUrl) {
         boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
         if (isWindows)
-            return new String[]{"cmd.exe", "/c", "docker-compose --file " + workspaceUrl + "\\docker-compose.yml up"};
+            return new String[]{"powershell.exe", "/c", "docker-compose --file \"" + workspaceUrl + "\\docker-compose.yml\" up"};
         else
-            return new String[]{"bash", "-c", "cd " + workspaceUrl + ";docker-compose up"};
+            return new String[]{"bash", "-c", "cd " + workspaceUrl + "; docker-compose up"};
     }
 }

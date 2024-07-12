@@ -23,16 +23,16 @@ public class TaskWorkerAdapter implements TaskExecutor {
 
     @Override
     public void executeTask(Task task) {
-        kafkaTaskEvent.send(new TaskSentForProcessingEvent(task.getWorkspaceUrl()));
+        kafkaTaskEvent.send(new TaskSentForProcessingEvent(task.getId(), task.getWorkspaceUrl()));
     }
 
     @Override
     public void executeSubtask(Subtask subtask) {
         Task task = taskService.findById(subtask.getTaskId());
         if (subtask.getType() == VerificationType.FULL)
-            kafkaTaskEvent.send(new SubtaskSentForFullProcessingEvent(subtask.getSubmissionId(), task.getWorkspaceUrl(), subtask.getNumber()));
+            kafkaTaskEvent.send(new SubtaskSentForFullProcessingEvent(task.getId(), subtask.getSubmissionId(), task.getWorkspaceUrl(), subtask.getNumber()));
 
         if (subtask.getType() == VerificationType.FAST)
-            kafkaTaskEvent.send(new SubtaskSentForFastProcessingEvent(subtask.getSubmissionId(), task.getWorkspaceUrl(), subtask.getNumber()));
+            kafkaTaskEvent.send(new SubtaskSentForFastProcessingEvent(task.getId(), subtask.getSubmissionId(), task.getWorkspaceUrl(), subtask.getNumber()));
     }
 }
