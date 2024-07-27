@@ -128,9 +128,11 @@ public class TaskApplicationService {
     public List<Task> findByUserId(Integer userId) {
         return taskService.findByUserId(userId);
     }
+
     public PageTask findByUserIdAndStateIn(final Integer userId, List<TaskState> taskStates, Pageable pageable) {
         return taskService.findByUserIdAndStateIn(userId, taskStates, pageable);
     }
+
     public Submission executeSubtask(Integer taskId, Integer subtaskId, VerificationType verificationType) {
         Task task = taskService.findById(taskId);
         task.setState(TaskState.PROCESSING);
@@ -141,6 +143,7 @@ public class TaskApplicationService {
         taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskId, verificationType));
         return submission;
     }
+
     public Submission executeTask(Integer taskId) {
         Task task = taskService.findById(taskId);
         task.setState(TaskState.PROCESSING);
@@ -153,7 +156,8 @@ public class TaskApplicationService {
         }
         return submission;
     }
+
     public Optional<Task> findPendingTaskForUser(Integer userId, Integer templateId) {
-        return taskService.findByTemplateIdAndUserId(userId, templateId);
+        return taskService.findByTemplateIdAndUserId(templateId, userId);
     }
 }
