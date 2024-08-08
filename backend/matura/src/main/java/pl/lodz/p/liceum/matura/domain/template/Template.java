@@ -15,6 +15,7 @@ public class Template {
     TaskLanguage taskLanguage;
     String source;
     String statement;
+    Integer numberOfSubtasks;
     Integer createdBy;
     ZonedDateTime createdAt;
 
