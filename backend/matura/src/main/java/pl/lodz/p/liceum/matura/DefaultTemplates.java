@@ -86,6 +86,7 @@ public class DefaultTemplates implements CommandLineRunner {
                     największa liczba to: `101011010011001100111`\\
                     Prawidłowa odpowiedź dla powyższego przykładu to: `5`, `1`.\s
                     """,
+            3,
             0,
             ZonedDateTime.now()
     );
@@ -95,6 +96,7 @@ public class DefaultTemplates implements CommandLineRunner {
             TaskLanguage.C_SHARP,
             "Matura 05.2023",
             "Matura 05.2023 C#",
+            3,
             0,
             ZonedDateTime.now()
     );
@@ -104,6 +106,7 @@ public class DefaultTemplates implements CommandLineRunner {
             TaskLanguage.JAVA,
             "Matura 05.2023",
             "Matura 05.2023 Java",
+            3,
             0,
             ZonedDateTime.now()
     );
@@ -113,6 +116,7 @@ public class DefaultTemplates implements CommandLineRunner {
             TaskLanguage.PYTHON,
             "Matura 05.2022",
             "Matura 05.2022 Python",
+            1,
             0,
             ZonedDateTime.now()
     );
@@ -123,6 +127,7 @@ public class DefaultTemplates implements CommandLineRunner {
             "31 OI Etap 1 Budowa lotniska",
             "Etap 1, 31 OI, Budowa lotniska",
             0,
+            5,
             ZonedDateTime.now()
     );
 

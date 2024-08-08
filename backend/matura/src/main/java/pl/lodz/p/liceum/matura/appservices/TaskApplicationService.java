@@ -146,12 +146,13 @@ public class TaskApplicationService {
 
     public Submission executeTask(Integer taskId) {
         Task task = taskService.findById(taskId);
+        Template template = templateService.findById(task.getTemplateId());
         task.setState(TaskState.PROCESSING);
         update(task);
         Submission submission = submissionService.save(
                 new Submission(null, task.getId(), VerificationType.FULL, null, null)
         );
-        for (int subtaskNumber = 1; subtaskNumber <= task.getNumberOfSubtasks(); subtaskNumber++) {
+        for (int subtaskNumber = 1; subtaskNumber <= template.getNumberOfSubtasks(); subtaskNumber++) {
             taskExecutor.executeSubtask(new Subtask(submission.getId(), task.getId(), subtaskNumber, VerificationType.FULL));
         }
         return submission;

@@ -8,6 +8,7 @@ public record TemplateDto(
         String taskLanguage,
         String source,
         String statement,
+        Integer numberOfSubtasks,
         Integer createdBy,
         ZonedDateTime createdAt
 ) { }

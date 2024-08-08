@@ -20,6 +20,7 @@ public class TestTemplateFactory {
                 TaskLanguage.C_SHARP,
                 "Matura 05.2023",
                 "C# task statement",
+                3,
                 0,
                 ZonedDateTime.of(2023, 6, 17, 12, 40, 00, 0, ZoneId.of("UTC"))
         );
@@ -33,6 +34,7 @@ public class TestTemplateFactory {
                 TaskLanguage.PYTHON,
                 "Matura 05.2023",
                 "Python task statement",
+                2,
                 0,
                 ZonedDateTime.of(2023, 6, 17, 12, 40, 00, 0, ZoneId.of("UTC"))
         );
@@ -46,6 +48,7 @@ public class TestTemplateFactory {
                 TaskLanguage.JAVA,
                 "Matura 05.2023",
                 "Java task statement",
+                1,
                 0,
                 ZonedDateTime.of(2023, 6, 17, 12, 40, 00, 0, ZoneId.of("UTC"))
         );

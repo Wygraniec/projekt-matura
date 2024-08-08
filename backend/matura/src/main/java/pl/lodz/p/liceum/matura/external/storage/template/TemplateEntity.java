@@ -40,6 +40,8 @@ public class TemplateEntity {
     private String source;
     @Column(nullable = false, columnDefinition = "TEXT")
     private String statement;
+    @Column(name="number_of_subtasks", nullable = false)
+    private Integer numberOfSubtasks;
 
     private Integer createdBy;
 

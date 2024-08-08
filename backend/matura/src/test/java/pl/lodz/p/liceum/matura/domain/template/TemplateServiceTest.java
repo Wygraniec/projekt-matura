@@ -29,6 +29,7 @@ class TemplateServiceTest {
             TaskLanguage.PYTHON,
             "Matura 05.2023",
             "Task statement",
+            3,
             0,
             ZonedDateTime.of(2023, 6, 17, 12, 30, 20, 0, ZoneId.of("UTC"))
     );

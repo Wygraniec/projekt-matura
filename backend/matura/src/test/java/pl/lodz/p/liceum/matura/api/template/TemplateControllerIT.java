@@ -131,6 +131,7 @@ class TemplateControllerIT extends BaseIT {
                 TaskLanguage.JAVA,
                 "Matura 07.2023",
                 "Updated task statement",
+                3,
                 template.getCreatedBy(),
                 template.getCreatedAt()
         );
@@ -177,6 +178,7 @@ class TemplateControllerIT extends BaseIT {
                 TaskLanguage.JAVA,
                 "Matura 07.2023",
                 "Updated task statement",
+                1,
                 template.getCreatedBy(),
                 template.getCreatedAt()
         );
@@ -206,6 +208,7 @@ class TemplateControllerIT extends BaseIT {
                 TaskLanguage.JAVA,
                 "Matura 07.2023",
                 "Updated task statement",
+                1,
                 template.getCreatedBy(),
                 template.getCreatedAt()
         );
