@@ -11,6 +11,7 @@ import pl.lodz.p.liceum.matura.domain.TestType;
 public class TaskEvent {
 
     Integer taskId;
+    Integer submissionId;
     String workspaceUrl;
 
 }

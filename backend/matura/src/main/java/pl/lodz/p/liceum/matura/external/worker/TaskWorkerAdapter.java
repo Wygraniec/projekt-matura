@@ -2,15 +2,17 @@ package pl.lodz.p.liceum.matura.external.worker;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
+import pl.lodz.p.liceum.matura.domain.submission.Submission;
 import pl.lodz.p.liceum.matura.domain.submission.VerificationType;
 import pl.lodz.p.liceum.matura.domain.subtask.Subtask;
 import pl.lodz.p.liceum.matura.domain.task.Task;
 import pl.lodz.p.liceum.matura.domain.task.TaskExecutor;
 import pl.lodz.p.liceum.matura.domain.task.TaskService;
+import pl.lodz.p.liceum.matura.domain.template.Template;
+import pl.lodz.p.liceum.matura.domain.template.TemplateService;
 import pl.lodz.p.liceum.matura.external.worker.kafka.KafkaTaskEvent;
 import pl.lodz.p.liceum.matura.external.worker.task.events.SubtaskSentForFastProcessingEvent;
 import pl.lodz.p.liceum.matura.external.worker.task.events.SubtaskSentForFullProcessingEvent;
-import pl.lodz.p.liceum.matura.external.worker.task.events.SubtaskEventMapper;
 import pl.lodz.p.liceum.matura.external.worker.task.events.TaskSentForProcessingEvent;
 
 @RequiredArgsConstructor
@@ -18,12 +20,13 @@ import pl.lodz.p.liceum.matura.external.worker.task.events.TaskSentForProcessing
 public class TaskWorkerAdapter implements TaskExecutor {
 
     private final KafkaTaskEvent kafkaTaskEvent;
-    private final SubtaskEventMapper subtaskEventMapper;
     private final TaskService taskService;
+    private final TemplateService templateService;
 
     @Override
-    public void executeTask(Task task) {
-        kafkaTaskEvent.send(new TaskSentForProcessingEvent(task.getId(), task.getWorkspaceUrl()));
+    public void executeTask(Task task, Submission submission) {
+        Template template = templateService.findById(task.getTemplateId());
+        kafkaTaskEvent.send(new TaskSentForProcessingEvent(task.getId(), submission.getId(), template.getNumberOfSubtasks(), task.getWorkspaceUrl()));
     }
 
     @Override
