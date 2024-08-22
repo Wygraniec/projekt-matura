@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TaskProcessingCompleteEvent extends TaskEvent {
     Integer taskId;
+    Integer submissionId;
     String workspaceUrl;
 }

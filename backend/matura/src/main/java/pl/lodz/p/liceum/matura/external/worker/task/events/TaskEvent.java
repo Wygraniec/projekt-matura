@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class TaskEvent {
 
     Integer taskId;
+    Integer submissionId;
     String workspaceUrl;
 
 }

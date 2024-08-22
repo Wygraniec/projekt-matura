@@ -20,25 +20,34 @@ public class KafkaTaskProcessor {
     private final TaskEventMapper taskEventMapper;
 
 
-
     @KafkaListener(topics = KafkaConfiguration.TASKS_INBOUND_TOPIC, groupId = KafkaConfiguration.KAFKA_GROUP_ID, containerFactory = "taskKafkaListenerFactory")
     public void onReceive(TaskEvent taskEvent) {
-        if (taskEvent instanceof TaskSentForProcessingEvent) {
+        if (taskEvent instanceof TaskSentForProcessingEvent taskSentForProcessingEvent) {
             log.info("Received TaskSentForProcessingEvent: " + taskEvent);
-            Task task = new Task(taskEvent.getTaskId(), taskEvent.getWorkspaceUrl());
-            Result result = taskExecutor.executeTask(task);
 
-            if(result.getExecutionStatus() == ExecutionStatus.FAILED) {
+            Task task = new Task(taskEvent.getTaskId(), taskEvent.getWorkspaceUrl());
+
+            for (int i = 1; i <= taskSentForProcessingEvent.getNumberOfSubtasks(); i++) {
+                Subtask subtask = new Subtask(taskEvent.getWorkspaceUrl(), i, TestType.FULL);
+                Result result = taskExecutor.executeSubtask(subtask);
+
+                if (result.getExecutionStatus() == ExecutionStatus.FAILED) {
+                    kafkaTemplate.send(
+                            KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
+                            new SubtaskProcessingFailedEvent(taskEvent.getTaskId(), taskSentForProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber())
+                    );
+                    return;
+                }
+
                 kafkaTemplate.send(
                         KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                        new TaskProcessingFailedEvent(task.getTaskId(), task.getWorkspaceUrl())
+                        new SubtaskFullProcessingCompleteEvent(taskEvent.getTaskId(), taskSentForProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore())
                 );
-                return;
             }
 
             kafkaTemplate.send(
                     KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                    new TaskProcessingCompleteEvent(task.getTaskId(), task.getWorkspaceUrl())
+                    new TaskProcessingCompleteEvent(task.getTaskId(), taskSentForProcessingEvent.getSubmissionId(), task.getWorkspaceUrl())
             );
 
         } else if (taskEvent instanceof SubtaskSentForFastProcessingEvent subtaskSentForFastProcessingEvent) {
@@ -46,7 +55,7 @@ public class KafkaTaskProcessor {
             Subtask subtask = new Subtask(taskEvent.getWorkspaceUrl(), subtaskSentForFastProcessingEvent.getNumber(), TestType.FAST);
             Result result = taskExecutor.executeSubtask(subtask);
 
-            if(result.getExecutionStatus() == ExecutionStatus.FAILED) {
+            if (result.getExecutionStatus() == ExecutionStatus.FAILED) {
                 kafkaTemplate.send(
                         KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
                         new SubtaskProcessingFailedEvent(taskEvent.getTaskId(), subtaskSentForFastProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber())
@@ -64,7 +73,7 @@ public class KafkaTaskProcessor {
             Subtask subtask = new Subtask(taskEvent.getWorkspaceUrl(), subtaskSentForFullProcessingEvent.getNumber(), TestType.FULL);
             Result result = taskExecutor.executeSubtask(subtask);
 
-            if(result.getExecutionStatus() == ExecutionStatus.FAILED) {
+            if (result.getExecutionStatus() == ExecutionStatus.FAILED) {
                 kafkaTemplate.send(
                         KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
                         new SubtaskProcessingFailedEvent(taskEvent.getTaskId(), subtaskSentForFullProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber())
@@ -81,5 +90,4 @@ public class KafkaTaskProcessor {
             log.info("Received TaskEvent: " + taskEvent);
         }
     }
-
 }

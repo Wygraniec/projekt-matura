@@ -9,5 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TaskSentForProcessingEvent extends TaskEvent {
     Integer taskId;
+    Integer submissionId;
+    Integer numberOfSubtasks;
     String workspaceUrl;
 }

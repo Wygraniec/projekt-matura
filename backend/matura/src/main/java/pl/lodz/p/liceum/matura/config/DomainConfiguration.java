@@ -31,7 +31,6 @@ import pl.lodz.p.liceum.matura.external.storage.template.TemplateEntityMapper;
 import pl.lodz.p.liceum.matura.external.storage.template.TemplateStorageAdapter;
 import pl.lodz.p.liceum.matura.external.worker.TaskWorkerAdapter;
 import pl.lodz.p.liceum.matura.external.worker.kafka.KafkaTaskEvent;
-import pl.lodz.p.liceum.matura.external.worker.task.events.SubtaskEventMapper;
 import pl.lodz.p.liceum.matura.external.storage.user.JpaUserRepository;
 import pl.lodz.p.liceum.matura.external.storage.user.UserEntityMapper;
 import pl.lodz.p.liceum.matura.external.storage.user.UserStorageAdapter;
@@ -58,8 +57,8 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public TaskExecutor taskExecutor1(KafkaTaskEvent kafkaTaskEvent, SubtaskEventMapper subtaskEventMapper, TaskService taskService) {
-        return new TaskWorkerAdapter(kafkaTaskEvent, subtaskEventMapper, taskService);
+    public TaskExecutor taskExecutor1(KafkaTaskEvent kafkaTaskEvent, TaskService taskService, TemplateService templateService) {
+        return new TaskWorkerAdapter(kafkaTaskEvent, taskService, templateService);
     }
 
     @Bean
@@ -78,7 +77,7 @@ public class DomainConfiguration {
     }
 
     @Bean
-    public TaskService taskService(TaskRepository taskRepository, TemplateService templateService, Workspace workspace) {
+    public TaskService taskService(TaskRepository taskRepository) {
         return new TaskService(taskRepository);
     }
 
