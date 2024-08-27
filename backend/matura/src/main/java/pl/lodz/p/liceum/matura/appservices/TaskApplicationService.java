@@ -135,7 +135,6 @@ public class TaskApplicationService {
 
     public Submission executeSubtask(Integer taskId, Integer subtaskId, VerificationType verificationType) {
         Task task = taskService.findById(taskId);
-        task.setState(TaskState.PROCESSING);
         update(task);
         Submission submission = submissionService.save(
                 new Submission(null, task.getId(), verificationType, null, null)
