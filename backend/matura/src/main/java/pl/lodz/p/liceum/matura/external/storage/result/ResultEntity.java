@@ -29,7 +29,7 @@ public class ResultEntity {
     private Integer submissionId;
     @Column(name="subtask_number", nullable = false)
     private Integer subtaskNumber;
-    @Column(name="description", nullable = false)
+    @Column(name="description", nullable = false, columnDefinition = "TEXT")
     private String description;
     @Column(name="score", nullable = false)
     private Integer score;

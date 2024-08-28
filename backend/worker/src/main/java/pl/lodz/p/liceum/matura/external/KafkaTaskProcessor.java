@@ -41,7 +41,7 @@ public class KafkaTaskProcessor {
 
                 kafkaTemplate.send(
                         KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                        new SubtaskFullProcessingCompleteEvent(taskEvent.getTaskId(), taskSentForProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore())
+                        new SubtaskFullProcessingCompleteEvent(taskEvent.getTaskId(), taskSentForProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore(), result.getDescription())
                 );
             }
 
@@ -65,7 +65,7 @@ public class KafkaTaskProcessor {
 
             kafkaTemplate.send(
                     KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                    new SubtaskFastProcessingCompleteEvent(taskEvent.getTaskId(), subtaskSentForFastProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore())
+                    new SubtaskFastProcessingCompleteEvent(taskEvent.getTaskId(), subtaskSentForFastProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore(), result.getDescription())
             );
 
         } else if (taskEvent instanceof SubtaskSentForFullProcessingEvent subtaskSentForFullProcessingEvent) {
@@ -83,7 +83,7 @@ public class KafkaTaskProcessor {
 
             kafkaTemplate.send(
                     KafkaConfiguration.TASKS_OUTBOUND_TOPIC,
-                    new SubtaskFullProcessingCompleteEvent(taskEvent.getTaskId(), subtaskSentForFullProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore())
+                    new SubtaskFullProcessingCompleteEvent(taskEvent.getTaskId(), subtaskSentForFullProcessingEvent.getSubmissionId(), subtask.getWorkspaceUrl(), subtask.getNumber(), result.getScore(), result.getDescription())
             );
 
         } else {
