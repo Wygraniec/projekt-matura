@@ -1,5 +1,5 @@
-import {withAuthentication} from "./src/routeAuthentication.jsx";
-import {Subpage} from "./src/components/Subpage.jsx";
+import {withAuthentication} from "./routeAuthentication.jsx";
+import {Subpage} from "./components/Subpage.jsx";
 import {Navigate, useLocation, useNavigate} from "react-router-dom";
 import {
     Box, Button,
@@ -16,11 +16,12 @@ import {
     useToast
 } from "@chakra-ui/react";
 import {useEffect, useState} from "react";
-import {getTasks, Task, TaskPage} from "./src/services/taskService.js";
-import {User} from "./src/services/userService.js";
-import {PaginationLinks} from "./src/components/PaginationLinks.jsx";
-import {LanguageIcon} from "./src/components/LanguageIcon.jsx";
+import {getTasks, Task, TaskPage} from "./services/taskService.js";
+import {User} from "./services/userService.js";
+import {PaginationLinks} from "./components/PaginationLinks.jsx";
+import {LanguageIcon} from "./components/LanguageIcon.jsx";
 import PropTypes from "prop-types";
+import {LoadingCard} from "./components/LoadingCard.jsx";
 
 const TaskCard = ({ task }) => {
     const [loading, setLoading] = useState(true)
@@ -49,12 +50,7 @@ const TaskCard = ({ task }) => {
 
     return (
         <Card maxWidth='md' marginX='10px' marginY='25px'>
-            {loading && (
-                <CardBody textAlign="center">
-                    <Spinner size="xl"/>
-                    <Text>Wczytywanie</Text>
-                </CardBody>
-            )}
+            {loading && <LoadingCard/>}
 
             {!loading && (
                 <>

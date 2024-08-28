@@ -41,3 +41,4 @@ dist-ssr
 /frontend/matura/.env
 
 /UserWorkspaces/**
+/volumes

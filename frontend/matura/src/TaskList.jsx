@@ -20,6 +20,7 @@ import {PaginationLinks} from "./components/PaginationLinks.jsx";
 import {RenderMarkdown} from "./components/RenderMarkdown.jsx";
 import {Task} from "./services/taskService.js";
 import {LanguageIcon} from "./components/LanguageIcon.jsx";
+import {LoadingCard} from "./components/LoadingCard.jsx";
 
 const TemplateCard = ({template, ...props}) => {
     const toast = useToast()
@@ -144,15 +145,7 @@ const TaskList = () => {
         <Subpage>
             {page >= templatePage.totalPages ? <Navigate to="/tasks"/> : null}
 
-            {loading && (
-                <Card display="flex" alignItems="center" justifyContent="center">
-                    <CardBody textAlign="center">
-                        <Spinner size="xl"/>
-
-                        <Text>Ładowanie zadań</Text>
-                    </CardBody>
-                </Card>
-            )}
+            {loading && <LoadingCard/>}
 
             {!loading && (
                 <>
