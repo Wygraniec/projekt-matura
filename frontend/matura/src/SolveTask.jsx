@@ -4,11 +4,17 @@ import {Subpage} from "./components/Subpage.jsx";
 import {useEffect, useState} from "react";
 import {
     Button,
-    Flex,
+    Flex, HStack, ListItem,
     Menu,
-    MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList,
+    MenuButton,
+    MenuDivider,
+    MenuGroup,
+    MenuItem,
+    MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay,
     Stack,
-    Text, useToast, VStack
+    Text, UnorderedList, useDisclosure,
+    useToast,
+    VStack
 } from "@chakra-ui/react";
 import {Task} from "./services/taskService.js";
 import {CodeEditor} from "./components/CodeEditor.jsx";
@@ -17,8 +23,8 @@ import {Result} from "./services/resultService.js";
 import * as PropTypes from "prop-types";
 import {LoadingCard} from "./components/LoadingCard.jsx";
 
-function CheckSubtaskMenuItem({subtaskNumber, onFastCheck, onFullCheck}) {
-    return <div>
+const CheckSubtaskMenuItem = ({subtaskNumber, onFastCheck, onFullCheck}) => (
+    <div>
         {subtaskNumber !== 1 && <MenuDivider/>}
         <MenuGroup title={`Podzadanie ${subtaskNumber}`}>
             <MenuItem onClick={onFastCheck}>
@@ -31,12 +37,58 @@ function CheckSubtaskMenuItem({subtaskNumber, onFastCheck, onFullCheck}) {
                 <Text marginLeft="5px">Sprawdzenie pełne</Text>
             </MenuItem>
         </MenuGroup>
-    </div>;
-}
+    </div>
+)
 CheckSubtaskMenuItem.propTypes = {
     subtaskNumber: PropTypes.number,
     onFastCheck: PropTypes.func,
     onFullCheck: PropTypes.func
+}
+
+const SubtaskResultBody = ({result}) => (
+    <VStack align='start'>
+        <Text as='b' mb='5px'>Wynik: {result.score}% testów zaliczono</Text>
+        <Text>Testy:</Text>
+        <UnorderedList>
+            {result.getParsedDescription().map((test, index) => (
+                <ListItem key={test.id}>
+                    <Text>Test {index + 1}: {test.passed === true? 'Zaliczony' : 'Niezaliczony'}</Text>
+                    <Text>Czas wykonania: {test.time}s</Text>
+                </ListItem>
+            ))}
+        </UnorderedList>
+    </VStack>
+)
+SubtaskResultBody.propTypes = {
+    result: PropTypes.instanceOf(Result)
+}
+
+const TaskResultBody = ({results}) => (
+    <VStack align='start'>
+        <Text as='b' mb='5px'>Wynik: {Math.floor(
+            results.reduce((sum, result) => sum + result.score, 0) / results.length
+        )}% testów zaliczono</Text>
+
+        {results.map((result, idx) => (
+            <div key={idx}>
+                <Text as='b'>Podzadanie {idx + 1}: {result.score}%</Text>
+
+                <Text>Testy:</Text>
+                <UnorderedList>
+                    {result.getParsedDescription().map((test, index) => (
+                        <ListItem key={test.id}>
+                            <Text>Test {index + 1}: {test.passed === true ? 'Zaliczony' : 'Niezaliczony'}</Text>
+                            <Text>Czas wykonania: {test.time}s</Text>
+                        </ListItem>
+                    ))}
+                </UnorderedList>
+            </div>
+        ))}
+
+    </VStack>
+)
+TaskResultBody.propTypes = {
+    results: PropTypes.arrayOf(Result)
 }
 
 const SolveTask = () => {
@@ -49,6 +101,10 @@ const SolveTask = () => {
     const [task, setTask] = useState(null)
     const [template, setTemplate] = useState(null)
     const [fileContents, setFileContents] = useState('')
+    const {isOpen: modalIsOpen, onOpen: modalOpen, onClose: modalClose} = useDisclosure()
+
+    const [testName, setTestName] = useState('')
+    const [testResultsBody, setTestResultsBody] = useState(<></>)
 
     const editorLanguageMapping = {
         'PYTHON': 'python',
@@ -100,8 +156,11 @@ const SolveTask = () => {
                         }
                     })
 
-                    //TODO show some feedback
-                    promise.then(results => console.log(results))
+                    promise.then(result => {
+                        setTestName(`Szybkie sprawdzenie podzadania ${i}`)
+                        setTestResultsBody(<SubtaskResultBody result={result}/>)
+                        modalOpen()
+                    })
                 }} onFullCheck={() => {
                     const promise = task.checkSubtask(fileContents, i, 'full')
 
@@ -120,18 +179,35 @@ const SolveTask = () => {
                         }
                     })
 
-                    //TODO show some feedback
-                    promise.then(results => console.log(results))
+                    promise.then(result => {
+                        setTestName(`Pełne sprawdzenie podzadania ${i}`)
+                        setTestResultsBody(<SubtaskResultBody result={result}/>)
+                        modalOpen()
+                    })
                 }}/>
             )
     }
 
     return (
-        <>
-            <Subpage>
-                {loading && <LoadingCard/>}
+        <Subpage>
+            {loading && <LoadingCard/>}
 
-                {!loading && (
+            {!loading && (
+                <>
+                    <Modal isOpen={modalIsOpen} onClose={modalClose}>
+                        <ModalOverlay/>
+                        <ModalContent>
+                            <ModalHeader>{testName}</ModalHeader>
+                            <ModalCloseButton/>
+                            <ModalBody>
+                                {testResultsBody}
+                            </ModalBody>
+
+                            <ModalFooter>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+
                     <Stack direction='row' height='80vh' maxWidth='98dvw'>
                         <CodeEditor language={editorLanguageMapping[template.language]} startingCode={fileContents}
                                     onChangeCallback={setFileContents}/>
@@ -192,8 +268,10 @@ const SolveTask = () => {
                                     //TODO show some feedback
                                     promise.then(submission => {
                                         Result.getBySubmissionId(submission)
-                                            .then((result) => {
-                                                console.log(result)
+                                            .then((results) => {
+                                                setTestName('Sprawdzenie pełne')
+                                                setTestResultsBody(<TaskResultBody results={results}/>)
+                                                modalOpen()
                                             })
                                     })
                                 }}>
@@ -205,9 +283,9 @@ const SolveTask = () => {
                             <RenderMarkdown document={template.statement}/>
                         </VStack>
                     </Stack>
-                )}
-            </Subpage>
-        </>
+                </>
+            )}
+        </Subpage>
     )
 }
 

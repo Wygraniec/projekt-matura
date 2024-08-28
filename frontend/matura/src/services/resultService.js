@@ -13,6 +13,19 @@ export class Result {
         this.createdAt = new Date(createdAt);
     }
 
+    getParsedDescription() {
+        return this.description
+            .split('\n')
+            .slice(0, -1)
+            .map(el => el.split(';'))
+            .map(test => ({
+                submittedAt: new Date(test[0]),
+                testName: test[1],
+                passed: test[2] === 'True',
+                time: parseFloat(test[3])
+            }));
+    }
+
     static async getBySubmissionId(submissionId) {
         const response = await axios.get(
             `${API}/submissions/${submissionId}/results`,
