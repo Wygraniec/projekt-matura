@@ -82,9 +82,9 @@ public class TaskStorageAdapter implements TaskRepository {
                 .toList();
     }
     @Override
-    public Optional<Task> findByTemplateIdAndUserId(final Integer templateId, final Integer userId) {
+    public Optional<Task> findByTemplateIdAndUserIdAndStateIn(final Integer templateId, final Integer userId, List<TaskState> taskStates) {
         return repository
-                .findByTemplateIdAndUserId(templateId, userId)
+                .findByTemplateIdAndUserIdAndStateIn(templateId, userId, taskStates)
                 .map(mapper::toDomain);
     }
 }

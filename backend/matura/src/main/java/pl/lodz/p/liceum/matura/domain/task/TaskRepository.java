@@ -19,5 +19,5 @@ public interface TaskRepository {
     List<Task> findByCreatedBy(Integer createdAtId);
     List<Task> findByUserId(Integer userId);
     PageTask findByUserIdAndStateIn(final Integer userId, List<TaskState> taskStates, Pageable pageable);
-    Optional<Task> findByTemplateIdAndUserId(Integer templateId, Integer userId);
+    Optional<Task> findByTemplateIdAndUserIdAndStateIn(Integer templateId, Integer userId, List<TaskState> taskStates);
 }

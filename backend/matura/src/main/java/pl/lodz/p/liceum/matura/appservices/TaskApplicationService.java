@@ -155,6 +155,6 @@ public class TaskApplicationService {
     }
 
     public Optional<Task> findPendingTaskForUser(Integer userId, Integer templateId) {
-        return taskService.findByTemplateIdAndUserId(templateId, userId);
+        return taskService.findByTemplateIdAndUserIdAndStateIn(templateId, userId, List.of(TaskState.CREATED, TaskState.PROCESSING));
     }
 }
