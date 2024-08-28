@@ -38,7 +38,7 @@ public class TaskService {
     public PageTask findByUserIdAndStateIn(final Integer userId, List<TaskState> taskStates, Pageable pageable) {
         return taskRepository.findByUserIdAndStateIn(userId, taskStates, pageable);
     }
-    public Optional<Task> findByTemplateIdAndUserId(Integer templateId, Integer userId) {
-        return taskRepository.findByTemplateIdAndUserId(templateId, userId);
+    public Optional<Task> findByTemplateIdAndUserIdAndStateIn(Integer templateId, Integer userId, List<TaskState> taskStates) {
+        return taskRepository.findByTemplateIdAndUserIdAndStateIn(templateId, userId, taskStates);
     }
 }
