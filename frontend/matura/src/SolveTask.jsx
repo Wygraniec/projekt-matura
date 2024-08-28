@@ -4,17 +4,40 @@ import {Subpage} from "./components/Subpage.jsx";
 import {useEffect, useState} from "react";
 import {
     Button,
-    Card,
-    CardBody, Flex,
+    Flex,
     Menu,
     MenuButton, MenuDivider, MenuGroup, MenuItem, MenuList,
-    Spinner,
     Stack,
     Text, useToast, VStack
 } from "@chakra-ui/react";
 import {Task} from "./services/taskService.js";
 import {CodeEditor} from "./components/CodeEditor.jsx";
 import {RenderMarkdown} from "./components/RenderMarkdown.jsx";
+import {Result} from "./services/resultService.js";
+import * as PropTypes from "prop-types";
+import {LoadingCard} from "./components/LoadingCard.jsx";
+
+function CheckSubtaskMenuItem({subtaskNumber, onFastCheck, onFullCheck}) {
+    return <div>
+        {subtaskNumber !== 1 && <MenuDivider/>}
+        <MenuGroup title={`Podzadanie ${subtaskNumber}`}>
+            <MenuItem onClick={onFastCheck}>
+                <i className="fa-fw fa-solid fa-forward"/>
+                <Text marginLeft="5px">Sprawdzenie szybkie</Text>
+            </MenuItem>
+
+            <MenuItem onClick={onFullCheck}>
+                <i className="fa-fw fa-solid fa-check"/>
+                <Text marginLeft="5px">Sprawdzenie pełne</Text>
+            </MenuItem>
+        </MenuGroup>
+    </div>;
+}
+CheckSubtaskMenuItem.propTypes = {
+    subtaskNumber: PropTypes.number,
+    onFastCheck: PropTypes.func,
+    onFullCheck: PropTypes.func
+}
 
 const SolveTask = () => {
     const [searchParams] = useSearchParams()
@@ -57,57 +80,56 @@ const SolveTask = () => {
         navigate(-1)
 
     if (!loading) {
-        for (let i = 1; i <= task.numberOfSubtasks; i++)
+        for (let i = 1; i <= template.numberOfSubtasks; i++)
             verificationTypes.push(
-                <div key={i}>
-                    {i !== 1 && <MenuDivider/>}
-                    <MenuGroup title={`Podzadanie ${i}`}>
-                        <MenuItem onClick={() => {
-                            task.checkSubtask(fileContents, i, 'fast')
+                <CheckSubtaskMenuItem key={i} subtaskNumber={i} onFastCheck={() => {
+                    const promise = task.checkSubtask(fileContents, i, 'fast')
 
-                            toast({
-                                title: 'Wysłano',
-                                description: `Szybkie sprawdzenie podzadania ${i} w toku`,
-                                status: 'loading',
-                                duration: 4000,
-                                isClosable: false
-                            })
-                        }}>
-                            <i className="fa-fw fa-solid fa-forward"/>
-                            <Text marginLeft='5px'>Sprawdzenie szybkie</Text>
-                        </MenuItem>
+                    toast.promise(promise, {
+                        success: {
+                            title: 'Sprawdzanie zakończone',
+                            description: 'Sprawdzanie dobiegło już końca! Wkrótce zobaczysz wynik.'
+                        },
+                        loading: {
+                            title: 'Sprawdzanie w trakcie',
+                            description: `Szybkie sprawdzanie podzadania ${i} w toku.`
+                        },
+                        error: {
+                            title: 'Wystąpił błąd',
+                            description: 'Coś poszło nie tak przy sprawdzaniu. Spróbuj ponownie później!'
+                        }
+                    })
 
-                        <MenuItem onClick={() => {
-                            task.checkSubtask(fileContents, i, 'full')
+                    //TODO show some feedback
+                    promise.then(results => console.log(results))
+                }} onFullCheck={() => {
+                    const promise = task.checkSubtask(fileContents, i, 'full')
 
-                            toast({
-                                title: 'Wysłano',
-                                description: `Pełne sprawdzenie podzadania ${i} w toku`,
-                                status: 'loading',
-                                duration: 4000,
-                                isClosable: false
-                            })
-                        }}>
-                            <i className="fa-fw fa-solid fa-check"/>
-                            <Text marginLeft='5px'>Sprawdzenie pełne</Text>
-                        </MenuItem>
-                    </MenuGroup>
-                </div>
+                    toast.promise(promise, {
+                        success: {
+                            title: 'Sprawdzanie zakończone',
+                            description: 'Sprawdzanie dobiegło już końca! Wkrótce zobaczysz wynik.'
+                        },
+                        loading: {
+                            title: 'Sprawdzanie w trakcie',
+                            description: `Pełne sprawdzanie podzadania ${i} w toku.`
+                        },
+                        error: {
+                            title: 'Wystąpił błąd',
+                            description: 'Coś poszło nie tak przy sprawdzaniu. Spróbuj ponownie później!'
+                        }
+                    })
+
+                    //TODO show some feedback
+                    promise.then(results => console.log(results))
+                }}/>
             )
     }
 
     return (
         <>
             <Subpage>
-                {loading && (
-                    <Card display="flex" alignItems="center" justifyContent="center">
-                        <CardBody textAlign="center">
-                            <Spinner size="xl"/>
-
-                            <Text>Ładowanie zadania</Text>
-                        </CardBody>
-                    </Card>
-                )}
+                {loading && <LoadingCard/>}
 
                 {!loading && (
                     <Stack direction='row' height='80vh' maxWidth='98dvw'>
@@ -123,9 +145,7 @@ const SolveTask = () => {
                                     </MenuButton>
 
                                     <MenuList paddingTop='0'>
-                                        {verificationTypes.map((verificationType) => (
-                                            verificationType
-                                        ))}
+                                        {verificationTypes}
                                     </MenuList>
                                 </Menu>
 
@@ -153,13 +173,28 @@ const SolveTask = () => {
                                 </Button>
 
                                 <Button onClick={() => {
-                                    task.check(fileContents)
-                                    toast({
-                                        title: 'Wysłano',
-                                        description: 'Sprawdzanie zadania w toku',
-                                        status: 'info',
-                                        duration: 4000,
-                                        isClosable: false
+                                    const promise = task.check(fileContents)
+                                    toast.promise(promise, {
+                                        success: {
+                                            title: 'Sprawdzanie zakończone',
+                                            description: 'Sprawdzanie dobiegło już końca! Wkrótce zobaczysz wynik.'
+                                        },
+                                        loading: {
+                                            title: 'Sprawdzanie w trakcie',
+                                            description: `Pełne sprawdzanie zadania w toku.`
+                                        },
+                                        error: {
+                                            title: 'Wystąpił błąd',
+                                            description: 'Coś poszło nie tak przy sprawdzaniu. Spróbuj ponownie później!'
+                                        }
+                                    })
+
+                                    //TODO show some feedback
+                                    promise.then(submission => {
+                                        Result.getBySubmissionId(submission)
+                                            .then((result) => {
+                                                console.log(result)
+                                            })
                                     })
                                 }}>
                                     <i className="fa-fw fa-solid fa-check"/>

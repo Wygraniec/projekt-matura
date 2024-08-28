@@ -4,12 +4,13 @@ import {User} from "./userService.js";
 const API = `${import.meta.env.VITE_API_URL}/v1`;
 
 export class Template {
-    constructor(id, language, statement, source, createdAt) {
+    constructor(id, language, statement, source, createdAt, numberOfSubtasks) {
         this.id = id
         this.language = language
         this.statement = statement
         this.source = source
         this.createdAt = createdAt
+        this.numberOfSubtasks = numberOfSubtasks
     }
 
     static async findById(id) {
@@ -22,6 +23,7 @@ export class Template {
             data['statement'],
             data['source'],
             data['createdAt'],
+            data['numberOfSubtasks'],
         )
     }
 }
@@ -49,7 +51,7 @@ export const getTemplates = async (page = 0, pageSize = 10, language = '', sourc
     let request = await axios.get(endpoint, User.fromLocalStorage().getAuthHeader())
 
     return new TemplatePage(
-        request.data['templates'].map(data => new Template(data['id'], data['taskLanguage'], data['statement'], data['source'], new Date(data['createdAt']))),
+        request.data['templates'].map(data => new Template(data['id'], data['taskLanguage'], data['statement'], data['source'], new Date(data['createdAt']), data['numberOfSubtasks'])),
         request.data['currentPage'],
         request.data['totalPages'],
         request.data['totalElements']

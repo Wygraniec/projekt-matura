@@ -9,7 +9,7 @@ import theme from './theme'
 import {TaskListWithAuth} from "./TaskList.jsx";
 import {ActiveTaskListWithAuth} from "./ActiveTasks.jsx";
 import SolveTaskWithAuth from "./SolveTask.jsx";
-import {FinishedTasksWithAuth} from "../FinishedTasks.jsx";
+import {FinishedTasksWithAuth} from "./FinishedTasks.jsx";
 import {ErrorElement} from "./ErrorElement.jsx";
 
 const router = createBrowserRouter([

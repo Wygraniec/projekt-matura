@@ -15,6 +15,7 @@ import {User} from "./services/userService.js";
 import PropTypes from "prop-types";
 import {LanguageIcon} from "./components/LanguageIcon.jsx";
 import {PaginationLinks} from "./components/PaginationLinks.jsx";
+import {LoadingCard} from "./components/LoadingCard.jsx";
 
 const TaskCard = ({task}) => {
     const [loading, setLoading] = useState(true)
@@ -42,12 +43,7 @@ const TaskCard = ({task}) => {
 
     return (
         <Card maxWidth='md' marginX='10px' marginY='25px'>
-            {loading && (
-                <CardBody textAlign="center">
-                    <Spinner size="xl"/>
-                    <Text>Wczytywanie</Text>
-                </CardBody>
-            )}
+            {loading && <LoadingCard/> }
 
             {!loading && (
                 <>
