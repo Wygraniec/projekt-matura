@@ -4,7 +4,7 @@ import {Subpage} from "./components/Subpage.jsx";
 import {useEffect, useState} from "react";
 import {
     Button,
-    Flex, HStack, ListItem,
+    Flex, ListItem,
     Menu,
     MenuButton,
     MenuDivider,
