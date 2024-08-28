@@ -12,4 +12,5 @@ public class SubtaskProcessingFailedEvent extends SubtaskEvent {
     Integer submissionId;
     String workspaceUrl;
     Integer number;
+    String description;
 }

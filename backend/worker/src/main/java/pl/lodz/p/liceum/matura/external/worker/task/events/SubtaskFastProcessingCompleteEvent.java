@@ -13,4 +13,5 @@ public class SubtaskFastProcessingCompleteEvent extends TaskEvent {
     String workspaceUrl;
     Integer number;
     Integer score;
+    String description;
 }
