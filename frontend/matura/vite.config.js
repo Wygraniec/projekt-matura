@@ -6,10 +6,11 @@ export default defineConfig({
     plugins: [react()],
     server: {
         proxy: {
-            '/v1': {
-                target: 'http://business-rangers.gl.at.ply.gg:6383/api',
+            '/api': {
+                target: 'http://business-rangers.gl.at.ply.gg:6383/api/v1',
                 changeOrigin: true,
                 secure: false,
+                rewrite: (path) => path.replace(/^\/api/, ''),
             },
         },
     },

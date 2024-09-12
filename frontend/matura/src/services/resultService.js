@@ -1,7 +1,7 @@
 import axios from "axios";
 import {User} from "./userService.js";
 
-const API = `${import.meta.env.VITE_API_URL}/v1`;
+const API = `/api`;
 
 export class Result {
     constructor(id, submissionId, subtaskNumber, description, score, createdAt) {

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API = `${import.meta.env.VITE_API_URL}/v1`;
+const API = `/api`;
 
 export class User {
     constructor(token, id, email, username, role) {
