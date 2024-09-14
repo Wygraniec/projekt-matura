@@ -34,18 +34,18 @@ export class User {
     })
 
     async validate() {
-        let userData = null;
-
-        try {
-            userData = (await axios.get(`${API}/users/me`, this.getAuthHeader())).data
-        } catch (e) {
-            // An error has occurred, so probably the API rejected the request
-            // Therefore something was wrong with the token and user is invalid
-            logout()
-        }
-
-        if(userData === null || this.id !== userData['id'] || this.role !== userData['role'])
-            logout()
+        // let userData = null;
+        //
+        // try {
+        //     userData = (await axios.get(`${API}/users/me`, this.getAuthHeader())).data
+        // } catch (e) {
+        //     // An error has occurred, so probably the API rejected the request
+        //     // Therefore something was wrong with the token and user is invalid
+        //     logout()
+        // }
+        //
+        // if(userData === null || this.id !== userData['id'] || this.role !== userData['role'])
+        //     logout()
 
         return true;
     }
