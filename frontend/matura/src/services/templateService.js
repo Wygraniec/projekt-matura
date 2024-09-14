@@ -1,7 +1,7 @@
 import axios from "axios";
 import {User} from "./userService.js";
 
-const API = `/api`;
+const API = `${import.meta.env.VITE_API_BASE_URL}`;
 
 export class Template {
     constructor(id, language, statement, source, createdAt, numberOfSubtasks) {

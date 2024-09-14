@@ -3,7 +3,7 @@ import {User} from "./userService.js";
 import {Template} from "./templateService.js";
 import {Result} from "./resultService.js";
 
-const API = `/api`;
+const API = `${import.meta.env.VITE_API_BASE_URL}`;
 
 export class Task {
     constructor(id, templateId, state, createdAt, createdBy) {
