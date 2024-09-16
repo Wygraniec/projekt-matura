@@ -146,6 +146,24 @@ public class DefaultTemplates implements CommandLineRunner {
             0,
             ZonedDateTime.now()
     );
+    private final Template test3E = new Template(
+            null,
+            "https://github.com/HubertM6/rafalnowak-simple-test-plopl",
+            TaskLanguage.PYTHON,
+            "Kartkówka 3E",
+            """
+                    Zadanie 1. Liczby
+                    =================
+                    
+                    W pliku `numbers.txt` znajduje się 1000 liczb. Napisz skrypt w języku Python, który wyznaczy:
+                    - najmniejszą liczbę
+                    - największą liczbę
+                    - wartość średnią wszystkich liczb
+                    """,
+            1,
+            0,
+            ZonedDateTime.now()
+    );
     private final Template matura05_2023CSharp = new Template(
             null,
             "https://github.com/HubertM6/MaturaBinaryNumbersCSharp",
@@ -196,6 +214,7 @@ public class DefaultTemplates implements CommandLineRunner {
 //            addTemplate(matura05_2022Python);
 //            addTemplate(OI31Etap1BudowaLotniskaPython);
             addTemplate(matura06_2023Python);
+            addTemplate(test3E);
         } catch (Exception ex) {
             log.warning(ex.getMessage());
         }
